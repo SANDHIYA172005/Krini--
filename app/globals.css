@@ -1,0 +1,5758 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ---------------------------------------------------------------------------
+   Krini Crude design system: black and gold
+   A warm black page with warm white words and a metallic gold accent; the
+   bands that were navy (top bar menus, the film, the product range, services,
+   the closing band, the footer: .theme-navy and the parts listed below) are a
+   lifted charcoal; the figures band (.theme-yellow) is solid gold with black
+   words. The tokens keep their first names: ink is the ground, bone the words,
+   amber the accent that reads on that ground, deep the shade over pictures,
+   yellow the gold of buttons and rules, navy the gold used for links and
+   hover states.
+   ------------------------------------------------------------------------- */
+:root {
+  color-scheme: dark;
+  --c-ink: 12 11 9;          /* #0C0B09  the page: warm black */
+  --c-deep: 8 7 5;           /* #080705  shade over the film and pictures; words on gold */
+  --c-graphite: 24 22 17;    /* #181611  panels */
+  --c-plate: 34 31 24;       /* #221F18  raised panels */
+  --c-bone: 245 239 225;     /* #F5EFE1  words: warm white */
+  --c-mute: 176 166 145;     /* #B0A691  secondary words (8:1 on the black) */
+  --c-amber: 212 175 55;     /* #D4AF37  accent on the black: gold */
+  --c-yellow: 212 175 55;    /* #D4AF37  the gold, everywhere: buttons, rules, highlights */
+  --c-navy: 212 175 55;      /* #D4AF37  links and hover states: gold */
+
+  --gutter: clamp(16px, 4vw, 56px);
+  --nav-h: 68px; /* the space the top bar takes: 68px on phones and tablets, 80px from 1024px */
+  --ease-film: cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+/* the charcoal bands: a lifted black, warm white words, gold accents */
+.theme-navy,
+.menu,
+.enq-dialog,
+.hs,
+.contact-hero,
+.site-footer,
+.card-badge,
+.svc-num,
+.seal,
+.process-stage,
+.process-now {
+  color-scheme: dark;
+  --c-ink: 21 19 15;         /* #15130F */
+  --c-graphite: 31 28 22;    /* #1F1C16 */
+  --c-plate: 43 39 30;       /* #2B271E */
+  --c-bone: 245 239 225;
+  --c-mute: 184 174 152;     /* #B8AE98 */
+  --c-amber: 212 175 55;     /* #D4AF37 */
+  color: rgb(var(--c-bone));
+}
+.theme-navy {
+  background-color: rgb(var(--c-ink));
+}
+/* a slightly lifted band between black ones (Home's industries) */
+.theme-tint {
+  --c-graphite: 28 25 19;
+  background-color: rgb(18 16 12);
+}
+/* the gold band: black words on the gold */
+.theme-yellow {
+  --c-ink: 212 175 55;
+  --c-graphite: 222 190 82;
+  --c-plate: 230 202 110;
+  --c-bone: 12 11 9;         /* #0C0B09 (10:1 on the gold) */
+  --c-mute: 52 44 26;        /* #342C1A */
+  --c-amber: 12 11 9;
+  background-color: rgb(var(--c-ink));
+  color: rgb(var(--c-bone));
+}
+
+@media (min-width: 1024px) {
+  :root {
+    --nav-h: 80px;
+  }
+}
+
+@layer base {
+  html {
+    -webkit-text-size-adjust: 100%;
+    -webkit-tap-highlight-color: transparent; /* taps show the site's own pressed states instead */
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    scroll-padding-top: var(--nav-h);
+  }
+  html.lenis,
+  html.lenis body {
+    height: auto;
+  }
+  .lenis.lenis-smooth {
+    scroll-behavior: auto !important;
+  }
+  .lenis.lenis-stopped {
+    overflow: hidden;
+  }
+  body {
+    background: rgb(var(--c-ink));
+    color: rgb(var(--c-bone));
+    font-family: var(--font-sans), "IBM Plex Sans", "Helvetica Neue", Arial, sans-serif;
+    font-size: 1rem;
+    line-height: 1.6;
+    overflow-x: clip;
+  }
+  h1, h2, h3 {
+    text-wrap: balance;
+  }
+  p {
+    text-wrap: pretty;
+  }
+  ::selection {
+    background: rgb(var(--c-yellow));
+    color: rgb(var(--c-deep));
+  }
+  :focus-visible {
+    outline: 2px solid rgb(var(--c-amber));
+    outline-offset: 3px;
+    border-radius: 2px;
+  }
+  img {
+    max-width: 100%;
+    height: auto;
+  }
+}
+
+@layer components {
+  .frame {
+    width: 100%;
+    max-width: 1600px;
+    margin-inline: auto;
+    padding-inline: var(--gutter);
+  }
+
+  /* a heading never forces its grid or flex track wider than the layout gives it: a word too
+     long for the column stays inside the heading's box, where fit.ts scales it to fit */
+  :where(h1, h2, h3, h4) {
+    min-width: 0;
+  }
+
+  /* Wide expanded display face: the brand's voice */
+  .display {
+    font-family: var(--font-display), "Archivo", "Arial Narrow", Arial, sans-serif;
+    font-variation-settings: "wdth" 125;
+    font-stretch: 125%;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: -0.01em;
+  }
+  .display-tight {
+    font-family: var(--font-display), "Archivo", "Arial Narrow", Arial, sans-serif;
+    font-variation-settings: "wdth" 112;
+    font-stretch: 112%;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: -0.005em;
+  }
+  .label {
+    font-family: var(--font-mono), "IBM Plex Mono", ui-monospace, monospace;
+    font-size: 0.6875rem;
+    line-height: 1.2;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    font-weight: 500;
+  }
+  .hairline {
+    border-color: rgb(var(--c-bone) / 0.12);
+  }
+
+  /* Section header row: label left, rule to the right */
+  .section-head {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    color: rgb(var(--c-mute));
+  }
+  .section-head::after {
+    content: "";
+    flex: 1;
+    height: 2px;
+    background: linear-gradient(90deg, rgb(var(--c-yellow)) 0, rgb(var(--c-yellow)) 64px, rgb(var(--c-bone) / 0.14) 64px);
+    transform-origin: left center;
+  }
+  .theme-yellow .section-head::after {
+    background: linear-gradient(90deg, rgb(var(--c-bone)) 0, rgb(var(--c-bone)) 64px, rgb(var(--c-bone) / 0.2) 64px);
+  }
+  html.motion .section-head::after {
+    transform: scaleX(0);
+    transition: transform 1.6s var(--ease-film) 0.15s;
+  }
+  html.motion .section-head > * {
+    opacity: 0;
+    transform: translate3d(-10px, 0, 0);
+    transition: opacity 0.9s var(--ease-film), transform 0.9s var(--ease-film);
+  }
+  html.motion .section-head.is-in::after {
+    transform: none;
+  }
+  html.motion .section-head.is-in > * {
+    opacity: 1;
+    transform: none;
+  }
+
+  /* headline words (reveal.ts): each word tips up from below its own edge */
+  .split-word {
+    display: inline-block;
+    overflow: hidden;
+    vertical-align: bottom;
+    padding-bottom: 0.08em;
+    margin-bottom: -0.08em;
+    perspective: 700px;
+  }
+  .split-in {
+    display: inline-block;
+    will-change: transform;
+  }
+
+  /* the company's figures: mechanical counter wheels (cinema.ts, data-odometer) */
+  .odo {
+    display: inline-flex;
+    align-items: flex-end;
+  }
+  .odo-col {
+    display: inline-block;
+    height: 1em;
+    overflow: hidden;
+    line-height: 1;
+    -webkit-mask-image: linear-gradient(180deg, transparent, #000 18%, #000 82%, transparent);
+    mask-image: linear-gradient(180deg, transparent, #000 18%, #000 82%, transparent);
+  }
+  .odo-strip {
+    display: block;
+    will-change: transform;
+  }
+  .odo-strip > span {
+    display: block;
+    height: 1em;
+    line-height: 1;
+  }
+  .odo-sep {
+    line-height: 1;
+  }
+
+  /* tags: an amber edge flashes as each drops in */
+  html.motion [data-chips].is-in > * {
+    animation: chip-edge 1.6s var(--ease-film) both;
+  }
+  html.motion [data-chips].is-in > :nth-child(2) {
+    animation-delay: 0.07s;
+  }
+  html.motion [data-chips].is-in > :nth-child(3) {
+    animation-delay: 0.14s;
+  }
+  html.motion [data-chips].is-in > :nth-child(4) {
+    animation-delay: 0.21s;
+  }
+  html.motion [data-chips].is-in > :nth-child(5) {
+    animation-delay: 0.28s;
+  }
+  @keyframes chip-edge {
+    0%,
+    30% {
+      border-color: rgb(var(--c-amber) / 0.9);
+      color: rgb(var(--c-bone));
+    }
+  }
+
+  /* line icons draw themselves, stroke by stroke (cinema.ts, data-draw) */
+  html.motion [data-draw] :is(path, circle, rect) {
+    stroke-dasharray: 1;
+    stroke-dashoffset: 1;
+    transition: stroke-dashoffset 1.5s cubic-bezier(0.65, 0, 0.35, 1);
+  }
+  html.motion [data-draw] :is(path, circle, rect):nth-child(2) {
+    transition-delay: 0.25s;
+  }
+  html.motion [data-draw] :is(path, circle, rect):nth-child(3) {
+    transition-delay: 0.45s;
+  }
+  html.motion [data-draw] :is(path, circle, rect):nth-child(4) {
+    transition-delay: 0.65s;
+  }
+  html.motion [data-draw].is-drawn :is(path, circle, rect) {
+    stroke-dashoffset: 0;
+  }
+
+  /* cards that lean toward the pointer catch a soft light where it points (cinema.ts, data-tilt) */
+  .card {
+    position: relative;
+    transform-style: preserve-3d;
+  }
+  @media (hover: hover) and (pointer: fine) {
+    .card::after {
+      content: "";
+      position: absolute;
+      inset: -10px;
+      z-index: 5;
+      border-radius: 6px;
+      pointer-events: none;
+      background: radial-gradient(40% 36% at var(--tx, 50%) var(--ty, 30%), rgb(255 240 220 / 0.09), transparent 70%);
+      opacity: 0;
+      transition: opacity 0.5s var(--ease-film);
+    }
+    .card:hover::after {
+      opacity: 1;
+    }
+  }
+
+  /* Buttons */
+  .btn {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.75rem;
+    min-height: 48px;
+    padding: 0 1.4rem;
+    font-family: var(--font-mono), "IBM Plex Mono", ui-monospace, monospace;
+    font-size: 0.75rem;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    font-weight: 500;
+    border-radius: 999px;
+    transition: background-color 0.4s var(--ease-film), color 0.4s var(--ease-film), border-color 0.4s var(--ease-film);
+    will-change: transform;
+    white-space: nowrap;
+  }
+  /* the smallest phones: the longest labels ("Enquire about construction") still fit */
+  @media (max-width: 359px) {
+    .btn {
+      gap: 0.6rem;
+      padding: 0 1rem;
+      letter-spacing: 0.1em;
+    }
+  }
+  /* the live site's yellow button, navy words; white on hover */
+  .btn-primary {
+    background: rgb(var(--c-yellow));
+    color: rgb(var(--c-deep));
+  }
+  .btn-primary:hover {
+    background: #f0d27a;
+    color: #0c0b09;
+  }
+  .theme-yellow .btn-primary {
+    background: #0c0b09;
+    color: rgb(212 175 55);
+  }
+  .theme-yellow .btn-primary:hover {
+    background: rgb(var(--c-deep));
+    color: #fff;
+  }
+  .theme-navy .btn-primary:hover,
+  :is(.nav, .menu, .enq-dialog, .hs, .contact-hero, .site-footer) .btn-primary:hover {
+    background: #f0d27a;
+    color: rgb(var(--c-deep));
+  }
+  .btn-ghost {
+    border: 1px solid rgb(var(--c-bone) / 0.28);
+    color: rgb(var(--c-bone));
+  }
+  .btn-ghost:hover {
+    border-color: rgb(var(--c-bone));
+    background: rgb(var(--c-bone) / 0.06);
+  }
+  .btn .arrow {
+    display: inline-block;
+    transition: transform 0.4s var(--ease-film);
+  }
+  .btn:hover .arrow {
+    transform: translateX(4px);
+  }
+
+  /* Placeholder chip: marks information the live site does not state */
+  .placeholder {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.3rem 0.6rem;
+    border: 1px dashed rgb(var(--c-amber) / 0.6);
+    color: rgb(var(--c-amber));
+    font-family: var(--font-mono), "IBM Plex Mono", ui-monospace, monospace;
+    font-size: 0.6875rem;
+    letter-spacing: 0.08em;
+    border-radius: 4px;
+    line-height: 1.35;
+  }
+  .placeholder::before {
+    content: "TBC";
+    font-weight: 600;
+    letter-spacing: 0.16em;
+  }
+
+  /* Framed pictures. Each picture is cut to its frame's shape and carries Flow's
+     watermark bottom right, so it is anchored there: it fills from that corner and
+     only ever scales about it, and the mark stays whole however it moves.
+     Opening (cinema.ts, data-shutter): the frame opens from the bottom like a roller
+     shutter while the picture settles from a close-up and its lights come up (--shade);
+     then a band of light crosses it once (.is-lit). Hover: a slow push-in. */
+  .media {
+    --shade: 0;
+    position: relative;
+    overflow: hidden;
+    background: rgb(var(--c-graphite));
+    isolation: isolate;
+  }
+  .media-pic {
+    display: block;
+    width: 100%;
+    height: 100%;
+    transform-origin: 100% 100%;
+  }
+  .media img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: 100% 100%;
+    transform-origin: 100% 100%;
+    transition: transform 1.6s var(--ease-film);
+  }
+  .media::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: 2;
+    pointer-events: none;
+    background: rgb(var(--c-deep));
+    opacity: var(--shade);
+  }
+  .media::after {
+    content: "";
+    position: absolute;
+    inset: -20% -60%;
+    z-index: 3;
+    pointer-events: none;
+    background: linear-gradient(105deg, transparent 40%, rgb(255 236 210 / 0.16) 48%, rgb(255 246 232 / 0.3) 50%, rgb(255 236 210 / 0.16) 52%, transparent 60%);
+    mix-blend-mode: screen;
+    opacity: 0;
+    transform: translate3d(-70%, 0, 0);
+  }
+  .media.is-lit::after {
+    animation: media-sweep 1.9s cubic-bezier(0.45, 0, 0.2, 1) both;
+  }
+  @keyframes media-sweep {
+    0% {
+      opacity: 1;
+      transform: translate3d(-70%, 0, 0);
+    }
+    100% {
+      opacity: 1;
+      transform: translate3d(70%, 0, 0);
+    }
+  }
+  @media (hover: hover) {
+    .media:hover img,
+    .card:hover .media img {
+      transform: scale(1.05);
+    }
+  }
+
+  /* ---- The showroom: the live site's "Our Product Range", on the navy band ---------------
+     The heading, then the three product lines as cards: each picture in a square studio frame
+     (cut from the top of the 3:4 picture, so the bottom edge with Flow's watermark stays whole),
+     lifted to the card's navy, and under it the line's name, the live site's description, its
+     products as a list and "View …". The whole card is the link. Phones and portrait screens
+     under 900px: a row of cards to swipe.
+     Behaviour: src/motion/showroom.ts. Docs: docs/HERO.md */
+  .hs {
+    --hs-gap: clamp(14px, 1.8vw, 28px);
+    --hs-pad: clamp(18px, 1.7vw, 24px);
+    position: relative;
+    padding-top: clamp(64px, 8vw, 112px);
+    padding-bottom: clamp(48px, 6vw, 88px);
+    overflow: hidden;
+    background: rgb(var(--c-ink)); /* the room the plinths stand in: the brand navy */
+  }
+  .hs-grid {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    /* phones: the sentence, the products, then the buttons */
+    grid-template-areas: "title" "stage" "side" "foot";
+    row-gap: clamp(18px, 2.8vh, 28px);
+  }
+  .hs-title {
+    grid-area: title;
+    min-width: 0;
+  }
+  .hs-side {
+    grid-area: side;
+    display: grid;
+    gap: 16px;
+    min-width: 0;
+    container-type: inline-size;
+  }
+  .hs-stage {
+    grid-area: stage;
+    position: relative;
+    min-width: 0;
+  }
+  .hs-foot {
+    grid-area: foot;
+    color: rgb(var(--c-bone) / 0.42);
+    font-size: 0.625rem;
+    letter-spacing: 0.14em;
+    line-height: 1.5;
+  }
+
+  .hs-kicker {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    color: rgb(var(--c-bone) / 0.62);
+  }
+  .hs-kicker::before {
+    content: "";
+    width: 24px;
+    height: 1px;
+    background: rgb(var(--c-amber));
+  }
+  .hs-h1 {
+    margin-top: clamp(12px, 1.9vh, 20px);
+    font-size: clamp(1.75rem, min(7.9vw, 11vh), 3.3rem);
+    line-height: 0.95;
+    color: rgb(var(--c-bone) / 0.46);
+  }
+  /* each line rises from under its own edge */
+  .hs-h1-line {
+    display: block;
+    overflow: hidden;
+    padding: 0.05em 0 0.09em;
+    margin: -0.05em 0 -0.09em;
+  }
+  .hs-h1-in {
+    display: inline-block;
+  }
+  .hs-word {
+    font-style: normal;
+    color: rgb(var(--c-bone));
+    transition: color 0.6s var(--ease-film);
+  }
+
+  .hs-lead {
+    max-width: 30rem;
+    color: rgb(var(--c-bone) / 0.7);
+    font-size: 0.95rem;
+    line-height: 1.55;
+  }
+  /* phones: two buttons side by side, before the short paragraph */
+  .hs-ctas {
+    order: -1;
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 10px;
+  }
+  .hs-ctas .btn {
+    padding: 0 12px;
+    gap: 10px;
+    letter-spacing: 0.12em;
+  }
+  @media (max-width: 379px) {
+    .hs-ctas .btn .arrow {
+      display: none;
+    }
+  }
+
+  /* the cards: a row to swipe (phones, portrait screens under 900px) */
+  .hs-bays {
+    position: relative;
+    display: flex;
+    gap: var(--hs-gap);
+    margin: 0 calc(-1 * var(--gutter));
+    padding: 4px var(--gutter) 8px;
+    overflow-x: auto;
+    overscroll-behavior-x: contain;
+    scroll-snap-type: x mandatory;
+    scroll-padding-inline: var(--gutter);
+    scrollbar-width: none;
+    -webkit-overflow-scrolling: touch;
+  }
+  .hs-bays::-webkit-scrollbar {
+    display: none;
+  }
+  .hs-bay {
+    display: flex;
+    flex: 0 0 min(80vw, 380px);
+    scroll-snap-align: start;
+  }
+  /* a card: the picture in its studio frame, then the words on deep navy */
+  .hs-figure {
+    position: relative;
+    isolation: isolate;
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+    width: 100%;
+    overflow: hidden;
+    border: 1px solid rgb(var(--c-bone) / 0.12);
+    border-radius: 18px;
+    background: rgb(var(--c-deep));
+    box-shadow: 0 34px 60px -38px rgb(0 0 0 / 0.75);
+    transition: transform 0.6s var(--ease-film), border-color 0.5s var(--ease-film);
+  }
+  .hs-figure:has(.hs-link:focus-visible) {
+    outline: 2px solid rgb(var(--c-amber));
+    outline-offset: 4px;
+  }
+
+  /* the picture whole, with its lamp, a light that follows the pointer, and a sweep */
+  /* square, cut from the top of the 3:4 picture, so the products fill the frame and the bottom
+     edge (with Flow's mark, bottom right) stays whole */
+  .hs-media {
+    position: relative;
+    z-index: 0;
+    aspect-ratio: 1 / 1;
+    overflow: hidden;
+    background: rgb(var(--c-deep));
+    border-bottom: 1px solid rgb(var(--c-bone) / 0.08);
+  }
+  /* the studio's black lifted to the card's deep navy (screen: black becomes navy, highlights stay) */
+  .hs-media::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    background: rgb(var(--c-deep));
+    mix-blend-mode: screen;
+    pointer-events: none;
+  }
+  .hs-media img {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transform-origin: 50% 85%;
+    object-position: 50% 100%;
+    transition: filter 0.9s var(--ease-film), transform 1.6s var(--ease-film);
+  }
+  .hs-cone,
+  .hs-torch,
+  .hs-sweep {
+    position: absolute;
+    pointer-events: none;
+    mix-blend-mode: screen;
+  }
+  /* the lamp above the products: flares when it comes on, glows when the card is chosen */
+  .hs-cone {
+    inset: 0;
+    background:
+      radial-gradient(46% 36% at 50% 2%, rgb(255 226 190 / 0.5), transparent 72%),
+      radial-gradient(58% 42% at 50% 64%, rgb(255 212 160 / 0.16), transparent 72%);
+    opacity: 0;
+    transition: opacity 0.9s var(--ease-film);
+  }
+  /* a soft light that follows the pointer over the chosen card */
+  .hs-torch {
+    inset: 0;
+    background: radial-gradient(30% 22% at var(--hs-lx, 50%) var(--hs-ly, 58%), rgb(255 232 205 / 0.2), transparent 72%);
+    opacity: 0;
+    transition: opacity 0.6s var(--ease-film);
+  }
+  /* a band of light across the glossy plinth and the metal */
+  .hs-sweep {
+    inset: -8% -60%;
+    background: linear-gradient(102deg, transparent 40%, rgb(255 238 214 / 0.17) 50%, transparent 60%);
+    transform: translate3d(-38%, 0, 0);
+  }
+  .hs-bay.is-swept .hs-sweep {
+    transform: translate3d(38%, 0, 0);
+    transition: transform 1.5s var(--ease-film);
+  }
+
+  /* the words: the line's number and name, the description, then its products and the link */
+  .hs-name {
+    display: flex;
+    align-items: baseline;
+    gap: 0.7em;
+    padding: var(--hs-pad) var(--hs-pad) 0;
+    font-size: clamp(1.2rem, 1.7vw, 1.5rem);
+    line-height: 1.05;
+    color: rgb(var(--c-bone));
+  }
+  .hs-idx {
+    color: rgb(var(--c-amber));
+  }
+  .hs-desc {
+    padding: 0.7rem var(--hs-pad) 0;
+    font-size: 0.9rem;
+    line-height: 1.6;
+    color: rgb(var(--c-bone) / 0.72);
+  }
+  /* the products right under the description (so the lists line up across the row), the link at
+     the foot of the card */
+  .hs-plaque {
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 16px;
+    padding: 1.1rem var(--hs-pad) var(--hs-pad);
+  }
+  /* two columns where a name fits on its line; one on narrow cards */
+  .hs-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(min(100%, 9.6rem), 1fr));
+    gap: 7px 14px;
+    width: 100%;
+    padding-top: 1rem;
+    border-top: 1px solid rgb(var(--c-bone) / 0.12);
+    font-size: 0.85rem;
+    line-height: 1.35;
+  }
+  .hs-list li {
+    position: relative;
+    padding-left: 14px;
+    color: rgb(var(--c-bone) / 0.92);
+  }
+  .hs-list li::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 0.42em;
+    width: 6px;
+    height: 6px;
+    border-radius: 1px;
+    background: rgb(var(--c-amber));
+  }
+  .hs-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    margin-top: auto;
+    color: rgb(var(--c-amber));
+  }
+  .hs-link:focus-visible {
+    outline: none;
+  }
+  /* the whole card is the link */
+  .hs-link::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: 2;
+  }
+  .hs-link .arrow {
+    transition: transform 0.5s var(--ease-film);
+  }
+
+  .hs-dots {
+    display: flex;
+    gap: 4px;
+    margin-top: 12px;
+  }
+  .hs-dot {
+    display: grid;
+    place-items: center;
+    width: 34px;
+    height: 24px;
+  }
+  .hs-dot > span {
+    width: 100%;
+    height: 2px;
+    border-radius: 2px;
+    background: rgb(var(--c-bone) / 0.22);
+    transition: background-color 0.5s var(--ease-film);
+  }
+  .hs-dot[aria-current="true"] > span {
+    background: rgb(var(--c-amber));
+  }
+
+  /* leaving the showroom: the words drift up, the plinths sink and dim (--hs-out: 0 → 1, src/motion/showroom.ts) */
+  .hs-title,
+  .hs-side {
+    transform: translate3d(0, calc(var(--hs-out, 0) * -36px), 0);
+  }
+  .hs-stage {
+    transform: translate3d(0, calc(var(--hs-out, 0) * 60px), 0);
+  }
+  .hs-stage::after {
+    content: "";
+    position: absolute;
+    inset: -2px;
+    background: rgb(var(--c-deep));
+    opacity: calc(var(--hs-out, 0) * 0.6);
+    pointer-events: none;
+  }
+
+  /* choosing a plinth (pointer or keyboard): the others dim, the lamp above it glows,
+     its word in the heading turns amber. After a swipe on phones, the card in view
+     has its word in amber. */
+  .hs-bays:focus-within .hs-bay:not(:focus-within) img {
+    filter: brightness(0.6) saturate(0.75);
+  }
+  .hs-bay:focus-within .hs-cone {
+    opacity: 0.4;
+  }
+  .hs:has(.hs-bay:focus-within) .hs-word {
+    color: rgb(var(--c-bone) / 0.46);
+  }
+  .hs:has(.hs-bay[data-hs-bay="0"]:focus-within) .hs-word[data-hs-word="0"],
+  .hs:has(.hs-bay[data-hs-bay="1"]:focus-within) .hs-word[data-hs-word="1"],
+  .hs:has(.hs-bay[data-hs-bay="2"]:focus-within) .hs-word[data-hs-word="2"],
+  .hs[data-hs-active="0"] .hs-word[data-hs-word="0"],
+  .hs[data-hs-active="1"] .hs-word[data-hs-word="1"],
+  .hs[data-hs-active="2"] .hs-word[data-hs-word="2"] {
+    color: rgb(var(--c-amber));
+  }
+  @media (hover: hover) and (pointer: fine) {
+    .hs-name,
+    .hs-desc,
+    .hs-plaque {
+      transition: opacity 0.6s var(--ease-film);
+    }
+    .hs-bays:hover .hs-bay:not(:hover) img {
+      filter: brightness(0.6) saturate(0.75);
+    }
+    .hs-bays:hover .hs-bay:not(:hover) .hs-name,
+    .hs-bays:hover .hs-bay:not(:hover) .hs-desc,
+    .hs-bays:hover .hs-bay:not(:hover) .hs-plaque {
+      opacity: 0.7;
+    }
+    .hs-bay:hover .hs-figure {
+      transform: translate3d(0, -6px, 0);
+      border-color: rgb(var(--c-amber) / 0.6);
+    }
+    .hs-bay:hover img {
+      transform: scale(1.03);
+    }
+    .hs-bay:hover .hs-cone {
+      opacity: 0.4;
+    }
+    .hs-bay:hover .hs-torch {
+      opacity: 1;
+    }
+    .hs-bay:hover .hs-sweep {
+      transform: translate3d(38%, 0, 0);
+      transition: transform 1.5s var(--ease-film);
+    }
+    .hs-bay:hover .hs-link .arrow {
+      transform: translateX(4px);
+    }
+    .hs:has(.hs-bay:hover) .hs-word {
+      color: rgb(var(--c-bone) / 0.46);
+    }
+    .hs:has(.hs-bay[data-hs-bay="0"]:hover) .hs-word[data-hs-word="0"],
+    .hs:has(.hs-bay[data-hs-bay="1"]:hover) .hs-word[data-hs-word="1"],
+    .hs:has(.hs-bay[data-hs-bay="2"]:hover) .hs-word[data-hs-word="2"] {
+      color: rgb(var(--c-amber));
+    }
+  }
+
+  /* ---- From 900px: the sentence with the paragraph and buttons beside it, and the
+     three plinths side by side under them, each as wide as its column. */
+  @media (min-width: 900px) {
+    .hs-grid {
+      grid-template-columns: minmax(0, 1fr) minmax(250px, 29%);
+      grid-template-areas: "title side" "stage stage" "foot foot";
+      column-gap: clamp(28px, 4vw, 72px);
+      row-gap: clamp(28px, 3.4vw, 52px);
+      align-items: end;
+    }
+    .hs-h1 {
+      font-size: clamp(2rem, min(3.55vw, 6.5vh), 3.7rem);
+    }
+    .hs-side {
+      padding-bottom: 0.3rem;
+    }
+    .hs-ctas {
+      order: 0;
+      display: flex;
+      flex-wrap: wrap;
+    }
+    .hs-ctas .btn {
+      padding: 0 1.25rem;
+      gap: 0.7rem;
+      letter-spacing: 0.14em;
+    }
+    /* a narrow column: the two buttons share it, without arrows */
+    @container (max-width: 359px) {
+      .hs-ctas {
+        display: grid;
+      }
+      .hs-ctas .btn {
+        padding: 0 10px;
+        letter-spacing: 0.1em;
+      }
+      .hs-ctas .btn .arrow {
+        display: none;
+      }
+    }
+    .hs-bays {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: var(--hs-gap);
+      margin: 0;
+      padding: 0;
+      overflow: visible;
+    }
+    .hs-dots {
+      display: none;
+    }
+  }
+
+  /* ---- First paint: the room is dark; the words rise, then the lamps come on one
+     plinth at a time and each plinth's word lights with it. Held (paused) until the
+     pictures have loaded: the inline script in Showroom.tsx adds .is-go. */
+  @media (prefers-reduced-motion: no-preference) {
+    .hs-kicker,
+    .hs-h1-in,
+    .hs-word,
+    .hs-side,
+    .hs-media img,
+    .hs-cone,
+    .hs-sweep,
+    .hs-name,
+    .hs-desc,
+    .hs-plaque,
+    .hs-dots,
+    .hs-foot {
+      animation-play-state: paused;
+    }
+    .hs.is-go :is(.hs-kicker, .hs-h1-in, .hs-word, .hs-side, .hs-media img, .hs-cone, .hs-sweep, .hs-name, .hs-desc, .hs-plaque, .hs-dots, .hs-foot) {
+      animation-play-state: running;
+    }
+    .hs-kicker {
+      animation: hs-up 1s var(--ease-film) 0.05s backwards;
+    }
+    .hs-h1-in {
+      animation: hs-rise 1.1s var(--ease-film) calc(0.12s + var(--i) * 0.09s) backwards;
+    }
+    .hs-word {
+      animation: hs-word 2s ease-out calc(0.7s + var(--k) * 0.34s) backwards;
+    }
+    .hs-side {
+      animation: hs-up 1s var(--ease-film) 0.5s backwards;
+    }
+    .hs-media img {
+      animation: hs-light 2.4s cubic-bezier(0.2, 0.7, 0.2, 1) calc(0.6s + var(--k) * 0.34s) backwards;
+    }
+    .hs-cone {
+      animation: hs-cone 2.4s ease-out calc(0.6s + var(--k) * 0.34s) backwards;
+    }
+    .hs-sweep {
+      animation: hs-sweep 1.6s var(--ease-film) calc(2s + var(--k) * 0.2s) backwards;
+    }
+    .hs-name,
+    .hs-desc,
+    .hs-plaque {
+      animation: hs-up 1s var(--ease-film) calc(1s + var(--k) * 0.34s) backwards;
+    }
+    .hs-dots,
+    .hs-foot {
+      animation: hs-up 1s var(--ease-film) 2.1s backwards;
+    }
+  }
+  @keyframes hs-up {
+    from {
+      opacity: 0;
+      transform: translate3d(0, 16px, 0);
+    }
+  }
+  @keyframes hs-rise {
+    from {
+      transform: translate3d(0, 110%, 0);
+    }
+  }
+  @keyframes hs-word {
+    0% {
+      color: rgb(var(--c-bone) / 0.18);
+    }
+    20%,
+    55% {
+      color: rgb(var(--c-amber));
+    }
+    100% {
+      color: rgb(var(--c-bone));
+    }
+  }
+  @keyframes hs-light {
+    0% {
+      filter: brightness(0.03) saturate(0.2);
+      transform: scale(1.06);
+    }
+    13% {
+      filter: brightness(0.6) saturate(0.7);
+    }
+    18% {
+      filter: brightness(0.26) saturate(0.55);
+    }
+    30% {
+      filter: brightness(0.86) saturate(0.85);
+    }
+    100% {
+      filter: brightness(1) saturate(1);
+      transform: scale(1);
+    }
+  }
+  @keyframes hs-cone {
+    0% {
+      opacity: 0;
+    }
+    13% {
+      opacity: 0.85;
+    }
+    18% {
+      opacity: 0.3;
+    }
+    32% {
+      opacity: 1;
+    }
+    100% {
+      opacity: 0;
+    }
+  }
+  @keyframes hs-sweep {
+    from {
+      transform: translate3d(-38%, 0, 0);
+    }
+    to {
+      transform: translate3d(38%, 0, 0);
+    }
+  }
+
+  /* ---- Nav ----------------------------------------------------------------
+     A slim floating capsule of dark glass, held a little below the top of the screen on every
+     page, over the film too: a hairline gold edge that catches the light at its two ends and a
+     soft shadow. On the left the name on one line; a fine gold rule; the pages and the three
+     product menus in small warm-white type, the page you are on in gold with a small gold dot
+     beneath it; at the end Enquire now as a slim gold pill with a small black arrow badge. On
+     desktop the capsule fits its contents, centred. --nav-h is the whole space the bar takes at
+     the top (its gap above and below included); the capsule is --nav-cap tall (46px). */
+  .nav {
+    --nav-gap: 11px;
+    --nav-cap: calc(var(--nav-h) - 2 * var(--nav-gap));
+    padding-top: calc(env(safe-area-inset-top, 0px) + var(--nav-gap));
+    pointer-events: none;
+    transition: transform 0.6s var(--ease-film);
+  }
+  @media (min-width: 1024px) {
+    .nav {
+      --nav-gap: 17px;
+    }
+  }
+  .nav.is-hidden {
+    transform: translateY(calc(-100% - 12px));
+  }
+  .nav-bar {
+    position: relative;
+    height: var(--nav-cap);
+    max-width: 1320px;
+    border-radius: 999px;
+    background: rgb(14 13 10 / 0.78);
+    -webkit-backdrop-filter: blur(18px) saturate(1.3);
+    backdrop-filter: blur(18px) saturate(1.3);
+    box-shadow: 0 16px 40px -22px rgb(0 0 0 / 0.95), inset 0 1px 0 rgb(255 255 255 / 0.045);
+    pointer-events: auto;
+  }
+  /* the hairline gold edge, brighter where the capsule curves at its two ends */
+  .nav-bar::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    padding: 1px;
+    border-radius: inherit;
+    background: linear-gradient(100deg, rgb(212 175 55 / 0.62), rgb(212 175 55 / 0.14) 24%, rgb(212 175 55 / 0.14) 76%, rgb(212 175 55 / 0.55));
+    -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+    -webkit-mask-composite: xor;
+    mask: linear-gradient(#000 0 0) content-box exclude, linear-gradient(#000 0 0);
+    pointer-events: none;
+  }
+  .frame.nav-bar {
+    width: calc(100% - 2 * var(--gutter));
+    padding-inline: 16px 7px;
+  }
+  /* on desktop the capsule fits its contents, centred: the name, then the links straight after */
+  @media (min-width: 1024px) {
+    .frame.nav-bar {
+      width: fit-content;
+      max-width: calc(100% - 2 * var(--gutter));
+      padding-inline: 22px 7px;
+    }
+  }
+  /* the name, on one line: KRINI in gold, CRUDE in warm white, finely spaced */
+  .nav-logo {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    color: rgb(245 239 225);
+  }
+  .nav-name {
+    display: grid;
+  }
+  .wordmark {
+    font-size: clamp(1.02rem, 1.3vw, 1.22rem);
+    letter-spacing: 0.06em;
+    line-height: 1;
+    white-space: nowrap;
+  }
+  .nav-logo .wordmark {
+    font-size: 0.875rem;
+    letter-spacing: 0.14em;
+  }
+  /* the bar carries the name alone (the tagline is on the pages themselves) */
+  .nav .nav-tag {
+    display: none;
+  }
+  /* the smallest phones: everything a little tighter */
+  @media (max-width: 359px) {
+    .nav-logo .wordmark {
+      font-size: 0.8rem;
+      letter-spacing: 0.1em;
+    }
+    .nav .menu-toggle {
+      gap: 6px;
+      padding: 0 10px 0 9px;
+    }
+  }
+  .nav-list {
+    display: flex;
+    align-items: center;
+    gap: 2px;
+  }
+  /* a fine gold rule between the name and the links */
+  .nav-list::before {
+    content: "";
+    width: 1px;
+    height: 16px;
+    margin-right: 12px;
+    background: rgb(212 175 55 / 0.34);
+  }
+  .nav-list > li {
+    display: flex;
+    align-items: center;
+  }
+  .nav-list > li:last-child {
+    margin-left: 12px;
+  }
+  .nav-link {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    min-height: 32px;
+    padding: 0 clamp(9px, 0.85vw, 13px);
+    border-radius: 999px;
+    font-family: var(--font-sans), "IBM Plex Sans", "Helvetica Neue", Arial, sans-serif;
+    font-size: 13.5px;
+    font-weight: 500;
+    letter-spacing: 0.01em;
+    line-height: 20px;
+    white-space: nowrap;
+    color: rgb(var(--c-bone) / 0.82);
+    transition: color 0.3s var(--ease-film);
+  }
+  .nav-link:hover {
+    color: rgb(var(--c-navy));
+  }
+  /* the page you are on: in gold, a small gold dot beneath it */
+  .nav-link.is-current {
+    color: rgb(var(--c-navy));
+  }
+  .nav-link.is-current::after {
+    content: "";
+    position: absolute;
+    left: 50%;
+    bottom: 0;
+    width: 4px;
+    height: 4px;
+    border-radius: 50%;
+    background: rgb(var(--c-yellow));
+    box-shadow: 0 0 8px rgb(212 175 55 / 0.7);
+    transform: translateX(-50%);
+  }
+  /* small laptops: the items closer together */
+  @media (min-width: 1024px) and (max-width: 1279px) {
+    .nav-list .nav-link {
+      padding: 0 8px;
+      font-size: 13px;
+    }
+    .nav-list::before {
+      margin-right: 8px;
+    }
+    .nav-list > li:last-child {
+      margin-left: 8px;
+    }
+    .nav-list .nav-enquire {
+      gap: 8px;
+      padding-left: 13px;
+    }
+  }
+  /* Enquire now: a slim gold pill, lit from above, with a small black arrow badge at its end */
+  .nav-enquire {
+    gap: 10px;
+    min-height: 32px;
+    padding: 0 4px 0 16px;
+    border-radius: 999px;
+    font-size: 10.5px;
+    letter-spacing: 0.2em;
+    background: linear-gradient(180deg, #e6c862 0%, #d4af37 55%, #c49e2d 100%);
+    box-shadow: inset 0 1px 0 rgb(255 248 220 / 0.45), 0 8px 20px -10px rgb(212 175 55 / 0.75);
+  }
+  .nav .nav-enquire:hover {
+    background: linear-gradient(180deg, #f1d77c 0%, #e2bf4c 55%, #cfa935 100%);
+    color: #0c0b09;
+  }
+  .nav-enquire-dot {
+    display: grid;
+    place-items: center;
+    width: 24px;
+    height: 24px;
+    border-radius: 999px;
+    background: #0c0b09;
+    color: rgb(212 175 55);
+    transition: transform 0.4s var(--ease-film);
+  }
+  .nav-enquire-dot .arrow {
+    width: 11px;
+    height: 8px;
+  }
+  .nav-enquire:hover .nav-enquire-dot {
+    transform: rotate(-45deg);
+  }
+  @media (max-width: 1023px) {
+    .nav-enquire {
+      gap: 8px;
+      padding: 0 4px 0 13px;
+    }
+  }
+  /* the product menus, as on krinicrude.com: the line's name (its page) and an arrow; on hover,
+     or from the arrow (keyboard, touch), a panel of its products drops under it, an amber rule
+     along its top; a product with a range opens a side list, an amber rule down its edge, to
+     the right (or to the left where the screen ends first: fly-left, interactions.ts) */
+  .nav-drop {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    gap: 2px;
+  }
+  .nav-caret {
+    display: grid;
+    place-items: center;
+    width: 16px;
+    height: 28px;
+    margin-left: -7px;
+    margin-right: -2px;
+    color: rgb(var(--c-bone) / 0.42);
+    transition: color 0.3s var(--ease-film);
+  }
+  .nav-caret .nav-chev {
+    width: 10px;
+    height: 10px;
+  }
+  /* the pointer's bridge from the name down to the panel, across the foot of the bar */
+  .nav-drop::after {
+    content: "";
+    position: absolute;
+    top: 100%;
+    left: -16px;
+    right: -16px;
+    height: calc(var(--nav-cap) / 2);
+  }
+  .nav-chev {
+    transition: transform 0.35s var(--ease-film);
+  }
+  .nav-drop:hover .nav-caret,
+  .nav-drop.is-open .nav-caret {
+    color: rgb(var(--c-navy));
+  }
+  .nav-drop.is-open .nav-caret .nav-chev {
+    transform: rotate(180deg);
+  }
+  /* the panel hangs from the foot of the bar */
+  .nav-panel {
+    position: absolute;
+    top: calc(50% + var(--nav-cap) / 2 + 10px);
+    left: 0;
+    z-index: 1;
+    visibility: hidden;
+    opacity: 0;
+    transform: translate3d(0, 6px, 0);
+    transition: opacity 0.22s var(--ease-film), transform 0.22s var(--ease-film), visibility 0s linear 0.22s;
+  }
+  .nav-drop.is-open .nav-panel {
+    visibility: visible;
+    opacity: 1;
+    transform: none;
+    transition-delay: 0s;
+  }
+  @media (hover: hover) {
+    .nav-drop:hover .nav-panel {
+      visibility: visible;
+      opacity: 1;
+      transform: none;
+      transition-delay: 0s;
+    }
+  }
+  .nav-panel-list,
+  .nav-fly {
+    min-width: 232px;
+    padding: 6px;
+    border: 1px solid rgb(212 175 55 / 0.16);
+    border-radius: 12px;
+    background: rgb(16 15 11 / 0.96);
+    -webkit-backdrop-filter: blur(16px);
+    backdrop-filter: blur(16px);
+    box-shadow: 0 28px 60px -26px rgb(0 0 0 / 0.8);
+  }
+  .nav-panel-list {
+    border-top-color: rgb(212 175 55 / 0.7);
+  }
+  .nav-item,
+  .nav-sub {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 18px;
+    min-height: 38px;
+    padding: 0 12px;
+    border-radius: 8px;
+    font-family: var(--font-sans), "IBM Plex Sans", "Helvetica Neue", Arial, sans-serif;
+    font-size: 13.5px;
+    font-weight: 500;
+    letter-spacing: 0.01em;
+    white-space: nowrap;
+    color: rgb(var(--c-bone) / 0.86);
+    transition: background-color 0.25s var(--ease-film), color 0.25s var(--ease-film);
+  }
+  .nav-item:hover,
+  .nav-item:focus-visible,
+  .nav-has-fly:hover > .nav-item,
+  .nav-has-fly:focus-within > .nav-item,
+  .nav-sub:hover,
+  .nav-sub:focus-visible {
+    background: rgb(212 175 55 / 0.08);
+    color: rgb(var(--c-navy));
+  }
+  .nav-has-fly {
+    position: relative;
+  }
+  /* the pointer's bridge from the product to its side list */
+  .nav-has-fly::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 100%;
+    width: 18px;
+  }
+  .nav-fly {
+    position: absolute;
+    top: -9px;
+    left: calc(100% + 16px);
+    border-radius: 0 12px 12px 0;
+    border-left: 1px solid rgb(212 175 55 / 0.7);
+    visibility: hidden;
+    opacity: 0;
+    transform: translate3d(-6px, 0, 0);
+    transition: opacity 0.2s var(--ease-film), transform 0.2s var(--ease-film), visibility 0s linear 0.2s;
+  }
+  .fly-left .nav-has-fly::after {
+    left: auto;
+    right: 100%;
+  }
+  .fly-left .nav-fly {
+    left: auto;
+    right: calc(100% + 16px);
+    border-radius: 12px 0 0 12px;
+    border-left: 1px solid rgb(212 175 55 / 0.16);
+    border-right: 1px solid rgb(212 175 55 / 0.7);
+    transform: translate3d(6px, 0, 0);
+  }
+  .nav-has-fly:focus-within > .nav-fly {
+    visibility: visible;
+    opacity: 1;
+    transform: none;
+    transition-delay: 0s;
+  }
+  @media (hover: hover) {
+    .nav-has-fly:hover > .nav-fly {
+      visibility: visible;
+      opacity: 1;
+      transform: none;
+      transition-delay: 0s;
+    }
+  }
+
+  /* the enquiry button in the bar stands for Contact: on the Contact page it carries an amber ring */
+  .nav-enquire[aria-current="page"] {
+    box-shadow: 0 0 0 2px #0c0b09, 0 0 0 3px rgb(var(--c-amber));
+  }
+  /* along the capsule's foot, inside its curve */
+  .scroll-bar {
+    position: absolute;
+    left: 28px;
+    right: 28px;
+    bottom: -1px;
+    height: 2px;
+    border-radius: 2px;
+    background: rgb(var(--c-yellow));
+    transform-origin: left center;
+    transform: scaleX(var(--page-p, 0));
+  }
+
+  /* ---- Mobile menu (under 1024px) -------------------------------------------------
+     The toggle is a pill in the top bar: two lines and "Menu", turning into a cross and
+     "Close". It drops a sheet from the top bar over the dimmed page: Home and About Us as
+     tiles, then the three product lines, each folding open to its products and their ranges
+     (the page you are on marked in amber, and named at the top), then Call and WhatsApp, and
+     Enquire now. Tap outside, the toggle, a link or Esc closes it. */
+  .menu-toggle {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    height: 32px;
+    padding: 0 13px 0 12px;
+    border: 1px solid rgb(212 175 55 / 0.5);
+    border-radius: 999px;
+    background: transparent;
+    color: rgb(var(--c-bone));
+    transition: border-color 0.4s var(--ease-film), background-color 0.4s var(--ease-film), color 0.4s var(--ease-film);
+  }
+  .menu-toggle:hover,
+  .menu-toggle[aria-expanded="true"] {
+    border-color: rgb(var(--c-yellow));
+    background: rgb(212 175 55 / 0.1);
+    color: rgb(var(--c-yellow));
+  }
+  .menu-toggle .menu-toggle-label {
+    font-size: 10.5px;
+  }
+  .menu-toggle-icon {
+    position: relative;
+    width: 18px;
+    height: 10px;
+    color: rgb(var(--c-yellow));
+  }
+  .menu-toggle-icon > span {
+    position: absolute;
+    left: 0;
+    width: 100%;
+    height: 1.5px;
+    border-radius: 1px;
+    background: currentColor;
+    transition: transform 0.5s var(--ease-film), width 0.5s var(--ease-film);
+  }
+  .menu-toggle-icon > span:first-child {
+    top: 0;
+  }
+  .menu-toggle-icon > span:last-child {
+    bottom: 0;
+    width: 62%;
+  }
+  .menu-toggle[aria-expanded="true"] .menu-toggle-icon > span:first-child {
+    transform: translateY(4.25px) rotate(45deg);
+  }
+  .menu-toggle[aria-expanded="true"] .menu-toggle-icon > span:last-child {
+    width: 100%;
+    transform: translateY(-4.25px) rotate(-45deg);
+  }
+  /* "Menu" and "Close" share one line and swap by sliding */
+  .menu-toggle-label {
+    display: grid;
+    height: 1.2em;
+    overflow: hidden;
+  }
+  .menu-toggle-label > span {
+    grid-area: 1 / 1;
+    transition: transform 0.5s var(--ease-film), opacity 0.5s var(--ease-film);
+  }
+  .menu-toggle-label > span:last-child {
+    transform: translateY(110%);
+    opacity: 0;
+  }
+  .menu-toggle[aria-expanded="true"] .menu-toggle-label > span:first-child {
+    transform: translateY(-110%);
+    opacity: 0;
+  }
+  .menu-toggle[aria-expanded="true"] .menu-toggle-label > span:last-child {
+    transform: none;
+    opacity: 1;
+  }
+
+  .menu {
+    position: fixed;
+    inset: 0;
+    z-index: 40;
+    visibility: hidden;
+    pointer-events: none;
+    transition: visibility 0s linear 0.7s;
+  }
+  .menu.is-open {
+    visibility: visible;
+    pointer-events: auto;
+    transition-delay: 0s;
+  }
+  .menu-dim {
+    position: absolute;
+    inset: 0;
+    background: rgb(var(--c-deep) / 0.6);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    opacity: 0;
+    transition: opacity 0.55s var(--ease-film);
+  }
+  .menu.is-open .menu-dim {
+    opacity: 1;
+  }
+  .menu-sheet {
+    position: absolute;
+    inset: 0 0 auto;
+    max-height: calc(100svh - 28px);
+    overflow-y: auto;
+    overscroll-behavior: contain;
+    padding: calc(var(--nav-h) + env(safe-area-inset-top, 0px) + 16px) var(--gutter) 20px;
+    background:
+      radial-gradient(120% 60% at 100% 0%, rgb(var(--c-amber) / 0.09), rgb(var(--c-amber) / 0) 60%),
+      linear-gradient(180deg, rgb(var(--c-graphite)), rgb(var(--c-ink)));
+    border-bottom: 1px solid rgb(var(--c-bone) / 0.1);
+    border-radius: 0 0 28px 28px;
+    box-shadow: 0 40px 90px -30px rgb(0 0 0 / 0.9);
+    transform: translate3d(0, -104%, 0);
+    transition: transform 0.7s var(--ease-film);
+  }
+  .menu.is-open .menu-sheet {
+    transform: none;
+  }
+  .menu-head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 14px;
+    color: rgb(var(--c-mute));
+  }
+  .menu-now {
+    display: inline-flex;
+    align-items: center;
+    gap: 9px;
+    color: rgb(var(--c-bone) / 0.85);
+  }
+  .menu-now-dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: rgb(var(--c-amber));
+    box-shadow: 0 0 0 4px rgb(var(--c-amber) / 0.18);
+  }
+  .menu-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 10px;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+  .menu-tile {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    gap: 16px;
+    height: 100%;
+    min-height: clamp(88px, 13svh, 124px);
+    padding: 14px 14px 15px;
+    overflow: hidden;
+    border: 1px solid rgb(var(--c-bone) / 0.1);
+    border-radius: 18px;
+    background: linear-gradient(155deg, rgb(var(--c-plate)), rgb(var(--c-graphite)));
+    transition: border-color 0.4s var(--ease-film), transform 0.4s var(--ease-film);
+  }
+  .menu-tile:active {
+    transform: scale(0.97);
+  }
+  .menu-tile:hover {
+    border-color: rgb(var(--c-bone) / 0.28);
+  }
+  .menu-tile-top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    color: rgb(var(--c-mute));
+    transition: color 0.4s var(--ease-film);
+  }
+  .menu-tile-name {
+    font-size: clamp(1.02rem, 5vw, 1.45rem);
+    line-height: 1;
+  }
+  /* the section in view: an amber edge, number and icon, and a warm glow */
+  .menu-tile.is-current {
+    border-color: rgb(var(--c-amber) / 0.7);
+    background:
+      radial-gradient(90% 80% at 100% 0%, rgb(var(--c-amber) / 0.2), rgb(var(--c-amber) / 0) 70%),
+      linear-gradient(155deg, rgb(var(--c-plate)), rgb(var(--c-graphite)));
+  }
+  .menu-tile.is-current .menu-tile-top {
+    color: rgb(var(--c-amber));
+  }
+  /* the three product lines: the name (its page) and a fold-open arrow */
+  .menu-lines {
+    display: grid;
+    gap: 10px;
+    margin-top: 10px;
+  }
+  .menu-line {
+    overflow: hidden;
+    border: 1px solid rgb(var(--c-bone) / 0.1);
+    border-radius: 18px;
+    background: linear-gradient(155deg, rgb(var(--c-plate)), rgb(var(--c-graphite)));
+    transition: border-color 0.4s var(--ease-film);
+  }
+  .menu-line.is-current {
+    border-color: rgb(var(--c-amber) / 0.7);
+  }
+  .menu-line.is-open {
+    border-color: rgb(var(--c-bone) / 0.24);
+  }
+  .menu-line-row {
+    display: flex;
+    align-items: stretch;
+  }
+  .menu-line-name {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    min-height: clamp(54px, 8svh, 64px);
+    padding: 0 16px;
+    font-size: clamp(1.02rem, 5vw, 1.35rem);
+    line-height: 1;
+  }
+  .menu-line-idx {
+    color: rgb(var(--c-mute));
+  }
+  .menu-line.is-current .menu-line-idx {
+    color: rgb(var(--c-amber));
+  }
+  .menu-line-toggle {
+    display: grid;
+    place-items: center;
+    width: 58px;
+    border-left: 1px solid rgb(var(--c-bone) / 0.1);
+    color: rgb(var(--c-bone) / 0.8);
+  }
+  .menu-line-toggle .nav-chev {
+    width: 16px;
+    height: 16px;
+  }
+  .menu-line-toggle[aria-expanded="true"] {
+    color: rgb(var(--c-amber));
+  }
+  .menu-line-toggle[aria-expanded="true"] .nav-chev {
+    transform: rotate(180deg);
+  }
+  .menu-products {
+    display: grid;
+    padding: 2px 16px 12px;
+    border-top: 1px solid rgb(var(--c-bone) / 0.08);
+  }
+  .menu-products[hidden] {
+    display: none;
+  }
+  .menu-product {
+    display: flex;
+    align-items: center;
+    min-height: 42px;
+    font-size: 0.98rem;
+    color: rgb(var(--c-bone) / 0.92);
+  }
+  .menu-range {
+    display: grid;
+    margin: -2px 0 6px 2px;
+    padding-left: 14px;
+    border-left: 2px solid rgb(var(--c-amber) / 0.55);
+  }
+  .menu-range-item {
+    display: flex;
+    align-items: center;
+    min-height: 36px;
+    font-size: 0.88rem;
+    color: rgb(var(--c-mute));
+  }
+  .menu-product:hover,
+  .menu-range-item:hover {
+    color: rgb(var(--c-amber));
+  }
+  /* Call and Email side by side, Enquire now under them */
+  .menu-foot {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 10px;
+    margin-top: 14px;
+  }
+  .menu-quick {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    min-height: 48px;
+    border: 1px solid rgb(var(--c-bone) / 0.2);
+    border-radius: 999px;
+    font-family: var(--font-mono), "IBM Plex Mono", ui-monospace, monospace;
+    font-size: 0.75rem;
+    font-weight: 500;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    transition: border-color 0.4s var(--ease-film), background-color 0.4s var(--ease-film);
+  }
+  .menu-quick:hover {
+    border-color: rgb(var(--c-bone) / 0.5);
+    background: rgb(var(--c-bone) / 0.05);
+  }
+  .menu-quick svg {
+    color: rgb(var(--c-amber));
+  }
+  .menu-enquire {
+    grid-column: 1 / -1;
+  }
+  .menu-contact {
+    margin-top: 14px;
+    text-align: center;
+    color: rgb(var(--c-mute));
+    letter-spacing: 0.12em;
+  }
+  /* opening: the tiles settle into place one after another; closing: all at once */
+  .menu-item {
+    opacity: 0;
+    transform: translate3d(0, -12px, 0) scale(0.98);
+    transition: opacity 0.35s var(--ease-film), transform 0.35s var(--ease-film);
+  }
+  .menu.is-open .menu-item {
+    opacity: 1;
+    transform: none;
+    transition-duration: 0.6s;
+    transition-delay: calc(140ms + var(--i, 0) * 40ms);
+  }
+  /* tablets: a little more room under the sheet */
+  @media (min-width: 640px) {
+    .menu-sheet {
+      padding-bottom: 26px;
+    }
+  }
+  /* phones held sideways: shorter tiles and lines, so the sheet fits */
+  @media (max-height: 500px) {
+    .menu-line-name {
+      min-height: 48px;
+    }
+    .menu-tile {
+      min-height: 66px;
+      gap: 8px;
+      padding: 10px 12px 11px;
+    }
+    .menu-contact {
+      display: none;
+    }
+    /* Call, Email and Enquire now on one line */
+    .menu-foot {
+      grid-template-columns: 1fr 1fr 1.6fr;
+      margin-top: 10px;
+    }
+    .menu-enquire {
+      grid-column: auto;
+    }
+    .menu-head {
+      margin-bottom: 10px;
+    }
+  }
+
+  /* ---- Products sticky media --------------------------------------------- */
+  /* the line in view rolls up over the last one; the last one sinks back, dimmed, under it */
+  .product-media img {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    clip-path: inset(100% 0 0 0);
+    transform: scale(1.14);
+    filter: brightness(0.55);
+    transition: clip-path 1.25s cubic-bezier(0.7, 0, 0.2, 1), transform 1.8s var(--ease-film), filter 1.4s var(--ease-film);
+  }
+  .product-media img.was-active {
+    z-index: 1;
+    clip-path: inset(0 0 0 0);
+    transform: scale(1.03);
+    filter: brightness(0.45);
+    transition: transform 1.4s var(--ease-film), filter 1.2s var(--ease-film);
+  }
+  .product-media img.is-active {
+    z-index: 2;
+    clip-path: inset(0 0 0 0);
+    transform: scale(1);
+    filter: none;
+  }
+  @media (hover: hover) {
+    .product-media:hover img.is-active {
+      transform: scale(1.04);
+    }
+  }
+  .product-steps {
+    position: absolute;
+    top: 18px;
+    left: 18px;
+    z-index: 4;
+    display: flex;
+    gap: 6px;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+  .product-steps li {
+    width: 26px;
+    height: 2px;
+    border-radius: 1px;
+    background: rgb(var(--c-bone) / 0.3);
+    transition: background-color 0.6s var(--ease-film), width 0.6s var(--ease-film);
+  }
+  .product-steps li.is-on {
+    width: 44px;
+    background: rgb(var(--c-amber));
+  }
+
+  /* ---- Services: private label pipeline --------------------------------- */
+  /* The pipe: a dark steel tube; the oil fills it as the steps scroll past, with light
+     running along its surface, and a bright bead at its head. Each step lights as
+     the oil reaches it, with a ring that spreads once. */
+  .pipe {
+    border-radius: 3px;
+    background: linear-gradient(90deg, rgb(var(--c-plate)), rgb(var(--c-graphite)));
+    box-shadow: inset 0 0 0 1px rgb(var(--c-bone) / 0.08);
+  }
+  .pipe-fill,
+  .pipe-fill-v {
+    border-radius: 3px;
+    background:
+      linear-gradient(90deg, rgb(255 226 170 / 0) 0%, rgb(255 226 170 / 0.55) 50%, rgb(255 226 170 / 0) 100%) 0 0 / 38% 100% repeat-x,
+      linear-gradient(180deg, #f0d27a, rgb(var(--c-yellow)) 55%, #9c7a22);
+    box-shadow: 0 0 14px rgb(var(--c-yellow) / 0.35);
+  }
+  .pipe-fill {
+    transform-origin: left center;
+    transform: scaleX(var(--pipe-p, 0));
+  }
+  .pipe-fill-v {
+    transform-origin: top center;
+    transform: scaleY(var(--pipe-p, 0));
+    background:
+      linear-gradient(180deg, rgb(255 226 170 / 0) 0%, rgb(255 226 170 / 0.55) 50%, rgb(255 226 170 / 0) 100%) 0 0 / 100% 38% repeat-y,
+      linear-gradient(90deg, #f0d27a, rgb(var(--c-yellow)) 55%, #9c7a22);
+  }
+  html.motion .pipe-fill {
+    animation: oil-run-x 1.8s linear infinite;
+  }
+  html.motion .pipe-fill-v {
+    animation: oil-run-y 1.8s linear infinite;
+  }
+  @keyframes oil-run-x {
+    to {
+      background-position: 263% 0, 0 0;
+    }
+  }
+  @keyframes oil-run-y {
+    to {
+      background-position: 0 263%, 0 0;
+    }
+  }
+  .pipe-bead {
+    position: absolute;
+    left: 50%;
+    top: calc(var(--pipe-p, 0) * 100%);
+    width: 9px;
+    height: 9px;
+    margin: -4.5px 0 0 -4.5px;
+    border-radius: 50%;
+    background: radial-gradient(circle at 35% 35%, #fff4d6, rgb(var(--c-yellow)) 60%);
+    box-shadow: 0 0 12px 3px rgb(var(--c-amber) / 0.55);
+    opacity: calc(min(1, var(--pipe-p, 0) * 40) * (1 - max(0, var(--pipe-p, 0) - 0.995) * 200));
+  }
+  @media (min-width: 1024px) {
+    .pipe-bead {
+      top: 50%;
+      left: calc(var(--pipe-p, 0) * 100%);
+    }
+  }
+  .step {
+    transition: color 0.6s var(--ease-film), border-color 0.6s var(--ease-film);
+  }
+  .step .step-node {
+    transition: background-color 0.5s var(--ease-film), transform 0.5s var(--ease-film), border-color 0.5s var(--ease-film), box-shadow 0.8s var(--ease-film);
+  }
+  .step .step-node::after {
+    content: "";
+    position: absolute;
+    inset: -1px;
+    border-radius: 50%;
+    border: 1px solid rgb(var(--c-amber));
+    opacity: 0;
+  }
+  .step.is-reached .step-node {
+    background: rgb(var(--c-amber));
+    border-color: rgb(var(--c-amber));
+    transform: scale(1.15);
+    box-shadow: 0 0 16px rgb(var(--c-amber) / 0.5);
+  }
+  html.motion .step.is-reached .step-node::after {
+    animation: node-ring 1.1s var(--ease-film) both;
+  }
+  @keyframes node-ring {
+    0% {
+      opacity: 0.9;
+      transform: scale(1);
+    }
+    100% {
+      opacity: 0;
+      transform: scale(2.4);
+    }
+  }
+  .step.is-reached .step-index {
+    color: rgb(var(--c-amber));
+  }
+  .step h4 {
+    transition: color 0.6s var(--ease-film);
+  }
+  html.motion .step:not(.is-reached) h4 {
+    color: rgb(var(--c-bone) / 0.55);
+  }
+
+  /* ---- Form -------------------------------------------------------------- */
+  .field {
+    display: grid;
+    gap: 0.5rem;
+  }
+  .field label {
+    color: rgb(var(--c-mute));
+  }
+  .input {
+    width: 100%;
+    min-height: 48px;
+    background: transparent;
+    border: 0;
+    border-bottom: 1px solid rgb(var(--c-bone) / 0.22);
+    color: rgb(var(--c-bone));
+    padding: 0.6rem 0;
+    font-size: 1rem;
+    border-radius: 0;
+    transition: border-color 0.4s var(--ease-film);
+  }
+  .input:focus {
+    outline: none;
+    border-bottom-color: rgb(var(--c-amber));
+  }
+  .input::placeholder {
+    color: rgb(var(--c-bone) / 0.3);
+  }
+  select.input {
+    appearance: none;
+    background-image: linear-gradient(45deg, transparent 50%, rgb(var(--c-mute)) 50%), linear-gradient(135deg, rgb(var(--c-mute)) 50%, transparent 50%);
+    background-position: calc(100% - 12px) 55%, calc(100% - 7px) 55%;
+    background-size: 5px 5px;
+    background-repeat: no-repeat;
+  }
+  select.input option {
+    background: rgb(var(--c-graphite));
+  }
+  .input[aria-invalid="true"] {
+    border-bottom-color: #ff9a85;
+  }
+
+  /* ---- Contact: the plant at dusk behind the headline ----------------------------------
+     Cut to the frame's shape (4:5 on phones, 16:9 from 768px, 21:9 from 1024px), faded into the page at
+     its top and bottom, except around Flow's watermark in its corner (--keep). */
+  .contact-bg {
+    --keep: radial-gradient(9% 5.5% at 93.7% 96%, #000 62%, transparent 100%);
+    position: absolute;
+    inset: 0 0 auto;
+    z-index: -1;
+    aspect-ratio: 4 / 5;
+    overflow: hidden;
+    -webkit-mask-image: var(--keep), linear-gradient(180deg, transparent 0, #000 18%, #000 60%, transparent 100%);
+    mask-image: var(--keep), linear-gradient(180deg, transparent 0, #000 18%, #000 60%, transparent 100%);
+  }
+  .contact-bg img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: 100% 100%;
+    opacity: 0.72;
+  }
+  @media (min-width: 768px) {
+    .contact-bg {
+      --keep: radial-gradient(4.2% 6.5% at 97.2% 96%, #000 62%, transparent 100%);
+      aspect-ratio: 16 / 9;
+    }
+  }
+  @media (min-width: 1024px) {
+    .contact-bg {
+      --keep: radial-gradient(3.9% 8% at 97.4% 95%, #000 62%, transparent 100%);
+      aspect-ratio: 21 / 9;
+    }
+  }
+
+  /* ---- Showroom: the cards rise into place as the showroom scrolls up (--hs-in, showroom.ts) */
+  html.motion .hs-bays {
+    transform: translate3d(0, calc((1 - var(--hs-in, 1)) * 90px), 0);
+  }
+
+  /* ---- Cursor ------------------------------------------------------------ */
+  .cursor {
+    position: fixed;
+    left: 0;
+    top: 0;
+    width: 36px;
+    height: 36px;
+    margin: -18px 0 0 -18px;
+    border: 1px solid rgb(var(--c-bone) / 0.5);
+    border-radius: 50%;
+    pointer-events: none;
+    z-index: 90;
+    opacity: 0;
+    transition: width 0.4s var(--ease-film), height 0.4s var(--ease-film), margin 0.4s var(--ease-film), opacity 0.4s, background-color 0.4s, border-color 0.4s;
+    mix-blend-mode: difference;
+  }
+  .cursor.is-visible {
+    opacity: 1;
+  }
+  .cursor.is-hover {
+    width: 64px;
+    height: 64px;
+    margin: -32px 0 0 -32px;
+    background: rgb(var(--c-bone) / 0.9);
+    border-color: transparent;
+  }
+}
+
+/* ---- Pages ----------------------------------------------------------------------------
+   Every page but Home opens with a page header (PageHeader.tsx): breadcrumbs, a label, the h1,
+   a sentence, buttons, sometimes a picture beside it and a row of facts under it. */
+@layer components {
+  /* between sections: 72px on phones, up to 200px on large screens */
+  .section {
+    padding-block: clamp(72px, 13vw, 200px);
+  }
+  .section-tight {
+    padding-block: clamp(40px, 6vw, 88px) clamp(80px, 11vw, 160px);
+  }
+  .page-head {
+    padding-top: calc(var(--nav-h) + env(safe-area-inset-top, 0px) + clamp(28px, 5vw, 72px));
+    padding-bottom: clamp(56px, 8vw, 112px);
+  }
+  .page-title {
+    font-size: clamp(min(1.95rem, 8vw), 4.5vw, 4.6rem);
+    line-height: 0.95;
+  }
+  .article-title {
+    font-size: clamp(min(1.8rem, 7.4vw), 3.7vw, 3.8rem);
+  }
+
+  /* breadcrumbs */
+  .crumbs ol {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    row-gap: 0.4rem;
+  }
+  .crumbs li {
+    display: inline-flex;
+    align-items: center;
+    min-width: 0;
+  }
+  .crumbs a {
+    color: rgb(var(--c-mute));
+    transition: color 0.3s var(--ease-film);
+  }
+  .crumbs a:hover {
+    color: rgb(var(--c-bone));
+  }
+  .crumbs [aria-current] {
+    color: rgb(var(--c-bone) / 0.85);
+    max-width: min(46ch, 70vw);
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+  .crumbs-sep {
+    margin-inline: 0.7em;
+    color: rgb(var(--c-bone) / 0.25);
+  }
+
+  /* facts under a page header: 2 across on phones, 4 from 1024px, hairlines between */
+  .facts {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    margin-top: clamp(48px, 6vw, 88px);
+    border-top: 1px solid rgb(var(--c-bone) / 0.12);
+  }
+  .facts-item {
+    display: flex;
+    flex-direction: column-reverse;
+    justify-content: flex-end;
+    gap: 0.8rem;
+    padding: 1.4rem 1rem 1.4rem 0;
+  }
+  .facts-item:nth-child(even) {
+    border-left: 1px solid rgb(var(--c-bone) / 0.12);
+    padding-left: 1.25rem;
+  }
+  .facts-item:nth-child(n + 3) {
+    border-top: 1px solid rgb(var(--c-bone) / 0.12);
+  }
+  .facts-value {
+    font-size: clamp(1.35rem, 2.6vw, 2.4rem);
+    line-height: 1;
+    overflow-wrap: anywhere;
+  }
+  @media (min-width: 1024px) {
+    .facts {
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+    }
+    .facts-item {
+      padding: 1.75rem 1.5rem 1.75rem 1.75rem;
+      border-left: 1px solid rgb(var(--c-bone) / 0.12);
+    }
+    .facts-item:first-child {
+      border-left: 0;
+      padding-left: 0;
+    }
+    .facts-item:nth-child(n + 3) {
+      border-top: 0;
+    }
+  }
+
+  /* tags */
+  .chip {
+    display: inline-flex;
+    align-items: center;
+    font-family: var(--font-mono), "IBM Plex Mono", ui-monospace, monospace;
+    font-size: 0.6875rem;
+    line-height: 1.2;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    font-weight: 500;
+    border: 1px solid rgb(var(--c-bone) / 0.2);
+    border-radius: 999px;
+    padding: 0.7rem 1rem;
+    color: rgb(var(--c-bone) / 0.85);
+  }
+  .chip-link {
+    transition: border-color 0.4s var(--ease-film), color 0.4s var(--ease-film), background-color 0.4s var(--ease-film);
+  }
+  .chip-link:hover {
+    border-color: rgb(var(--c-amber));
+    color: rgb(var(--c-bone));
+    background: rgb(var(--c-amber) / 0.08);
+  }
+
+  /* a grid of panels with hairlines between them */
+  .cells {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    gap: 1px;
+    background: rgb(var(--c-bone) / 0.12);
+    border: 1px solid rgb(var(--c-bone) / 0.12);
+  }
+  .cell {
+    background: rgb(var(--c-ink));
+    padding: clamp(26px, 3vw, 44px);
+  }
+
+  /* lists with a short amber rule for a bullet */
+  .ticks {
+    display: grid;
+    gap: 0.7rem;
+  }
+  .ticks li {
+    position: relative;
+    padding-left: 1.5rem;
+    color: rgb(var(--c-bone) / 0.85);
+    line-height: 1.55;
+  }
+  .ticks li::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 0.72em;
+    width: 0.75rem;
+    height: 1px;
+    background: rgb(var(--c-bone) / 0.4);
+  }
+  .ticks-amber li::before {
+    background: rgb(var(--c-amber));
+  }
+  /* ---- Home's welcome: the lead beside the picture, then three cards (R&D, private label,
+     the markets), each with a yellow rule along its top */
+  .welcome-lead {
+    max-width: 36rem;
+    font-size: clamp(1.05rem, 1.35vw, 1.2rem);
+    line-height: 1.7;
+    color: rgb(var(--c-bone) / 0.86);
+  }
+  /* the welcome's paragraphs, justified, with hyphens so the spacing stays even */
+  .welcome-lead,
+  .welcome-card-body {
+    text-align: justify;
+    text-justify: inter-word;
+    -webkit-hyphens: auto;
+    hyphens: auto;
+  }
+  .welcome-cards {
+    display: grid;
+    gap: 16px;
+  }
+  @media (min-width: 900px) {
+    .welcome-cards {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 20px;
+    }
+  }
+  .welcome-card {
+    position: relative;
+    padding: clamp(22px, 2.4vw, 30px);
+    border: 1px solid rgb(var(--c-bone) / 0.1);
+    border-top: 3px solid rgb(var(--c-yellow));
+    border-radius: 4px 4px 14px 14px;
+    background: rgb(var(--c-graphite));
+  }
+  .welcome-icon {
+    display: grid;
+    place-items: center;
+    width: 46px;
+    height: 46px;
+    border-radius: 999px;
+    background: rgb(var(--c-yellow) / 0.14);
+    box-shadow: inset 0 0 0 1px rgb(var(--c-yellow) / 0.4);
+    color: rgb(var(--c-yellow));
+  }
+  .welcome-card-title {
+    margin-top: 1.1rem;
+    font-size: clamp(1.05rem, 1.5vw, 1.3rem);
+    line-height: 1.1;
+  }
+  .welcome-card-body {
+    margin-top: 0.75rem;
+    font-size: 0.94rem;
+    line-height: 1.65;
+    color: rgb(var(--c-mute));
+  }
+
+  /* ---- Boxes: Home's industries and service tiles, the Services page's cards and About's three
+     ways to formulate. A slightly lighter panel, rounded, with a warm glow in its top-left corner;
+     it lifts a little on hover. */
+  .ind-box,
+  .svc-tile,
+  .svc-card,
+  .route {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    border: 1px solid rgb(var(--c-bone) / 0.1);
+    border-radius: 16px;
+    background:
+      radial-gradient(120% 70% at 0% 0%, rgb(var(--c-amber) / 0.07), transparent 60%),
+      linear-gradient(180deg, rgb(var(--c-graphite)), rgb(var(--c-ink)));
+    transition: border-color 0.5s var(--ease-film), transform 0.6s var(--ease-film);
+  }
+  @media (hover: hover) and (pointer: fine) {
+    .svc-tile:hover,
+    .svc-card:hover {
+      border-color: rgb(var(--c-amber) / 0.5);
+      transform: translateY(-4px);
+    }
+  }
+  .ind-top,
+  .svc-tile-top {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 0.5rem;
+  }
+  .ind-icon,
+  .svc-icon,
+  .route-icon {
+    display: inline-flex;
+    color: rgb(var(--c-amber));
+  }
+  /* on phones, a short line; from 640px, the full description */
+  .svc-short,
+  .route-short {
+    margin-top: 0.45rem;
+    font-size: 0.8rem;
+    line-height: 1.45;
+    color: rgb(var(--c-mute));
+  }
+  .svc-text,
+  .route-body {
+    display: none;
+  }
+  .ind-body {
+    margin-top: 0.45rem;
+    font-size: 0.8rem;
+    line-height: 1.45;
+    color: rgb(var(--c-mute));
+  }
+  @media (min-width: 640px) {
+    .svc-short,
+    .route-short {
+      display: none;
+    }
+    .ind-body,
+    .svc-text,
+    .route-body {
+      display: block;
+      margin-top: 0.85rem;
+      font-size: 0.9rem;
+      line-height: 1.6;
+      color: rgb(var(--c-mute));
+    }
+  }
+
+  /* Home, industries: 2 × 2 up to 1024px, then four in a row, each with the live site's description */
+  .ind-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 10px;
+  }
+  .ind-box {
+    padding: 16px 14px 14px;
+  }
+  .ind-title {
+    margin-top: 1.1rem;
+    font-size: clamp(0.85rem, 3.9vw, 1.2rem);
+    line-height: 1.1;
+  }
+  @media (min-width: 640px) {
+    .ind-grid {
+      gap: 16px;
+    }
+    .ind-box {
+      padding: 26px 24px 22px;
+      border-radius: 20px;
+    }
+    .ind-title {
+      margin-top: 1.6rem;
+      font-size: 1.35rem;
+    }
+  }
+  @media (min-width: 1024px) {
+    .ind-grid {
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 18px;
+    }
+    .ind-title {
+      font-size: clamp(1.05rem, 1.55vw, 1.45rem);
+    }
+  }
+
+  /* Home, services: two columns on phones (the fifth across both), 3 + 2 from 640px, five in a row
+     from 1024px */
+  .svc-strip {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 10px;
+  }
+  @media (max-width: 639px) {
+    .svc-strip > :last-child:nth-child(odd) {
+      grid-column: 1 / -1;
+    }
+  }
+  .svc-tile {
+    padding: 16px 14px 16px;
+  }
+  .svc-tile-title {
+    margin-top: 1.1rem;
+    font-size: clamp(0.85rem, 3.8vw, 1.15rem);
+    line-height: 1.1;
+  }
+  @media (min-width: 640px) and (max-width: 1023px) {
+    .svc-strip {
+      grid-template-columns: repeat(6, minmax(0, 1fr));
+      gap: 16px;
+    }
+    .svc-strip > * {
+      grid-column: span 2;
+    }
+    .svc-strip > :nth-child(n + 4) {
+      grid-column: span 3;
+    }
+  }
+  @media (min-width: 640px) {
+    .svc-tile {
+      padding: 24px 22px;
+      border-radius: 20px;
+    }
+    .svc-tile-title {
+      margin-top: 1.5rem;
+      font-size: 1.25rem;
+    }
+  }
+  @media (min-width: 1024px) {
+    .svc-strip {
+      grid-template-columns: repeat(5, minmax(0, 1fr));
+      gap: 14px;
+    }
+    .svc-tile {
+      padding: 22px 18px;
+    }
+    .svc-tile-title {
+      font-size: clamp(0.9rem, 1.2vw, 1.2rem);
+    }
+    .svc-tile .svc-text {
+      font-size: 0.85rem;
+    }
+  }
+
+  /* Services page: picture cards, two columns (phones and tablets), three from 1024px */
+  .svc-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 10px;
+  }
+  .svc-card {
+    overflow: hidden;
+  }
+  .svc-media {
+    aspect-ratio: 4 / 3;
+  }
+  @media (hover: hover) and (pointer: fine) {
+    .svc-card:hover .svc-media img {
+      transform: scale(1.04);
+    }
+  }
+  .svc-num {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    z-index: 4;
+    padding: 0.4rem 0.65rem;
+    border-radius: 999px;
+    background: rgb(var(--c-deep) / 0.72);
+    -webkit-backdrop-filter: blur(8px);
+    backdrop-filter: blur(8px);
+    color: rgb(var(--c-bone));
+  }
+  .svc-body {
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 13px 12px 14px;
+  }
+  .svc-body .svc-icon {
+    display: none;
+  }
+  .svc-title {
+    font-size: clamp(0.85rem, 3.7vw, 1.15rem);
+    line-height: 1.12;
+  }
+  .svc-more {
+    display: none;
+  }
+  .svc-detail {
+    margin-top: 0.7rem;
+    max-width: 100%;
+  }
+  /* the placeholder runs as text in a narrow card, so it wraps like a sentence */
+  .svc-detail .placeholder {
+    display: block;
+  }
+  .svc-detail .placeholder::before {
+    margin-right: 0.5rem;
+  }
+  .svc-enquire {
+    position: relative;
+    z-index: 7;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-top: auto;
+    padding-top: 0.95rem;
+    color: rgb(var(--c-bone));
+    transition: color 0.4s var(--ease-film);
+  }
+  .svc-enquire:hover {
+    color: rgb(var(--c-amber));
+  }
+  .svc-enquire:hover .arrow {
+    transform: translateX(4px);
+  }
+  /* the sixth card: a way to get in touch */
+  .svc-cta {
+    justify-content: flex-end;
+    padding: 16px 14px;
+    border-color: rgb(var(--c-amber) / 0.32);
+    background:
+      radial-gradient(90% 70% at 100% 100%, rgb(var(--c-amber) / 0.3), transparent 70%),
+      linear-gradient(160deg, rgb(var(--c-plate)), rgb(var(--c-graphite)));
+  }
+  .svc-cta-title {
+    margin-top: 0.7rem;
+    font-size: clamp(1rem, 4.6vw, 1.4rem);
+    line-height: 1.02;
+  }
+  .svc-cta .svc-cta-text {
+    display: block;
+  }
+  .svc-cta-btn {
+    align-self: stretch;
+    min-height: 42px;
+    margin-top: 1rem;
+    padding: 0 0.9rem;
+  }
+  @media (min-width: 640px) {
+    .svc-grid {
+      gap: 18px;
+    }
+    .svc-card {
+      border-radius: 20px;
+    }
+    .svc-num {
+      top: 14px;
+      left: 14px;
+    }
+    .svc-body {
+      padding: 22px 22px 22px;
+    }
+    .svc-body .svc-icon {
+      display: inline-flex;
+    }
+    .svc-title {
+      margin-top: 1rem;
+      font-size: clamp(1.2rem, 2.3vw, 1.6rem);
+    }
+    .svc-cta {
+      padding: 28px;
+    }
+    .svc-cta-title {
+      font-size: clamp(1.6rem, 3vw, 2.5rem);
+    }
+    .svc-cta .svc-cta-text {
+      margin-top: 0.85rem;
+      font-size: 0.95rem;
+    }
+    .svc-cta-btn {
+      align-self: flex-start;
+      min-height: 48px;
+      margin-top: 1.5rem;
+      padding: 0 1.4rem;
+    }
+  }
+  @media (min-width: 768px) {
+    .svc-more {
+      display: grid;
+      gap: 0.5rem;
+      margin-top: 1rem;
+      font-size: 0.875rem;
+    }
+  }
+  @media (min-width: 1024px) {
+    .svc-grid {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 22px;
+    }
+  }
+
+  /* Home: private label in brief, picture beside text */
+  .feature {
+    display: grid;
+    border: 1px solid rgb(var(--c-bone) / 0.12);
+    border-radius: 6px;
+    overflow: hidden;
+    background: rgb(var(--c-graphite) / 0.5);
+  }
+  .feature > .media {
+    border-radius: 0;
+  }
+  /* the photo: 4:3 on phones and tablets; from 1024px it fills its half of the card, top to
+     bottom (cropped from the left and top, so Flow's mark in the bottom-right corner stays) */
+  .feature-media {
+    aspect-ratio: 4 / 3;
+  }
+  .feature-body {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: clamp(28px, 5vw, 72px);
+  }
+  @media (min-width: 1024px) {
+    .feature {
+      grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    }
+    .feature-media {
+      aspect-ratio: auto;
+      height: 100%;
+      min-height: 440px;
+    }
+  }
+
+  /* ---- Line pages (LinePage.tsx) -----------------------------------------------------------
+     The top, on navy: the words, the line's picture (4:3 on phones; from 1024px 4:5 beside the
+     words, its left edge cut on the slant like the logo's plate) and an index of the products
+     (pills on phones, two columns from 640px, four from 1024px). Then the products as data
+     sheets, white on the pale band; the industries; guides; questions; the other lines. */
+  .lp-hero {
+    position: relative;
+    padding-top: calc(var(--nav-h) + env(safe-area-inset-top, 0px) + clamp(24px, 4.5vw, 60px));
+    padding-bottom: clamp(44px, 6vw, 88px);
+    overflow: hidden;
+  }
+  .lp-hero-grid {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    grid-template-areas: "text" "fig" "index";
+    row-gap: clamp(30px, 5vw, 44px);
+  }
+  .lp-hero-text {
+    grid-area: text;
+    min-width: 0;
+  }
+  .lp-hero-fig {
+    grid-area: fig;
+    min-width: 0;
+  }
+  .lp-index {
+    grid-area: index;
+    min-width: 0;
+  }
+  .lp-lead {
+    max-width: 34rem;
+    margin-top: 1.6rem;
+    font-size: clamp(1.05rem, 1.35vw, 1.2rem);
+    line-height: 1.6;
+    color: rgb(var(--c-bone) / 0.8);
+  }
+  /* phones: the two buttons side by side (the arrows go below 480px, so both labels fit) */
+  .lp-ctas {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 10px;
+    margin-top: 2rem;
+  }
+  .lp-ctas .btn {
+    padding: 0 12px;
+    gap: 10px;
+    letter-spacing: 0.12em;
+  }
+  @media (max-width: 479px) {
+    .lp-ctas .btn .arrow {
+      display: none;
+    }
+  }
+  @media (min-width: 640px) {
+    .lp-ctas {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-top: 2.25rem;
+    }
+    .lp-ctas .btn {
+      padding: 0 1.4rem;
+      gap: 0.75rem;
+      letter-spacing: 0.16em;
+    }
+  }
+  .lp-hero-media {
+    aspect-ratio: 4 / 3;
+    border-radius: 14px;
+  }
+  @media (min-width: 1024px) {
+    .lp-hero-grid {
+      grid-template-columns: minmax(0, 7fr) minmax(0, 5fr);
+      grid-template-areas: "text fig" "index index";
+      column-gap: clamp(40px, 5vw, 88px);
+      row-gap: clamp(40px, 4vw, 56px);
+    }
+    .lp-hero-text {
+      align-self: center;
+    }
+    .lp-hero-frame {
+      clip-path: polygon(clamp(40px, 4.2vw, 64px) 0, 100% 0, 100% 100%, 0 100%);
+    }
+    .lp-hero-media {
+      aspect-ratio: 4 / 5;
+      border-radius: 0;
+    }
+  }
+
+  /* the index: pills on phones; from 640px rows with a rule above each, the number in yellow and
+     an arrow on hover */
+  .lp-index-label {
+    color: rgb(var(--c-mute));
+  }
+  .lp-index-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-top: 1rem;
+  }
+  .lp-index-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.7rem;
+    min-height: 42px;
+    padding: 0.5rem 1rem;
+    border: 1px solid rgb(var(--c-bone) / 0.24);
+    border-radius: 999px;
+    font-size: 0.875rem;
+    line-height: 1.25;
+    color: rgb(var(--c-bone));
+    transition: border-color 0.4s var(--ease-film), background-color 0.4s var(--ease-film);
+  }
+  .lp-index-link:hover {
+    border-color: rgb(var(--c-amber));
+    background: rgb(var(--c-bone) / 0.06);
+  }
+  .lp-index-num,
+  .lp-index-arrow {
+    display: none;
+  }
+  @media (min-width: 640px) {
+    .lp-index-list {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 0 clamp(16px, 2.4vw, 32px);
+    }
+    .lp-index-link {
+      display: flex;
+      width: 100%;
+      min-height: 56px;
+      padding: 0.7rem 0;
+      border: 0;
+      border-top: 1px solid rgb(var(--c-bone) / 0.18);
+      border-radius: 0;
+      font-size: 0.95rem;
+    }
+    .lp-index-link:hover {
+      background: none;
+      border-top-color: rgb(var(--c-amber));
+    }
+    .lp-index-num {
+      display: inline;
+      flex: none;
+      min-width: 3.3rem;
+      color: rgb(var(--c-amber));
+    }
+    .lp-index-arrow {
+      display: inline-block;
+      flex: none;
+      margin-left: auto;
+      color: rgb(var(--c-amber));
+      opacity: 0;
+      transform: translate3d(-6px, 0, 0);
+      transition: opacity 0.4s var(--ease-film), transform 0.4s var(--ease-film);
+    }
+    .lp-index-link:hover .lp-index-arrow,
+    .lp-index-link:focus-visible .lp-index-arrow {
+      opacity: 1;
+      transform: none;
+    }
+  }
+  @media (min-width: 1024px) {
+    .lp-index-list {
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+    }
+  }
+
+  /* the products: a data sheet for each, white on the pale band, one column on phones and two from
+     900px; the formulation card fills the last place, or runs across after an even number */
+  .lp-products {
+    padding-block: clamp(64px, 9vw, 136px);
+  }
+  /* the live site's line under the page title, under the heading */
+  .lp-strap {
+    max-width: 44rem;
+    margin-top: 1.25rem;
+    color: rgb(var(--c-mute));
+    font-size: clamp(0.95rem, 1.2vw, 1.05rem);
+    line-height: 1.6;
+  }
+  .lp-grid {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    gap: 14px;
+  }
+  @media (min-width: 900px) {
+    .lp-grid {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 20px;
+    }
+    .lp-grid > .lp-more:nth-child(odd) {
+      grid-column: 1 / -1;
+    }
+  }
+  .lp-card {
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+    padding: clamp(22px, 2.6vw, 36px);
+    border: 1px solid rgb(var(--c-navy) / 0.1);
+    border-top: 3px solid rgb(var(--c-yellow));
+    border-radius: 4px 4px 16px 16px;
+    background: rgb(var(--c-graphite));
+    scroll-margin-top: calc(var(--nav-h) + 16px);
+  }
+  .lp-num {
+    color: rgb(var(--c-amber));
+  }
+  .lp-name {
+    margin-top: 0.75rem;
+    font-size: clamp(1.45rem, 2.3vw, 2.1rem);
+    line-height: 1;
+  }
+  .lp-about {
+    max-width: 62ch;
+    margin-top: 1rem;
+    color: rgb(var(--c-mute));
+    line-height: 1.65;
+  }
+  /* the sheet's rows: the name of the row above its contents on phones, beside them from 560px */
+  .lp-spec {
+    margin-top: 1.6rem;
+    border-top: 1px solid rgb(var(--c-navy) / 0.12);
+  }
+  .lp-row {
+    display: grid;
+    gap: 0.75rem;
+    padding: 1.05rem 0;
+    border-bottom: 1px solid rgb(var(--c-navy) / 0.12);
+  }
+  .lp-row dt {
+    color: rgb(var(--c-mute));
+  }
+  @media (min-width: 560px) {
+    .lp-row {
+      grid-template-columns: 9.5rem minmax(0, 1fr);
+      gap: 1.25rem;
+    }
+    .lp-row dt {
+      padding-top: 0.3em;
+    }
+  }
+  /* grades as navy tiles: 32 · 46 · 68 */
+  .lp-grades {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+  .lp-grade {
+    display: grid;
+    place-items: center;
+    min-width: 3.5rem;
+    height: 3rem;
+    padding: 0 0.85rem;
+    border-radius: 8px;
+    background: rgb(var(--c-navy));
+    color: #0c0b09;
+    font-size: 1.15rem;
+  }
+  .lp-variants {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+  .lp-variants li {
+    padding: 0.45rem 0.85rem;
+    border-radius: 999px;
+    background: rgb(var(--c-navy) / 0.07);
+    font-size: 0.875rem;
+    line-height: 1.3;
+  }
+  /* the products available under it: name, then the live site's description */
+  .lp-range li {
+    display: grid;
+    gap: 0.2rem;
+    padding: 0.7rem 0;
+    border-top: 1px dashed rgb(var(--c-navy) / 0.16);
+  }
+  .lp-range li:first-child {
+    padding-top: 0;
+    border-top: 0;
+  }
+  .lp-range li:last-child {
+    padding-bottom: 0;
+  }
+  .lp-range-name {
+    font-weight: 600;
+    line-height: 1.3;
+  }
+  .lp-range-text {
+    font-size: 0.9rem;
+    line-height: 1.45;
+    color: rgb(var(--c-mute));
+  }
+  .lp-ticks {
+    gap: 0.45rem;
+  }
+  .lp-ticks li {
+    font-size: 0.95rem;
+  }
+  /* the foot: Enquire, and what is still to be confirmed (beside it from 480px, on its right) */
+  .lp-foot {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 10px 14px;
+    margin-top: auto;
+    padding-top: 1.6rem;
+  }
+  .lp-btn {
+    min-height: 44px;
+    padding: 0 1.2rem;
+  }
+  .lp-tbc {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+  }
+  @media (min-width: 480px) {
+    .lp-foot {
+      display: grid;
+      grid-template-columns: auto minmax(0, 1fr);
+    }
+    .lp-tbc {
+      justify-content: flex-end;
+    }
+  }
+
+  /* products to the customer's formulation, on navy */
+  .lp-more {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    gap: 1.75rem;
+    padding: clamp(24px, 3vw, 40px);
+    border-top: 3px solid rgb(var(--c-yellow));
+    border-radius: 4px 4px 16px 16px;
+    background-image: radial-gradient(90% 80% at 100% 0%, rgb(255 255 255 / 0.09), transparent 62%);
+  }
+  .lp-more-title {
+    margin-top: 0.9rem;
+    font-size: clamp(1.45rem, 2.3vw, 2.1rem);
+    line-height: 1.02;
+  }
+  .lp-more-body {
+    max-width: 44ch;
+    margin-top: 1rem;
+    color: rgb(var(--c-bone) / 0.8);
+    line-height: 1.6;
+  }
+  .lp-more-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+  @media (min-width: 900px) {
+    .lp-grid > .lp-more:nth-child(odd) {
+      flex-direction: row;
+      align-items: flex-end;
+    }
+  }
+
+  /* the industries the line serves: the heading beside the cards from 1024px */
+  .lp-ind {
+    display: grid;
+    gap: clamp(32px, 4vw, 48px);
+  }
+  .lp-ind-title {
+    font-size: clamp(min(2rem, 8.4vw), 3.6vw, 3.5rem);
+    line-height: 0.95;
+  }
+  .lp-ind-list {
+    display: grid;
+    gap: 14px;
+  }
+  /* a card: the icon beside the name, the description under both on phones; from 640px the icon
+     beside both */
+  .lp-ind-card {
+    display: grid;
+    grid-template-columns: auto minmax(0, 1fr);
+    grid-template-areas: "icon name" "body body";
+    align-items: center;
+    gap: 14px 16px;
+    padding: clamp(20px, 2.4vw, 30px);
+    border: 1px solid rgb(var(--c-bone) / 0.14);
+    border-radius: 16px;
+    background: rgb(var(--c-deep) / 0.35);
+  }
+  .lp-ind-icon {
+    grid-area: icon;
+    display: grid;
+    place-items: center;
+    width: 52px;
+    height: 52px;
+    border-radius: 999px;
+    background: rgb(var(--c-yellow));
+    color: rgb(var(--c-deep));
+  }
+  .lp-ind-name {
+    grid-area: name;
+    font-size: clamp(1.15rem, 1.6vw, 1.4rem);
+    line-height: 1.1;
+  }
+  .lp-ind-body {
+    grid-area: body;
+    color: rgb(var(--c-bone) / 0.8);
+    line-height: 1.6;
+  }
+  @media (min-width: 640px) {
+    .lp-ind-card {
+      grid-template-areas: "icon name" "icon body";
+      grid-template-rows: auto 1fr;
+      align-items: start;
+      column-gap: 18px;
+      row-gap: 0.6rem;
+    }
+    .lp-ind-name {
+      padding-top: 0.2rem;
+    }
+  }
+  @media (min-width: 1024px) {
+    .lp-ind {
+      grid-template-columns: minmax(0, 5fr) minmax(0, 7fr);
+      column-gap: clamp(40px, 5vw, 88px);
+      align-items: start;
+    }
+  }
+
+  /* Products page: every product as a card (two columns on phones, three from 768px, four from
+     1024px), its line as a badge with the line's own dot; the name links to its place on the line's
+     page, Enquire to the form */
+  .pgrid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 10px;
+  }
+  @media (min-width: 768px) {
+    .pgrid {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 14px;
+    }
+  }
+  @media (min-width: 1024px) {
+    .pgrid {
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 16px;
+    }
+  }
+  .pcard {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    min-height: 100%;
+    padding: 14px 13px 13px;
+    border: 1px solid rgb(var(--c-bone) / 0.1);
+    border-radius: 14px;
+    background: linear-gradient(180deg, rgb(var(--c-graphite)), rgb(var(--c-ink)));
+    transition: border-color 0.5s var(--ease-film), transform 0.6s var(--ease-film);
+  }
+  @media (hover: hover) and (pointer: fine) {
+    .pcard:hover {
+      border-color: rgb(var(--c-amber) / 0.5);
+      transform: translateY(-3px);
+    }
+  }
+  @media (min-width: 640px) {
+    .pcard {
+      padding: 20px 20px 18px;
+      border-radius: 18px;
+    }
+  }
+  .pcard-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.45rem;
+    padding: 0.36rem 0.6rem;
+    border: 1px solid rgb(var(--c-bone) / 0.12);
+    border-radius: 999px;
+    font-size: 0.6rem;
+    color: rgb(var(--c-bone) / 0.8);
+  }
+  .pcard-badge::before {
+    content: "";
+    width: 6px;
+    height: 6px;
+    border-radius: 999px;
+    background: var(--line-dot, rgb(var(--c-amber)));
+  }
+  .pcard-badge[data-line="construction"] {
+    --line-dot: #9aa7b1;
+  }
+  .pcard-badge[data-line="aerosols"] {
+    --line-dot: #d0673f;
+  }
+  .pcard-title {
+    margin-top: 0.9rem;
+    font-size: 0.98rem;
+    font-weight: 600;
+    line-height: 1.25;
+    color: rgb(var(--c-bone));
+  }
+  .pcard-title a {
+    transition: color 0.3s var(--ease-film);
+  }
+  .pcard:hover .pcard-title a {
+    color: rgb(var(--c-amber));
+  }
+  .pcard-variants {
+    margin-top: 0.45rem;
+    font-size: 0.82rem;
+    line-height: 1.5;
+    color: rgb(var(--c-bone) / 0.78);
+  }
+  .pcard-enquire {
+    position: relative;
+    z-index: 7;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-top: auto;
+    padding-top: 0.9rem;
+    color: rgb(var(--c-bone) / 0.9);
+    transition: color 0.3s var(--ease-film);
+  }
+  .pcard-enquire:hover {
+    color: rgb(var(--c-amber));
+  }
+  @media (min-width: 640px) {
+    .pcard-title {
+      margin-top: 1.2rem;
+      font-size: 1.1rem;
+    }
+    .pcard-variants {
+      font-size: 0.875rem;
+    }
+  }
+
+  /* questions and answers (Faq.tsx): native <details> */
+  .faq {
+    border-top: 1px solid rgb(var(--c-bone) / 0.12);
+  }
+  .faq-item {
+    border-bottom: 1px solid rgb(var(--c-bone) / 0.12);
+  }
+  .faq-q {
+    display: grid;
+    grid-template-columns: 2.25rem minmax(0, 1fr) 1.5rem;
+    align-items: baseline;
+    gap: 0.75rem;
+    padding: 1.5rem 0;
+    cursor: pointer;
+    list-style: none;
+    font-size: clamp(1.05rem, 1.5vw, 1.25rem);
+    font-weight: 500;
+    line-height: 1.4;
+  }
+  .faq-q::-webkit-details-marker {
+    display: none;
+  }
+  .faq-q:hover .faq-text {
+    color: rgb(var(--c-amber));
+  }
+  .faq-text {
+    transition: color 0.3s var(--ease-film);
+  }
+  .faq-n {
+    color: rgb(var(--c-mute));
+  }
+  .faq-icon {
+    position: relative;
+    align-self: center;
+    width: 14px;
+    height: 14px;
+  }
+  .faq-icon::before,
+  .faq-icon::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 50%;
+    height: 1.2px;
+    background: rgb(var(--c-amber));
+    transition: transform 0.5s var(--ease-film);
+  }
+  .faq-icon::after {
+    transform: rotate(90deg);
+  }
+  .faq-item[open] .faq-icon::after {
+    transform: rotate(0deg);
+  }
+  .faq-a {
+    padding: 0 2.25rem 1.75rem 3rem;
+    color: rgb(var(--c-mute));
+    line-height: 1.7;
+    max-width: 44rem;
+  }
+  .faq-item[open] .faq-a {
+    animation: faq-open 0.6s var(--ease-film) both;
+  }
+  /* the page that says more */
+  .faq-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    margin-top: 1rem;
+    color: rgb(var(--c-amber));
+  }
+  .faq-link .arrow {
+    transition: transform 0.4s var(--ease-film);
+  }
+  .faq-link:hover .arrow {
+    transform: translateX(4px);
+  }
+  @keyframes faq-open {
+    from {
+      opacity: 0;
+      transform: translate3d(0, -6px, 0);
+    }
+  }
+
+  /* the band that closes a page */
+  .cta-band {
+    background-color: rgb(var(--c-ink));
+    position: relative;
+    isolation: isolate;
+    overflow: hidden;
+  }
+  .theme-yellow .cta-glow {
+    display: none;
+  }
+  .cta-glow {
+    position: absolute;
+    inset: auto -20% -60% -20%;
+    height: 90%;
+    z-index: -1;
+    background: radial-gradient(50% 50% at 30% 50%, rgb(var(--c-amber) / 0.14), transparent 70%);
+    pointer-events: none;
+  }
+  /* the line has the full width to itself; sized so "recommendation?" fits it from 768px up
+     (and fitted by fit.ts wherever it would not) */
+  .cta-title {
+    margin-top: clamp(2.5rem, 5vw, 4rem);
+    font-size: clamp(min(2rem, 8.4vw), 6.6vw, 6.75rem);
+    line-height: 0.9;
+  }
+  .cta-foot {
+    display: grid;
+    gap: 1.75rem;
+    margin-top: clamp(2.25rem, 5vw, 4rem);
+    padding-top: clamp(1.5rem, 3vw, 2.25rem);
+    border-top: 1px solid rgb(var(--c-bone) / 0.12);
+  }
+  @media (min-width: 900px) {
+    .cta-foot {
+      grid-template-columns: minmax(0, 1fr) auto;
+      align-items: end;
+      gap: 3rem;
+    }
+  }
+  .cta-body {
+    max-width: 36rem;
+    color: rgb(var(--c-mute));
+    font-size: 1.0625rem;
+    line-height: 1.6;
+  }
+  .cta-reach {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem 0.75rem;
+    margin-top: 1.1rem;
+    color: rgb(var(--c-mute));
+  }
+  .cta-reach a {
+    transition: color 0.4s var(--ease-film);
+  }
+  .cta-reach a:hover {
+    color: rgb(var(--c-amber));
+  }
+  /* home: where we are, word for word as on the Contact page, each line opening its map */
+  .cta-places {
+    display: grid;
+    gap: 0.55rem;
+    margin-top: 1.4rem;
+    max-width: 36rem;
+    font-style: normal;
+    font-size: 0.9375rem;
+    line-height: 1.55;
+    color: rgb(var(--c-mute));
+  }
+  .cta-places a {
+    display: grid;
+    grid-template-columns: 4.75rem minmax(0, 1fr);
+    gap: 0.75rem;
+    align-items: baseline;
+    transition: color 0.4s var(--ease-film);
+  }
+  .cta-places a:hover {
+    color: rgb(var(--c-bone));
+  }
+  .cta-places .label {
+    color: rgb(var(--c-amber) / 0.9);
+  }
+  .cta-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+  }
+  /* phones: the enquiry across the width, call and WhatsApp side by side under it */
+  @media (max-width: 599px) {
+    .cta-actions {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+    }
+    .cta-actions .btn-primary {
+      grid-column: 1 / -1;
+    }
+    .cta-actions .btn {
+      padding-inline: 0.75rem;
+    }
+  }
+
+  /* Contact page. The words sit over the top of the picture, on a shade that clears well before
+     its bottom-right corner (the watermark); the four ways to get in touch start below the picture,
+     so nothing ever covers the mark (the text block is at least as tall as the picture's part of
+     the screen: 4:5, 16:9 from 768px, 21:9 from 1024px). */
+  .contact-bg::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    background: linear-gradient(180deg, rgb(var(--c-deep) / 0.62) 0%, rgb(var(--c-deep) / 0.45) 48%, transparent 74%);
+  }
+  @media (min-width: 768px) {
+    .contact-bg::after {
+      background: linear-gradient(90deg, rgb(var(--c-deep) / 0.78) 0%, rgb(var(--c-deep) / 0.45) 42%, transparent 68%);
+    }
+  }
+  .contact-hero-text {
+    --hero-top: calc(var(--nav-h) + env(safe-area-inset-top, 0px) + clamp(28px, 5vw, 72px));
+    min-height: calc(125vw - var(--hero-top));
+  }
+  @media (min-width: 768px) {
+    .contact-hero-text {
+      min-height: calc(56.25vw - var(--hero-top));
+    }
+  }
+  @media (min-width: 1024px) {
+    .contact-hero-text {
+      min-height: calc(42.86vw - var(--hero-top));
+    }
+  }
+  /* the navy band the plant picture fades into */
+  .contact-hero {
+    padding-top: calc(var(--nav-h) + env(safe-area-inset-top, 0px) + clamp(28px, 5vw, 72px));
+    padding-bottom: clamp(48px, 6vw, 88px);
+    background-color: rgb(var(--c-ink));
+  }
+  /* four ways to reach the team: 2 × 2 on phones (icon, label, then the number or address
+     from 480px), 4 across from 1024px */
+  .quick {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 10px;
+    margin-top: 2.5rem;
+  }
+  @media (min-width: 1024px) {
+    .quick {
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 12px;
+    }
+  }
+  .quick-tile {
+    position: relative;
+    display: grid;
+    grid-template-columns: auto minmax(0, 1fr);
+    align-items: center;
+    column-gap: 0.85rem;
+    row-gap: 0.2rem;
+    height: 100%;
+    padding: 1rem 1.1rem;
+    border: 1px solid rgb(var(--c-bone) / 0.16);
+    border-radius: 14px;
+    background: rgb(var(--c-deep) / 0.6);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    overflow: hidden;
+    transition: border-color 0.4s var(--ease-film), background-color 0.4s var(--ease-film), transform 0.4s var(--ease-film);
+  }
+  /* a line of oil runs along the bottom on hover */
+  .quick-tile::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    height: 2px;
+    background: rgb(var(--c-amber));
+    transform: scaleX(0);
+    transform-origin: 0 50%;
+    transition: transform 0.6s var(--ease-film);
+  }
+  .quick-tile:hover {
+    border-color: rgb(var(--c-bone) / 0.4);
+    background: rgb(var(--c-deep) / 0.8);
+  }
+  .quick-tile:hover::after {
+    transform: scaleX(1);
+  }
+  .quick-icon {
+    grid-row: 1 / span 2;
+    display: grid;
+    place-items: center;
+    width: 42px;
+    height: 42px;
+    border-radius: 12px;
+    background: rgb(var(--c-amber) / 0.12);
+    color: rgb(var(--c-amber));
+  }
+  .quick-label {
+    color: rgb(var(--c-bone));
+  }
+  .quick-value {
+    display: none;
+    font-size: 0.9rem;
+    color: rgb(var(--c-bone) / 0.7);
+    overflow-wrap: anywhere;
+  }
+  @media (min-width: 480px) {
+    .quick-value {
+      display: block;
+    }
+  }
+  @media (max-width: 479px) {
+    .quick-tile {
+      grid-template-columns: 1fr;
+      justify-items: start;
+      row-gap: 0.75rem;
+      padding: 1rem;
+    }
+    .quick-icon {
+      grid-row: auto;
+    }
+  }
+
+  /* the enquiry form on the Contact page: a panel */
+  .enquiry {
+    padding: clamp(22px, 3.4vw, 44px);
+    border: 1px solid rgb(var(--c-bone) / 0.12);
+    border-radius: 16px;
+    background: linear-gradient(180deg, rgb(var(--c-graphite) / 0.85), rgb(var(--c-graphite) / 0.45));
+  }
+  /* fields in rounded boxes, each with its icon */
+  .input-wrap {
+    position: relative;
+  }
+  .input-wrap > svg {
+    position: absolute;
+    left: 14px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: rgb(var(--c-mute));
+    pointer-events: none;
+    transition: color 0.3s var(--ease-film);
+  }
+  .input-wrap-area > svg {
+    top: 15px;
+    transform: none;
+  }
+  .input-wrap:focus-within > svg {
+    color: rgb(var(--c-amber));
+  }
+  .input.input-box {
+    min-height: 50px;
+    padding: 0 14px 0 44px;
+    border: 1px solid rgb(var(--c-bone) / 0.14);
+    border-radius: 12px;
+    background: rgb(var(--c-ink));
+    transition: border-color 0.3s var(--ease-film), box-shadow 0.3s var(--ease-film);
+  }
+  textarea.input.input-box {
+    min-height: 132px;
+    padding: 12px 14px 12px 44px;
+    line-height: 1.55;
+  }
+  .input.input-box:focus {
+    border-color: rgb(var(--c-amber));
+    box-shadow: 0 0 0 3px rgb(var(--c-amber) / 0.14);
+  }
+  .input.input-box[aria-invalid="true"] {
+    border-color: #ff9a85;
+  }
+
+  /* ---- Enquire Now: the live site's form, as the pop-up (every page but Contact) and on the
+     Contact page (enq-form-wide: name and number side by side from 640px) ----------------------- */
+  .enq-title {
+    padding-right: 48px; /* clear of the close button */
+    font-size: clamp(1.55rem, 2.6vw, 2.1rem);
+    line-height: 1;
+  }
+  .enq-lead {
+    margin-top: 0.6rem;
+    color: rgb(var(--c-mute));
+    line-height: 1.5;
+  }
+  .enq-fields {
+    display: grid;
+    gap: 1.15rem;
+    margin-top: 1.6rem;
+  }
+  .enq-req {
+    margin-left: 0.15em;
+    color: rgb(var(--c-amber));
+  }
+  @media (min-width: 640px) {
+    .enq-form-wide .enq-fields {
+      grid-template-columns: 1fr 1fr;
+      gap: 1.25rem;
+    }
+    .enq-form-wide .enq-field-message {
+      grid-column: 1 / -1;
+    }
+  }
+  .enq-actions {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.75rem 1.5rem;
+    margin-top: 1.6rem;
+  }
+  .enq-wa {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    min-height: 44px;
+    color: rgb(var(--c-bone) / 0.82);
+    font-size: 0.9375rem;
+    text-decoration: underline;
+    text-decoration-color: rgb(var(--c-bone) / 0.25);
+    text-underline-offset: 0.3em;
+    transition: color 0.3s var(--ease-film), text-decoration-color 0.3s var(--ease-film);
+  }
+  .enq-wa:hover {
+    color: rgb(var(--c-bone));
+    text-decoration-color: rgb(var(--c-amber));
+  }
+  .enq-status {
+    min-height: 1.5em;
+    margin-top: 0.9rem;
+    font-size: 0.875rem;
+    line-height: 1.5;
+    color: rgb(var(--c-mute));
+  }
+  .enq-status:empty {
+    margin-top: 0;
+    min-height: 0;
+  }
+  .enq-status[data-tone="ok"] {
+    color: rgb(var(--c-bone));
+  }
+  .enq-status[data-tone="warn"] {
+    color: rgb(var(--c-amber));
+  }
+
+  /* the pop-up: a panel over the dimmed page; the button spans it, as on the live site */
+  .enq-dialog {
+    width: min(33rem, calc(100% - 32px));
+    max-width: none;
+    max-height: calc(100dvh - 32px);
+    margin: auto;
+    padding: clamp(24px, 4vw, 40px);
+    overflow: auto;
+    overscroll-behavior: contain;
+    border: 1px solid rgb(var(--c-bone) / 0.14);
+    border-radius: 18px;
+    background: linear-gradient(180deg, rgb(var(--c-plate)), rgb(var(--c-graphite)) 55%);
+    color: rgb(var(--c-bone));
+    box-shadow: 0 40px 120px -20px rgb(0 0 0 / 0.7);
+  }
+  .enq-dialog::backdrop {
+    background: rgb(var(--c-deep) / 0.72);
+    backdrop-filter: blur(6px);
+    -webkit-backdrop-filter: blur(6px);
+  }
+  .enq-dialog .enq-actions {
+    display: grid;
+    justify-items: center;
+    gap: 0.4rem;
+  }
+  .enq-dialog .enq-submit {
+    width: 100%;
+    justify-content: center;
+  }
+  .enq-dialog textarea.input.input-box {
+    min-height: 112px;
+  }
+  .enq-close {
+    position: absolute;
+    top: clamp(14px, 2.4vw, 22px);
+    right: clamp(14px, 2.4vw, 22px);
+    display: grid;
+    place-items: center;
+    width: 42px;
+    height: 42px;
+    border: 1px solid rgb(var(--c-bone) / 0.16);
+    border-radius: 999px;
+    color: rgb(var(--c-bone) / 0.85);
+    transition: background-color 0.3s var(--ease-film), color 0.3s var(--ease-film), border-color 0.3s var(--ease-film);
+  }
+  .enq-close:hover {
+    background: rgb(var(--c-bone));
+    border-color: rgb(var(--c-bone));
+    color: rgb(var(--c-deep));
+  }
+  html.has-dialog .cursor {
+    opacity: 0 !important;
+  }
+  @media (prefers-reduced-motion: no-preference) {
+    .enq-dialog[open] {
+      animation: enq-in 0.45s var(--ease-film) both;
+    }
+    .enq-dialog[open]::backdrop {
+      animation: enq-dim 0.35s ease-out both;
+    }
+  }
+  @keyframes enq-in {
+    from {
+      opacity: 0;
+      transform: translate3d(0, 18px, 0) scale(0.98);
+    }
+  }
+  @keyframes enq-dim {
+    from {
+      opacity: 0;
+    }
+  }
+  .visit {
+    align-self: start;
+    display: grid;
+    gap: 1.75rem;
+    padding-top: 0.5rem;
+  }
+  .visit-place + .visit-place {
+    padding-top: 1.5rem;
+    border-top: 1px solid rgb(var(--c-bone) / 0.12);
+  }
+
+  /* Blog: the topic filter, a bar of choices (shown once scripts run). On phones it is one row that
+     scrolls sideways, fading at its right edge; from 768px the choices wrap. */
+  .filters {
+    display: none;
+  }
+  html.js .filters {
+    display: flex;
+    gap: 6px;
+    width: fit-content;
+    max-width: 100%;
+    padding: 6px;
+    border: 1px solid rgb(var(--c-bone) / 0.12);
+    border-radius: 999px;
+    background: rgb(var(--c-graphite) / 0.75);
+    overflow-x: auto;
+    overscroll-behavior-x: contain;
+    scrollbar-width: none;
+  }
+  html.js .filters::-webkit-scrollbar {
+    display: none;
+  }
+  @media (max-width: 767px) {
+    html.js .filters {
+      -webkit-mask-image: linear-gradient(90deg, #000 calc(100% - 36px), transparent);
+      mask-image: linear-gradient(90deg, #000 calc(100% - 36px), transparent);
+      padding-right: 36px;
+    }
+  }
+  @media (min-width: 768px) {
+    html.js .filters {
+      flex-wrap: wrap;
+      border-radius: 28px;
+    }
+  }
+  .filter {
+    display: inline-flex;
+    flex: none;
+    align-items: center;
+    min-height: 40px;
+    padding: 0 1rem;
+    border: 1px solid transparent;
+    border-radius: 999px;
+    font-family: var(--font-mono), "IBM Plex Mono", ui-monospace, monospace;
+    font-size: 0.6875rem;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    font-weight: 500;
+    white-space: nowrap;
+    color: rgb(var(--c-bone) / 0.85);
+    transition: border-color 0.4s var(--ease-film), background-color 0.4s var(--ease-film), color 0.4s var(--ease-film);
+  }
+  .filter:hover {
+    border-color: rgb(var(--c-bone) / 0.3);
+  }
+  .filter[aria-pressed="true"] {
+    background: rgb(var(--c-bone));
+    border-color: rgb(var(--c-bone));
+    color: rgb(var(--c-deep));
+  }
+  .filter-n {
+    margin-left: 0.55em;
+    opacity: 0.55;
+  }
+
+  /* article cards: the topic as a badge on the picture (top left, clear of the watermark) */
+  .card-badge {
+    position: absolute;
+    top: 12px;
+    left: 12px;
+    z-index: 4;
+    padding: 0.42rem 0.7rem;
+    border-radius: 999px;
+    background: rgb(var(--c-deep) / 0.72);
+    -webkit-backdrop-filter: blur(8px);
+    backdrop-filter: blur(8px);
+    color: rgb(var(--c-amber));
+  }
+  .card-meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem 1.25rem;
+    margin-top: 1.4rem;
+  }
+  .card-title {
+    margin-top: 0.9rem;
+    font-size: 1.25rem;
+    line-height: 1.15;
+  }
+  /* the featured guide: larger, and from 900px its picture beside the text */
+  .card-featured {
+    display: grid;
+  }
+  .card-featured .card-title {
+    font-size: clamp(1.45rem, 3.2vw, 2.6rem);
+    line-height: 1.02;
+  }
+  @media (min-width: 900px) {
+    .card-featured {
+      grid-template-columns: minmax(0, 7fr) minmax(0, 5fr);
+      align-items: center;
+      gap: clamp(2rem, 4vw, 4rem);
+    }
+    .card-featured .card-meta {
+      margin-top: 0;
+    }
+    .card-featured .card-body {
+      padding-right: 1rem;
+    }
+  }
+  .blog-featured {
+    padding-bottom: clamp(8px, 2vw, 16px);
+  }
+
+  /* ---- About -------------------------------------------------------------------------
+     A seal turning beside the header picture (kept clear of the watermark, bottom right);
+     the story as an editorial spread; the vision in outline type that fills like a gauge;
+     the Director's desk as a letter; the values as a spec sheet; the figures on a
+     drawing-office grid; how we work as a line of numbered stations. */
+  .about-figure {
+    position: relative;
+  }
+  /* the About page breathes a little closer than the other pages: no long empty stretches */
+  .about-page .section {
+    padding-block: clamp(64px, 8.5vw, 136px);
+  }
+  /* the opening: the name, the line and the buttons centred against the picture, the figures
+     under them, all on the first screen of a laptop */
+  .about-head {
+    padding-top: calc(var(--nav-h) + env(safe-area-inset-top, 0px) + clamp(20px, 3vw, 44px));
+    padding-bottom: clamp(48px, 6vw, 88px);
+  }
+  .about-title {
+    font-size: clamp(min(2.5rem, 11.5vw), 5.6vw, 6.2rem);
+    line-height: 0.92;
+  }
+  .about-lead {
+    font-size: clamp(1.15rem, 1.55vw, 1.45rem);
+    line-height: 1.5;
+    color: rgb(var(--c-bone) / 0.9);
+  }
+  .about-pic {
+    position: relative;
+  }
+  /* the caption's two parts each stay whole: side by side, or the second under the first */
+  .about-caption {
+    flex-wrap: wrap;
+    row-gap: 0.4rem;
+    margin-top: 1rem;
+  }
+  .about-caption > * {
+    white-space: nowrap;
+  }
+  .about-head .facts {
+    margin-top: clamp(32px, 3vw, 44px);
+  }
+  @media (min-width: 640px) {
+    /* a fine gold frame set behind the picture, a little down and to the right */
+    .about-pic::before {
+      content: "";
+      position: absolute;
+      inset: 16px -16px -16px 16px;
+      border: 1px solid rgb(212 175 55 / 0.38);
+      border-radius: 2px;
+      pointer-events: none;
+    }
+    .about-pic .media {
+      z-index: 1;
+    }
+    .about-caption {
+      margin-top: 1.6rem;
+    }
+  }
+  /* from 1024px the picture fills its column (4:3), held to the screen's height on short screens,
+     at the column's right edge */
+  @media (min-width: 1024px) {
+    .about-head .about-figure {
+      justify-self: end;
+      width: min(100%, calc(min(56svh, 600px) * 4 / 3));
+      margin-right: 0;
+    }
+  }
+  .seal {
+    position: absolute;
+    z-index: 4;
+    top: -26px;
+    left: 14px;
+    display: grid;
+    place-items: center;
+    width: 104px;
+    aspect-ratio: 1;
+    border-radius: 999px;
+    background: rgb(var(--c-deep) / 0.84);
+    box-shadow: 0 0 0 1px rgb(var(--c-bone) / 0.14), 0 14px 40px rgb(0 0 0 / 0.45);
+    pointer-events: none;
+  }
+  @media (min-width: 1024px) {
+    .seal {
+      top: -44px;
+      left: -44px;
+      width: clamp(112px, 9vw, 136px);
+    }
+  }
+  .seal-ring {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+  }
+  .seal-text {
+    font-family: var(--font-mono), "IBM Plex Mono", ui-monospace, monospace;
+    font-size: 7.4px;
+    font-weight: 500;
+    fill: rgb(var(--c-bone) / 0.85);
+  }
+  .seal-mark {
+    display: grid;
+    color: rgb(var(--c-bone) / 0.9);
+  }
+  .seal-dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 999px;
+    background: rgb(var(--c-yellow));
+  }
+  @media (prefers-reduced-motion: no-preference) {
+    .seal-ring {
+      animation: seal-turn 30s linear infinite;
+    }
+  }
+  @keyframes seal-turn {
+    to {
+      transform: rotate(360deg);
+    }
+  }
+
+  .story-quote {
+    margin-top: 2.5rem;
+    padding-left: 1.25rem;
+    border-left: 2px solid rgb(var(--c-amber));
+    font-size: clamp(1.2rem, 1.9vw, 1.55rem);
+    line-height: 1.45;
+    font-weight: 500;
+    color: rgb(var(--c-bone));
+  }
+  .story-body {
+    display: grid;
+    gap: 1.35rem;
+    font-size: clamp(1.05rem, 1.25vw, 1.2rem);
+    line-height: 1.75;
+    color: rgb(var(--c-bone) / 0.85);
+  }
+  .dropcap::first-letter {
+    float: left;
+    margin: 0.06em 0.14em 0 0;
+    font-family: var(--font-display), "Archivo", "Arial Narrow", Arial, sans-serif;
+    font-variation-settings: "wdth" 125;
+    font-stretch: 125%;
+    font-weight: 800;
+    font-size: 3.9em;
+    line-height: 0.82;
+    color: rgb(var(--c-amber));
+  }
+
+  /* the vision: an outline, and over it the same words in oil colours rising from the
+     bottom as the section scrolls up (--fill, cinema.ts) */
+  .vm-vision {
+    position: relative;
+    max-width: 16ch;
+    margin-top: 1.25rem;
+    font-size: clamp(min(2.2rem, 7.2vw), 7vw, 7.4rem);
+    line-height: 0.9;
+  }
+  .fill-line {
+    display: block;
+    color: transparent;
+    -webkit-text-stroke: 1px rgb(var(--c-bone) / 0.3);
+  }
+  .fill-top {
+    position: absolute;
+    inset: 0;
+    display: block;
+    background: linear-gradient(180deg, rgb(var(--c-bone) / 0.95) 0%, rgb(var(--c-amber)) 64%, #9c7a22 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    clip-path: inset(calc((1 - var(--fill, 1)) * 100%) 0 0 0);
+  }
+  html.motion [data-fill] {
+    --fill: 0;
+  }
+  .vm-mission {
+    display: grid;
+    border-top: 1px solid rgb(var(--c-bone) / 0.14);
+  }
+  @media (min-width: 768px) {
+    .vm-mission {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      column-gap: clamp(24px, 4vw, 64px);
+    }
+  }
+  .vm-item {
+    display: grid;
+    grid-template-columns: auto minmax(0, 1fr);
+    align-items: start;
+    gap: 1.25rem;
+    padding: 1.75rem 0;
+    border-bottom: 1px solid rgb(var(--c-bone) / 0.14);
+  }
+  .vm-n {
+    font-size: clamp(2.4rem, 4vw, 3.6rem);
+    line-height: 0.8;
+    color: transparent;
+    -webkit-text-stroke: 1px rgb(var(--c-amber));
+  }
+
+  /* the Director's desk: a letter with a dashed head, and the three ways a product is formulated */
+  .letter {
+    margin-top: 2.25rem;
+    padding: clamp(22px, 3vw, 40px);
+    border: 1px solid rgb(var(--c-bone) / 0.12);
+    border-left: 2px solid rgb(var(--c-amber));
+    border-radius: 4px 10px 10px 4px;
+    background: linear-gradient(180deg, rgb(var(--c-graphite) / 0.8), rgb(var(--c-graphite) / 0.3));
+  }
+  .letter-head {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: 0.5rem 1rem;
+    margin-bottom: 1.5rem;
+    padding-bottom: 1rem;
+    border-bottom: 1px dashed rgb(var(--c-bone) / 0.2);
+    color: rgb(var(--c-mute));
+  }
+  .routes {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 8px;
+    margin-top: 2.5rem;
+  }
+  .route {
+    padding: 14px 10px 13px;
+    border-radius: 14px;
+  }
+  .route-icon svg {
+    width: 24px;
+    height: 24px;
+  }
+  /* on phones the titles are set in the text face, so a word such as "formulations" fits a third of the width */
+  .route-title {
+    margin-top: 0.75rem;
+    font-size: 0.86rem;
+    font-weight: 600;
+    line-height: 1.2;
+    color: rgb(var(--c-bone));
+  }
+  .route-short {
+    font-size: 0.74rem;
+    line-height: 1.4;
+  }
+  @media (min-width: 640px) {
+    .routes {
+      gap: 12px;
+    }
+    .route {
+      padding: 1.4rem 1.25rem;
+      border-radius: 16px;
+    }
+    .route-icon svg {
+      width: 28px;
+      height: 28px;
+    }
+    .route-title {
+      margin-top: 1.2rem;
+      font-family: var(--font-display), "Archivo", "Arial Narrow", Arial, sans-serif;
+      font-variation-settings: "wdth" 112;
+      font-stretch: 112%;
+      font-weight: 700;
+      font-size: clamp(0.95rem, 1.5vw, 1.15rem);
+      line-height: 1.1;
+      letter-spacing: -0.005em;
+      text-transform: uppercase;
+    }
+    .route-body {
+      margin-top: 0.6rem;
+      font-size: 0.875rem;
+    }
+  }
+
+  /* the values: a spec sheet, one row each, an amber bar that runs down the row on hover */
+  .spec {
+    border-top: 1px solid rgb(var(--c-bone) / 0.16);
+  }
+  .spec-row {
+    position: relative;
+    display: grid;
+    gap: 0.6rem 2rem;
+    padding: 1.6rem 0 1.6rem 1.25rem;
+    border-bottom: 1px solid rgb(var(--c-bone) / 0.12);
+  }
+  .spec-row::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 1.6rem;
+    bottom: 1.6rem;
+    width: 2px;
+    background: rgb(var(--c-amber));
+    transform: scaleY(0.3);
+    transform-origin: 50% 0;
+    transition: transform 0.6s var(--ease-film);
+  }
+  .spec-row:hover::before {
+    transform: scaleY(1);
+  }
+  .spec-code {
+    color: rgb(var(--c-amber));
+  }
+  @media (min-width: 1024px) {
+    .spec-row {
+      grid-template-columns: 7.5rem minmax(0, 1fr) minmax(0, 1.35fr);
+      align-items: baseline;
+      padding-left: 1.5rem;
+    }
+  }
+
+  /* the figures, on a faint drawing-office grid */
+  .figures-band {
+    position: relative;
+    isolation: isolate;
+    overflow: hidden;
+  }
+  .figures-band::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    background:
+      linear-gradient(rgb(var(--c-bone) / 0.045) 1px, transparent 1px) 0 0 / 100% 56px,
+      linear-gradient(90deg, rgb(var(--c-bone) / 0.045) 1px, transparent 1px) 0 0 / 56px 100%;
+    -webkit-mask-image: radial-gradient(70% 70% at 50% 60%, #000, transparent);
+    mask-image: radial-gradient(70% 70% at 50% 60%, #000, transparent);
+  }
+
+  /* how we work: numbered stations on a line, down the page on phones, across from 1024px */
+  .track {
+    position: relative;
+    display: grid;
+    gap: 2.25rem;
+    padding-left: 3.4rem;
+  }
+  .track::before {
+    content: "";
+    position: absolute;
+    left: 1.1rem;
+    top: 0.6rem;
+    bottom: 0.6rem;
+    width: 1px;
+    background: linear-gradient(180deg, rgb(var(--c-amber) / 0.7), rgb(var(--c-bone) / 0.1));
+  }
+  .track-step {
+    position: relative;
+  }
+  .track-step h3 {
+    margin-top: 0.1rem;
+  }
+  .track-node {
+    position: absolute;
+    left: -3.4rem;
+    top: -0.35rem;
+    display: grid;
+    place-items: center;
+    width: 2.25rem;
+    height: 2.25rem;
+    border: 1px solid rgb(var(--c-bone) / 0.3);
+    border-radius: 999px;
+    background: rgb(var(--c-ink));
+    color: rgb(var(--c-amber));
+  }
+  @media (min-width: 1024px) {
+    .track {
+      grid-template-columns: repeat(5, minmax(0, 1fr));
+      gap: 2rem;
+      padding-left: 0;
+      padding-top: 3.75rem;
+    }
+    .track::before {
+      left: 0;
+      right: 0;
+      top: 1.1rem;
+      bottom: auto;
+      width: auto;
+      height: 1px;
+      background: linear-gradient(90deg, rgb(var(--c-amber) / 0.7), rgb(var(--c-bone) / 0.1));
+    }
+    .track-node {
+      left: 0;
+      top: -3.75rem;
+    }
+  }
+
+  /* cards whose title link covers the whole card */
+  .card-link::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: 6;
+  }
+
+  /* Articles */
+  .prose {
+    max-width: 44rem;
+    color: rgb(var(--c-bone) / 0.88);
+    font-size: 1.0625rem;
+    line-height: 1.8;
+  }
+  @media (min-width: 768px) {
+    .prose {
+      font-size: 1.125rem;
+    }
+  }
+  .prose > * + * {
+    margin-top: 1.25em;
+  }
+  .prose h2 {
+    margin-top: 2.4em;
+    font-family: var(--font-display), "Archivo", "Arial Narrow", Arial, sans-serif;
+    font-variation-settings: "wdth" 112;
+    font-stretch: 112%;
+    font-weight: 700;
+    text-transform: uppercase;
+    font-size: clamp(1.3rem, 2.1vw, 1.7rem);
+    line-height: 1.15;
+    color: rgb(var(--c-bone));
+  }
+  .prose h2 + * {
+    margin-top: 0.9em;
+  }
+  .prose ul,
+  .prose ol {
+    display: grid;
+    gap: 0.6em;
+  }
+  .prose ul li {
+    position: relative;
+    padding-left: 1.6em;
+  }
+  .prose ul li::before {
+    content: "";
+    position: absolute;
+    left: 0.1em;
+    top: 0.85em;
+    width: 0.8em;
+    height: 1px;
+    background: rgb(var(--c-amber));
+  }
+  .prose ol {
+    counter-reset: step;
+  }
+  .prose ol li {
+    position: relative;
+    padding-left: 2.4em;
+    counter-increment: step;
+  }
+  .prose ol li::before {
+    content: counter(step, decimal-leading-zero);
+    position: absolute;
+    left: 0;
+    top: 0.2em;
+    font-family: var(--font-mono), "IBM Plex Mono", ui-monospace, monospace;
+    font-size: 0.75em;
+    letter-spacing: 0.1em;
+    color: rgb(var(--c-amber));
+  }
+  .prose .tip {
+    margin-top: 2em;
+    padding: 1.4rem 1.6rem;
+    border-left: 2px solid rgb(var(--c-amber));
+    background: rgb(var(--c-graphite));
+    border-radius: 0 6px 6px 0;
+  }
+  .prose .tip p + p {
+    margin-top: 0.6em;
+  }
+  .article-note {
+    margin-top: 3rem !important;
+    padding-top: 1.5rem;
+    border-top: 1px solid rgb(var(--c-bone) / 0.12);
+    font-size: 0.9rem;
+    line-height: 1.6;
+    color: rgb(var(--c-mute));
+  }
+  .side-box {
+    padding: clamp(24px, 3vw, 36px);
+    border: 1px solid rgb(var(--c-bone) / 0.12);
+    border-radius: 8px;
+    background: rgb(var(--c-graphite) / 0.6);
+  }
+
+  /* About: the Director's photograph, to be supplied */
+  .portrait-slot {
+    display: grid;
+    place-items: center;
+    aspect-ratio: 4 / 5;
+    max-width: 420px;
+    border: 1px dashed rgb(var(--c-amber) / 0.5);
+    border-radius: 4px;
+    background: rgb(var(--c-graphite) / 0.5);
+  }
+  /* until it is: a card with the K of the name in a gold outline, lit softly from above, and the
+     "TBC" note at its foot */
+  .portrait-slot.is-empty {
+    position: relative;
+    overflow: hidden;
+    border: 1px solid rgb(212 175 55 / 0.24);
+    background:
+      radial-gradient(120% 70% at 50% 0%, rgb(212 175 55 / 0.12), transparent 62%),
+      linear-gradient(180deg, rgb(var(--c-graphite)), rgb(var(--c-ink)));
+  }
+  .portrait-mono {
+    font-size: clamp(7rem, 12vw, 11rem);
+    line-height: 1;
+    color: transparent;
+    -webkit-text-stroke: 1px rgb(212 175 55 / 0.6);
+  }
+  .portrait-slot.is-empty .placeholder {
+    position: absolute;
+    left: 50%;
+    bottom: 16px;
+    transform: translateX(-50%);
+    white-space: nowrap;
+  }
+  /* the Director: on phones and tablets a byline, a small portrait slot beside the name and role;
+     from 1024px the portrait at full size above them */
+  .director {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 12px;
+    border: 1px solid rgb(var(--c-bone) / 0.1);
+    border-radius: 16px;
+    background: linear-gradient(180deg, rgb(var(--c-graphite)), rgb(var(--c-ink)));
+  }
+  .director .portrait-slot {
+    flex: none;
+    width: 76px;
+    border-radius: 10px;
+  }
+  @media (max-width: 1023px) {
+    .director .portrait-mono {
+      font-size: 2.6rem;
+      transform: translateY(-6px);
+    }
+    .director .portrait-slot.is-empty .placeholder {
+      bottom: 6px;
+    }
+  }
+  .director .portrait-slot.is-empty .placeholder::after {
+    content: none;
+  }
+  /* in the small slot, only the "TBC" of the placeholder and a word */
+  .director .portrait-slot .placeholder {
+    flex-direction: column;
+    gap: 0.15rem;
+    padding: 0;
+    border: 0;
+    font-size: 0;
+  }
+  .director .portrait-slot .placeholder::before {
+    font-size: 0.66rem;
+  }
+  .director .portrait-slot .placeholder::after {
+    content: "Photo";
+    font-size: 0.6rem;
+    letter-spacing: 0.08em;
+  }
+  .director-id {
+    display: grid;
+    justify-items: start;
+    gap: 0.5rem;
+  }
+  @media (min-width: 1024px) {
+    .director {
+      display: block;
+      padding: 0;
+      border: 0;
+      border-radius: 0;
+      background: none;
+    }
+    .director .portrait-slot {
+      width: auto;
+      border-radius: 4px;
+    }
+    .director .portrait-slot .placeholder {
+      flex-direction: row;
+      gap: 0.5rem;
+      padding: 0.3rem 0.6rem;
+      border: 1px dashed rgb(var(--c-amber) / 0.6);
+      font-size: 0.6875rem;
+    }
+    .director .portrait-slot .placeholder::after {
+      content: none;
+    }
+    .director-id {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 0.75rem;
+      margin-top: 1.25rem;
+    }
+  }
+
+  /* About, where we are: office and factory as boxes; the address in the text face */
+  .place-grid {
+    display: grid;
+    gap: 12px;
+  }
+  @media (min-width: 768px) {
+    .place-grid {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 18px;
+    }
+  }
+  .place-box {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 20px 18px;
+    border: 1px solid rgb(var(--c-bone) / 0.1);
+    border-radius: 16px;
+    background:
+      radial-gradient(120% 70% at 0% 0%, rgb(var(--c-amber) / 0.07), transparent 60%),
+      linear-gradient(180deg, rgb(var(--c-graphite)), rgb(var(--c-ink)));
+  }
+  @media (min-width: 640px) {
+    .place-box {
+      padding: 32px 30px;
+      border-radius: 20px;
+    }
+  }
+  .place-label {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.55rem;
+    color: rgb(var(--c-amber));
+  }
+  .place-address {
+    margin-top: 1rem;
+    font-style: normal;
+    font-size: 1.05rem;
+    line-height: 1.6;
+    color: rgb(var(--c-bone) / 0.92);
+  }
+  @media (min-width: 640px) {
+    .place-address {
+      font-size: 1.2rem;
+    }
+  }
+  .place-dir {
+    margin-top: 1.5rem;
+  }
+
+  /* ---- How it's made (Process.tsx, process.ts) ------------------------------------------
+     A film frame that stays in place while the ten steps scroll past: on the left from 1024px,
+     at the top on phones and tablets (with the steps scrolling under it). Each clip keeps its
+     16:9 shape, so its watermark stays whole. Under the frame, the steps grouped by place. */
+  .process-grid {
+    display: grid;
+    margin-top: clamp(2.25rem, 5vw, 4.5rem);
+  }
+  .process-stage {
+    position: sticky;
+    top: var(--nav-h);
+    z-index: 6;
+    align-self: start;
+    margin-inline: calc(var(--gutter) * -1);
+    padding: 10px var(--gutter) 6px;
+    background: rgb(var(--c-deep) / 0.94);
+    -webkit-backdrop-filter: blur(10px);
+    backdrop-filter: blur(10px);
+    border-bottom: 1px solid rgb(var(--c-bone) / 0.08);
+  }
+  .process-frame {
+    position: relative;
+    isolation: isolate;
+    width: min(100%, calc(40svh * 16 / 9));
+    margin-inline: auto;
+    aspect-ratio: 16 / 9;
+    overflow: hidden;
+    border-radius: 12px;
+    background: rgb(var(--c-graphite));
+  }
+  .process-shot {
+    position: absolute;
+    inset: 0;
+    opacity: 0;
+    transition: opacity 0.7s var(--ease-film);
+  }
+  .process-shot.is-on {
+    opacity: 1;
+  }
+  .process-video {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: 100% 100%;
+  }
+  /* until the clips are in: a title card per step */
+  .process-card {
+    position: absolute;
+    inset: 0;
+    display: grid;
+    align-content: end;
+    justify-items: start;
+    gap: 0.45rem;
+    padding: clamp(14px, 3vw, 32px);
+    background:
+      radial-gradient(70% 90% at 78% 18%, rgb(var(--c-amber) / 0.18), transparent 62%),
+      linear-gradient(160deg, rgb(var(--c-plate)), rgb(var(--c-ink)));
+  }
+  .process-card-n {
+    position: absolute;
+    top: 9%;
+    right: 5%;
+    font-size: clamp(3.5rem, 11vw, 9rem);
+    line-height: 0.8;
+    color: transparent;
+    -webkit-text-stroke: 1px rgb(var(--c-bone) / 0.24);
+  }
+  .process-card-place {
+    color: rgb(var(--c-amber));
+  }
+  .process-card-title {
+    max-width: 16ch;
+    font-size: clamp(1.05rem, 2.6vw, 2rem);
+    line-height: 1;
+  }
+  .process-now {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    z-index: 3;
+    padding: 0.38rem 0.65rem;
+    border-radius: 999px;
+    background: rgb(var(--c-deep) / 0.72);
+    -webkit-backdrop-filter: blur(8px);
+    backdrop-filter: blur(8px);
+    color: rgb(var(--c-bone));
+    font-size: 0.6rem;
+  }
+  /* the steps under the frame, grouped by place; each one scrolls to its step */
+  .process-bar {
+    display: flex;
+    gap: 8px;
+    width: min(100%, calc(40svh * 16 / 9));
+    margin: 8px auto 0;
+  }
+  .process-group {
+    display: flex;
+    flex-basis: 0;
+    flex-direction: column;
+    gap: 2px;
+    min-width: 0;
+  }
+  .process-group-label {
+    overflow: hidden;
+    font-size: 0.56rem;
+    letter-spacing: 0.12em;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    color: rgb(var(--c-mute));
+  }
+  .process-group-full {
+    display: none;
+  }
+  .process-ticks {
+    display: flex;
+    gap: 4px;
+  }
+  .process-tick {
+    position: relative;
+    flex: 1;
+    height: 20px;
+  }
+  .process-tick::before,
+  .process-tick-fill {
+    content: "";
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 50%;
+    height: 3px;
+    margin-top: -1.5px;
+    border-radius: 3px;
+  }
+  .process-tick::before {
+    background: rgb(var(--c-bone) / 0.16);
+  }
+  .process-tick-fill {
+    background: rgb(var(--c-amber));
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 0.5s var(--ease-film);
+  }
+  .process-tick.is-done .process-tick-fill,
+  .process-tick.is-on .process-tick-fill {
+    transform: scaleX(1);
+  }
+  .process-tick.is-on .process-tick-fill {
+    box-shadow: 0 0 10px rgb(var(--c-amber) / 0.7);
+  }
+  .process-tick:focus-visible {
+    outline: 2px solid rgb(var(--c-amber));
+    outline-offset: 2px;
+  }
+  .process-credit {
+    margin-top: 0.9rem;
+  }
+  /* the ten steps */
+  .process-steps {
+    padding: 1.5rem 0 38vh;
+  }
+  .process-step {
+    min-height: 48vh;
+    padding-block: 1.6rem;
+    scroll-margin-top: calc(var(--nav-h) + 40svh + 60px);
+  }
+  html.js .process-step {
+    opacity: 0.4;
+    transition: opacity 0.6s var(--ease-film);
+  }
+  html.js .process-step.is-on {
+    opacity: 1;
+  }
+  .process-place {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.3rem 0.9rem;
+    margin-bottom: 1.6rem;
+    padding-bottom: 0.9rem;
+    border-bottom: 1px solid rgb(var(--c-bone) / 0.14);
+    color: rgb(var(--c-amber));
+  }
+  .process-n {
+    color: rgb(var(--c-amber));
+  }
+  .process-title {
+    margin-top: 0.55rem;
+    font-size: clamp(1.35rem, 2.6vw, 2.2rem);
+    line-height: 1.02;
+  }
+  .process-body {
+    max-width: 34rem;
+    margin-top: 0.9rem;
+    font-size: 1.02rem;
+    line-height: 1.65;
+    color: rgb(var(--c-bone) / 0.84);
+  }
+  .process-tbc {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin-top: 1rem;
+  }
+  @media (min-width: 640px) {
+    .process-group-full {
+      display: inline;
+    }
+    .process-group-short {
+      display: none;
+    }
+    .process-group-label {
+      font-size: 0.6rem;
+    }
+  }
+  @media (min-width: 1024px) {
+    .process-grid {
+      grid-template-columns: minmax(0, 7fr) minmax(0, 5fr);
+      gap: clamp(2.5rem, 5vw, 5.5rem);
+    }
+    .process-stage {
+      top: calc(var(--nav-h) + 32px);
+      margin-inline: 0;
+      padding: 0;
+      background: none;
+      -webkit-backdrop-filter: none;
+      backdrop-filter: none;
+      border-bottom: 0;
+    }
+    .process-frame,
+    .process-bar {
+      width: 100%;
+    }
+    .process-frame {
+      border-radius: 16px;
+    }
+    .process-now {
+      top: 16px;
+      left: 16px;
+      font-size: 0.66rem;
+    }
+    .process-bar {
+      margin-top: 14px;
+      gap: 12px;
+    }
+    .process-steps {
+      padding: 8vh 0 34vh;
+    }
+    .process-step {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      min-height: 66vh;
+      scroll-margin-top: 20vh;
+    }
+  }
+
+  /* what changes from line to line: one column on small phones, two from 600px (the fifth
+     across both), three and two from 1024px */
+  .mix-grid {
+    display: grid;
+    gap: 10px;
+  }
+  .mix-item {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 18px 16px;
+    border: 1px solid rgb(var(--c-bone) / 0.1);
+    border-radius: 16px;
+    background:
+      radial-gradient(120% 70% at 0% 0%, rgb(var(--c-amber) / 0.07), transparent 60%),
+      linear-gradient(180deg, rgb(var(--c-graphite)), rgb(var(--c-ink)));
+  }
+  .mix-title {
+    margin-top: 1rem;
+    font-size: clamp(1.05rem, 1.6vw, 1.35rem);
+    line-height: 1.1;
+  }
+  .mix-body {
+    margin-top: 0.7rem;
+    font-size: 0.92rem;
+    line-height: 1.6;
+    color: rgb(var(--c-mute));
+  }
+  @media (min-width: 600px) {
+    .mix-grid {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 16px;
+    }
+    .mix-grid > :last-child:nth-child(odd) {
+      grid-column: 1 / -1;
+    }
+    .mix-item {
+      padding: 26px 24px;
+      border-radius: 20px;
+    }
+  }
+  @media (min-width: 1024px) {
+    .mix-grid {
+      grid-template-columns: repeat(6, minmax(0, 1fr));
+      gap: 18px;
+    }
+    .mix-grid > * {
+      grid-column: span 2;
+    }
+    .mix-grid > :nth-child(n + 4),
+    .mix-grid > :last-child:nth-child(odd) {
+      grid-column: span 3;
+    }
+  }
+
+  /* ---- Footer (Footer.tsx), kept to the minimum, on the brand navy with a yellow rule along its
+     top: the name and tagline, three links, the phone and the email (one under another on phones;
+     the links and contacts side by side from 720px; all on one line from 1100px), then the
+     copyright line and a way back to the top. Not on the Contact page. */
+  .site-footer {
+    position: relative;
+    padding: clamp(30px, 3.6vw, 44px) 0 calc(16px + env(safe-area-inset-bottom, 0px));
+    background: rgb(var(--c-ink));
+  }
+  .site-footer::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 3px;
+    background: rgb(var(--c-amber));
+  }
+  .footer-row {
+    display: grid;
+    gap: 18px;
+  }
+  @media (min-width: 720px) and (max-width: 1099px) {
+    .footer-row {
+      grid-template-columns: minmax(0, 1fr) auto;
+      grid-template-areas: "brand brand" "links reach";
+      align-items: center;
+      column-gap: 24px;
+    }
+    .footer-brand {
+      grid-area: brand;
+    }
+    .footer-row > nav {
+      grid-area: links;
+    }
+    .footer-reach {
+      grid-area: reach;
+    }
+  }
+  @media (min-width: 1100px) {
+    .footer-row {
+      grid-template-columns: auto minmax(0, 1fr) auto;
+      align-items: center;
+      gap: 40px;
+    }
+  }
+  .footer-logo {
+    font-size: clamp(1.15rem, 1.6vw, 1.4rem);
+    letter-spacing: 0.05em;
+    line-height: 1;
+  }
+  .footer-tag {
+    margin-top: 0.55rem;
+    color: rgb(var(--c-mute));
+  }
+  .footer-links,
+  .footer-reach {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 2px 24px;
+  }
+  @media (min-width: 1100px) {
+    .footer-links {
+      justify-content: center;
+    }
+  }
+  @media (min-width: 720px) {
+    .footer-reach {
+      justify-content: flex-end;
+    }
+  }
+  .footer-links a,
+  .footer-reach a {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    min-height: 40px;
+    color: rgb(var(--c-bone) / 0.9);
+    transition: color 0.3s var(--ease-film);
+  }
+  .footer-links a:hover,
+  .footer-links a[aria-current="page"],
+  .footer-reach a:hover {
+    color: rgb(var(--c-amber));
+  }
+  .footer-reach svg {
+    flex: none;
+    color: rgb(var(--c-amber));
+  }
+  .footer-bottom {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    margin-top: clamp(16px, 2.4vw, 26px);
+    padding-top: 14px;
+    border-top: 1px solid rgb(var(--c-bone) / 0.14);
+    font-size: 0.82rem;
+    color: rgb(var(--c-mute));
+  }
+  .footer-up {
+    display: grid;
+    flex: none;
+    place-items: center;
+    width: 40px;
+    height: 40px;
+    border-radius: 999px;
+    background: rgb(var(--c-bone));
+    color: rgb(var(--c-deep));
+    transition: background-color 0.35s var(--ease-film), transform 0.35s var(--ease-film);
+  }
+  .footer-up:hover {
+    background: rgb(var(--c-amber));
+    transform: translateY(-3px);
+  }
+}
+
+/* Motion states. Content is visible by default; only when the motion runtime
+   is running (html.motion) are elements prepared for their entrance. */
+html.motion [data-reveal] {
+  opacity: 0;
+  transform: translateY(28px);
+}
+html.motion [data-shutter] {
+  clip-path: inset(100% 0 0 0);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html.motion [data-reveal] {
+    opacity: 1;
+    transform: none;
+  }
+  html.motion [data-shutter] {
+    clip-path: none;
+  }
+  *,
+  *::before,
+  *::after {
+    transition-duration: 0.01ms !important;
+  }
+}
+
+@media (hover: none), (pointer: coarse) {
+  .cursor {
+    display: none;
+  }
+}
+
+/* ---------------------------------------------------------------------------
+   Phones (under 640px). Outside the layers on purpose, so these win over the
+   grid utilities they replace.
+   ------------------------------------------------------------------------- */
+
+/* Rows of cards that would stack into a long column swipe sideways instead
+   (Swipe.tsx, mobile.ts): the next card peeks in at the edge; under the row,
+   where you are and buttons for the previous and next card. */
+.swipe-ui {
+  display: none;
+}
+@media (max-width: 639px) {
+  .m-swipe {
+    display: flex;
+    gap: 12px;
+    margin-inline: calc(-1 * var(--gutter));
+    padding: 4px var(--gutter) 8px;
+    overflow-x: auto;
+    overscroll-behavior-x: contain;
+    scroll-snap-type: x mandatory;
+    scroll-padding-inline: var(--gutter);
+    scrollbar-width: none;
+    -webkit-overflow-scrolling: touch;
+  }
+  .m-swipe::-webkit-scrollbar {
+    display: none;
+  }
+  .m-swipe > li {
+    display: flex;
+    flex: 0 0 84%;
+    max-width: 360px;
+    scroll-snap-align: start;
+  }
+  /* a list item that holds one card: the card fills it, so the cards in a row are equal in height */
+  .m-swipe > li > :only-child {
+    flex: 1;
+    min-width: 0;
+  }
+  /* a list item that is itself the card (industries, the welcome cards) */
+  .m-swipe > .ind-box,
+  .m-swipe > .welcome-card {
+    flex-direction: column;
+  }
+  .m-swipe > .welcome-card > .welcome-icon {
+    align-self: flex-start;
+  }
+  html.js .swipe-ui {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    margin-top: 18px;
+  }
+  .swipe-bars {
+    display: flex;
+    flex: 1;
+    gap: 5px;
+    min-width: 0;
+  }
+  .swipe-bars > span {
+    flex: 0 1 26px;
+    height: 3px;
+    border-radius: 3px;
+    background: rgb(var(--c-bone) / 0.18);
+    transition: flex-basis 0.45s var(--ease-film), background-color 0.45s var(--ease-film);
+  }
+  .swipe-bars > span.is-on {
+    flex-basis: 46px;
+    background: rgb(var(--c-amber));
+  }
+  .swipe-count {
+    color: rgb(var(--c-mute));
+    letter-spacing: 0.12em;
+  }
+  .swipe-count b {
+    color: rgb(var(--c-bone));
+    font-weight: 600;
+  }
+  .swipe-btns {
+    display: flex;
+    gap: 8px;
+  }
+  .swipe-btn {
+    display: grid;
+    place-items: center;
+    width: 42px;
+    height: 42px;
+    border: 1px solid rgb(var(--c-bone) / 0.22);
+    border-radius: 999px;
+    color: rgb(var(--c-bone));
+    transition: background-color 0.3s var(--ease-film), opacity 0.3s var(--ease-film), border-color 0.3s var(--ease-film);
+  }
+  .swipe-btn:not(:disabled):active {
+    background: rgb(var(--c-bone) / 0.08);
+  }
+  .swipe-btn:disabled {
+    opacity: 0.32;
+  }
+
+  /* the industries as swipe cards: roomier than the two-column boxes they replace */
+  .m-swipe .ind-box {
+    padding: 22px 20px 20px;
+    border-radius: 18px;
+  }
+  .m-swipe .ind-title {
+    margin-top: 1.25rem;
+    font-size: 1.3rem;
+  }
+  .m-swipe .ind-body {
+    margin-top: 0.7rem;
+    font-size: 0.94rem;
+    line-height: 1.6;
+  }
+  .m-swipe .welcome-card-body {
+    font-size: 0.93rem;
+  }
+
+  /* About, "our three ways to formulate": one per row, the icon beside the words */
+  .routes {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 10px;
+  }
+  .route {
+    display: grid;
+    grid-template-columns: 44px minmax(0, 1fr);
+    column-gap: 14px;
+    align-items: start;
+    padding: 16px 16px 15px;
+  }
+  .route > .route-icon {
+    grid-row: 1 / span 3;
+    display: grid;
+    place-items: center;
+    width: 44px;
+    height: 44px;
+    border-radius: 999px;
+    background: rgb(var(--c-yellow) / 0.14);
+    box-shadow: inset 0 0 0 1px rgb(var(--c-yellow) / 0.4);
+    color: rgb(var(--c-yellow));
+  }
+  .route-title {
+    margin-top: 0.15rem;
+    font-size: 1rem;
+  }
+  .route-short {
+    margin-top: 0.15rem;
+    font-size: 0.82rem;
+  }
+  .route-body {
+    display: block;
+    margin-top: 0.45rem;
+    font-size: 0.9rem;
+    line-height: 1.55;
+    color: rgb(var(--c-mute));
+  }
+}
+
+/* The quick-contact bar (QuickBar.tsx, mobile.ts): held at the foot of the screen on phones,
+   sliding up once past the first screen. */
+.qbar {
+  display: none;
+}
+@media (max-width: 639px) {
+  html.js .qbar {
+    position: fixed;
+    z-index: 45;
+    left: 10px;
+    right: 10px;
+    bottom: calc(10px + env(safe-area-inset-bottom, 0px));
+    display: grid;
+    grid-template-columns: auto auto minmax(0, 1fr);
+    align-items: center;
+    gap: 4px;
+    padding: 6px;
+    border-radius: 18px;
+    background: rgb(21 19 15 / 0.97);
+    -webkit-backdrop-filter: blur(12px);
+    backdrop-filter: blur(12px);
+    box-shadow: 0 20px 44px -16px rgb(0 0 0 / 0.75), inset 0 0 0 1px rgb(255 255 255 / 0.1);
+    transform: translate3d(0, calc(100% + 28px), 0);
+    opacity: 0;
+    transition: transform 0.55s var(--ease-film), opacity 0.35s var(--ease-film);
+  }
+  html.js .qbar.is-on {
+    transform: none;
+    opacity: 1;
+  }
+  .qbar-btn {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 4px;
+    min-width: 66px;
+    height: 52px;
+    border-radius: 13px;
+    color: rgb(245 239 225);
+    font-family: var(--font-sans), "IBM Plex Sans", "Helvetica Neue", Arial, sans-serif;
+    font-size: 11px;
+    font-weight: 600;
+    line-height: 1;
+    transition: background-color 0.25s var(--ease-film);
+  }
+  .qbar-btn svg {
+    color: rgb(var(--c-yellow));
+  }
+  .qbar-btn:active {
+    background: rgb(255 255 255 / 0.1);
+  }
+  .qbar-cta {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    height: 52px;
+    margin-left: 2px;
+    border-radius: 13px;
+    background: rgb(var(--c-yellow));
+    color: #0c0b09;
+    font-family: var(--font-mono), "IBM Plex Mono", ui-monospace, monospace;
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    white-space: nowrap;
+  }
+  .qbar-cta:active {
+    background: #f0d27a;
+  }
+}
+@media (max-width: 639px) and (prefers-reduced-motion: reduce) {
+  html.js .qbar {
+    transition: none;
+  }
+}
+
+/* Phones: a light press on cards and buttons, in place of the tap highlight */
+@media (hover: none) and (pointer: coarse) {
+  .card,
+  .ind-box,
+  .welcome-card,
+  .svc-card,
+  .svc-tile,
+  .hs-figure,
+  .quick-tile,
+  .menu-tile,
+  .route,
+  .btn,
+  .qbar-btn,
+  .qbar-cta {
+    transition-property: transform, background-color, border-color, color, opacity, box-shadow;
+  }
+  .card:active,
+  .ind-box:active,
+  .welcome-card:active,
+  .svc-card:active,
+  .svc-tile:active,
+  .hs-figure:active,
+  .quick-tile:active,
+  .route:active {
+    transform: scale(0.985);
+    transition-duration: 0.15s;
+  }
+  .btn:active,
+  .qbar-cta:active {
+    transform: scale(0.97);
+    transition-duration: 0.12s;
+  }
+}
+@media (max-width: 639px) {
+  /* the Contact page's form: the send button across the form, as in the pop-up */
+  .enq-form-wide .enq-actions {
+    display: grid;
+    justify-items: center;
+    gap: 0.4rem;
+  }
+  .enq-form-wide .enq-submit {
+    width: 100%;
+  }
+  .contact-hero .quick + p {
+    text-align: left;
+  }
+}
+
+/* ---- Home's hero: a film played by scrolling (ScrollHero.tsx, src/motion/scrollhero.ts) ------
+   Eight steps: the section is eight screens tall and its stage stays on screen; the scroll
+   position picks the film's frame (drawn on the canvas) and the words. Without the motion
+   (reduced motion, no JavaScript) the hero is one screen: the film's last frame, the name, the
+   promise and the buttons. Docs: docs/HERO.md */
+@layer components {
+  .sh {
+    position: relative;
+    background: rgb(var(--c-deep));
+  }
+  .sh.is-live {
+    height: 800svh;
+  }
+  .sh-stage {
+    position: relative;
+    height: 100vh;
+    height: 100svh;
+    min-height: 560px;
+    overflow: hidden;
+    isolation: isolate;
+    background: #080705;
+  }
+  .sh.is-live .sh-stage {
+    position: sticky;
+    top: 0;
+  }
+  .sh-still,
+  .sh-canvas {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+  }
+  .sh-still img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: 50% 50%;
+  }
+  /* live: the canvas takes over once it has drawn a frame */
+  .sh-canvas {
+    opacity: 0;
+    transition: opacity 0.5s linear;
+  }
+  .sh.is-drawn .sh-canvas {
+    opacity: 1;
+  }
+  .sh.is-live .sh-still {
+    visibility: hidden;
+  }
+  .sh:not(.is-live) .sh-canvas {
+    display: none;
+  }
+  .sh-mark {
+    position: absolute;
+    right: 22px;
+    bottom: 22px;
+    width: 35px;
+    height: auto;
+    z-index: 2;
+    opacity: 0;
+    pointer-events: none;
+  }
+  .sh-mark.is-on {
+    opacity: 1;
+  }
+  /* the shade under the words: from the left, where the film leaves dark space */
+  .sh-scrim {
+    position: absolute;
+    inset: 0;
+    z-index: 3;
+    pointer-events: none;
+    background:
+      linear-gradient(90deg, rgb(8 7 5 / 0.78) 0%, rgb(8 7 5 / 0.42) 32%, transparent 58%),
+      linear-gradient(0deg, rgb(8 7 5 / 0.55) 0%, transparent 30%),
+      linear-gradient(180deg, rgb(8 7 5 / 0.5) 0%, transparent 18%);
+  }
+
+  /* the words: bottom left, one step at a time */
+  .sh-words {
+    position: absolute;
+    inset: 0;
+    z-index: 4;
+    pointer-events: none;
+  }
+  .sh-step {
+    position: absolute;
+    left: var(--gutter);
+    right: var(--gutter);
+    bottom: clamp(64px, 12vh, 128px);
+    max-width: 38rem;
+    opacity: 0;
+    visibility: hidden;
+    transform: translate3d(0, 26px, 0);
+    filter: blur(8px);
+    transition:
+      opacity 0.7s var(--ease-film),
+      transform 0.9s var(--ease-film),
+      filter 0.7s var(--ease-film),
+      visibility 0s linear 0.7s;
+  }
+  .sh-step.is-on {
+    opacity: 1;
+    visibility: visible;
+    transform: none;
+    filter: none;
+    pointer-events: auto;
+    transition:
+      opacity 0.8s var(--ease-film) 0.12s,
+      transform 1s var(--ease-film) 0.12s,
+      filter 0.8s var(--ease-film) 0.12s,
+      visibility 0s;
+  }
+  .sh-title {
+    display: grid;
+    gap: 0.9rem;
+  }
+  .sh-name {
+    font-size: clamp(2.6rem, 8vw, 6.8rem);
+    line-height: 0.88;
+    letter-spacing: -0.01em;
+  }
+  .sh-tagline {
+    font-size: clamp(1rem, 1.6vw, 1.35rem);
+    color: rgb(var(--c-bone) / 0.85);
+  }
+  /* over the name, inside the h1: what Krini Crude is and where, with the same short gold rule
+     as each step's count (01 / 03) */
+  .sh-kicker {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    color: rgb(var(--c-bone) / 0.78);
+  }
+  .sh-kicker::after {
+    content: "";
+    flex: none;
+    width: 0;
+    height: 1px;
+    background: rgb(var(--c-amber) / 0.8);
+    transition: width 1.1s var(--ease-film) 0.25s;
+  }
+  .sh-step.is-on .sh-kicker::after,
+  .sh:not(.is-live) .sh-kicker::after {
+    width: 56px;
+  }
+  .sh-motto {
+    margin-top: 0.5rem;
+    font-size: clamp(0.95rem, 1.3vw, 1.1rem);
+    color: rgb(var(--c-amber));
+  }
+  .sh-big {
+    margin-top: 0.8rem;
+    font-size: clamp(2.1rem, 4.6vw, 4.2rem);
+    line-height: 0.96;
+    max-width: 15ch;
+    text-wrap: balance;
+  }
+  /* which of the five: 01 / 05, with a short rule that grows as each comes in */
+  .sh-count {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    color: rgb(var(--c-bone) / 0.6);
+  }
+  .sh-count::after {
+    content: "";
+    width: 0;
+    height: 1px;
+    background: rgb(var(--c-amber) / 0.8);
+    transition: width 1.1s var(--ease-film) 0.25s;
+  }
+  .sh-step.is-on .sh-count::after {
+    width: 56px;
+  }
+  .sh-step > .label:first-child + .sh-big {
+    margin-top: 1rem;
+  }
+  .sh-body {
+    margin-top: 1rem;
+    max-width: 30rem;
+    font-size: clamp(1.05rem, 1.6vw, 1.3rem);
+    line-height: 1.55;
+    color: rgb(var(--c-bone) / 0.92);
+  }
+  .sh-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    margin-top: 1.4rem;
+    color: rgb(var(--c-amber));
+  }
+  .sh-link .arrow {
+    transition: transform 0.4s var(--ease-film);
+  }
+  .sh-link:hover .arrow {
+    transform: translateX(4px);
+  }
+  .sh-cue {
+    display: inline-flex;
+    align-items: center;
+    gap: 12px;
+    margin-top: 2.2rem;
+    color: rgb(var(--c-bone) / 0.7);
+  }
+  .sh-cue-line {
+    position: relative;
+    width: 1px;
+    height: 34px;
+    overflow: hidden;
+    background: rgb(var(--c-bone) / 0.2);
+  }
+  .sh-cue-line::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: rgb(var(--c-amber));
+    animation: sh-cue 1.8s var(--ease-film) infinite;
+  }
+  @keyframes sh-cue {
+    from {
+      transform: translateY(-100%);
+    }
+    to {
+      transform: translateY(100%);
+    }
+  }
+  .sh-figs {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 1.2rem 2rem;
+    margin-top: 1.2rem;
+  }
+  .sh-figs dt {
+    color: rgb(var(--c-bone) / 0.7);
+  }
+  .sh-figs dd {
+    margin-top: 0.4rem;
+    font-size: clamp(1.4rem, 2.6vw, 2.3rem);
+    line-height: 1;
+  }
+  .sh-ctas {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-top: 1.8rem;
+  }
+  /* the first screen: the three lines as small gold-edged pills, each a jump to its part of the
+     film (without JavaScript, a link to its page) */
+  .sh-jumps {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-top: 1.5rem;
+  }
+  .sh-jump {
+    display: inline-flex;
+    align-items: center;
+    min-height: 32px;
+    padding: 0 15px;
+    border: 1px solid rgb(212 175 55 / 0.5);
+    border-radius: 999px;
+    background: rgb(8 7 5 / 0.35);
+    -webkit-backdrop-filter: blur(6px);
+    backdrop-filter: blur(6px);
+    color: rgb(var(--c-bone));
+    transition: background-color 0.3s var(--ease-film), color 0.3s var(--ease-film), border-color 0.3s var(--ease-film);
+  }
+  .sh-jump:hover {
+    border-color: rgb(var(--c-amber));
+    background: rgb(212 175 55 / 0.14);
+    color: rgb(var(--c-amber));
+  }
+  /* under each line's words: a spec plate of its products and grades */
+  .sh-spec {
+    display: grid;
+    gap: 7px;
+    max-width: 30rem;
+    margin-top: 1.25rem;
+  }
+  .sh-spec-row {
+    display: grid;
+    grid-template-columns: 7.2rem minmax(0, 1fr);
+    align-items: center;
+    gap: 0.75rem;
+    padding-top: 7px;
+    border-top: 1px solid rgb(var(--c-bone) / 0.16);
+  }
+  .sh-spec-row dt {
+    color: rgb(var(--c-amber));
+  }
+  .sh-spec-row dd {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 5px;
+  }
+  /* a grade or a product, as on a stamped plate */
+  .grade {
+    display: inline-flex;
+    align-items: center;
+    min-height: 22px;
+    padding: 0 7px;
+    border: 1px solid rgb(var(--c-bone) / 0.26);
+    border-radius: 4px;
+    background: rgb(8 7 5 / 0.35);
+    font-family: var(--font-mono), "IBM Plex Mono", ui-monospace, monospace;
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 0.04em;
+    line-height: 1;
+    white-space: nowrap;
+    color: rgb(var(--c-bone));
+  }
+
+  /* ---- Home: the range ---------------------------------------------------------------
+     Right after the hero, lubricants, greases and aerosols: three cards, each opening on a
+     still from its moment in the film, then the name, the series, the live site's line and a
+     spec plate of the range; side by side from 1024px, a row to swipe on phones. */
+  .range-head {
+    display: grid;
+    gap: 1.5rem;
+    margin-top: clamp(36px, 4.5vw, 56px);
+  }
+  @media (min-width: 1024px) {
+    .range-head {
+      grid-template-columns: minmax(0, 7fr) minmax(0, 4fr);
+      align-items: end;
+      gap: 2rem;
+    }
+  }
+  .range-lead {
+    max-width: 40ch;
+    font-size: 1.05rem;
+    line-height: 1.6;
+    color: rgb(var(--c-mute));
+  }
+  .range-grid {
+    margin-top: clamp(36px, 4.5vw, 64px);
+  }
+  @media (min-width: 640px) {
+    .range-grid {
+      display: grid;
+      gap: clamp(16px, 1.6vw, 24px);
+    }
+  }
+  @media (min-width: 1024px) {
+    .range-grid {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+  }
+  .range-card {
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    border: 1px solid rgb(var(--c-bone) / 0.1);
+    border-radius: 14px;
+    background: linear-gradient(180deg, rgb(var(--c-graphite)), rgb(var(--c-ink)));
+  }
+  .range-media {
+    aspect-ratio: 3 / 2;
+  }
+  .range-media img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+  .range-body {
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+    padding: clamp(20px, 2vw, 28px);
+  }
+  .range-index {
+    color: rgb(var(--c-mute));
+  }
+  .range-name {
+    margin-top: 0.9rem;
+    font-size: clamp(1.45rem, 2vw, 1.9rem);
+    line-height: 1;
+  }
+  .range-series {
+    margin-top: 0.75rem;
+    color: rgb(var(--c-amber));
+  }
+  .range-line {
+    margin-top: 0.9rem;
+    font-size: 0.95rem;
+    line-height: 1.6;
+    color: rgb(var(--c-mute));
+  }
+  .range-spec {
+    margin-top: 1.4rem;
+    border-top: 1px solid rgb(var(--c-bone) / 0.1);
+  }
+  .range-row {
+    display: grid;
+    grid-template-columns: 8.4rem minmax(0, 1fr);
+    align-items: baseline;
+    gap: 0.75rem;
+    padding: 0.65rem 0;
+    border-bottom: 1px solid rgb(var(--c-bone) / 0.08);
+  }
+  .range-row dt a {
+    color: rgb(var(--c-bone) / 0.78);
+    transition: color 0.3s var(--ease-film);
+  }
+  .range-row dt a:hover {
+    color: rgb(var(--c-amber));
+  }
+  .range-row dd {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 5px;
+  }
+  .range-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    margin-top: auto;
+    padding-top: 1.5rem;
+    color: rgb(var(--c-amber));
+  }
+  .range-link .arrow {
+    transition: transform 0.4s var(--ease-film);
+  }
+  .range-link:hover .arrow {
+    transform: translateX(4px);
+  }
+  .range-credit {
+    margin-top: 1.5rem;
+    color: rgb(var(--c-mute) / 0.85);
+  }
+  /* tablets: the cards one under another, each still a wide band across the top */
+  @media (min-width: 640px) and (max-width: 1023px) {
+    .range-media {
+      aspect-ratio: 21 / 9;
+    }
+  }
+  @media (max-width: 639px) {
+    .m-swipe > .range-card {
+      flex-direction: column;
+    }
+    /* phones: each name above its grades, so the grades have the card's whole width */
+    .range-row {
+      grid-template-columns: minmax(0, 1fr);
+      gap: 0.45rem;
+    }
+  }
+
+  /* the rail: right side, the eight steps; a thin bar along the bottom */
+  .sh-rail {
+    position: absolute;
+    right: var(--gutter);
+    top: 50%;
+    z-index: 5;
+    transform: translateY(-50%);
+    display: none;
+    /* the film is bright in places: a soft shade keeps the marks and names legible */
+    filter: drop-shadow(0 1px 6px rgb(8 7 5 / 0.6));
+  }
+  .sh-rail ol {
+    display: grid;
+    gap: 4px;
+  }
+  .sh-tick {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 10px;
+    width: 100%;
+    min-height: 30px;
+    color: rgb(var(--c-bone) / 0.5);
+    transition: color 0.4s var(--ease-film);
+  }
+  .sh-tick::after {
+    content: "";
+    width: 18px;
+    height: 2px;
+    background: currentColor;
+    transition: width 0.5s var(--ease-film), background-color 0.4s var(--ease-film);
+  }
+  .sh-tick-name {
+    max-width: 0;
+    overflow: hidden;
+    white-space: nowrap;
+    opacity: 0;
+    transition: opacity 0.4s var(--ease-film), max-width 0.5s var(--ease-film);
+  }
+  .sh-tick:hover,
+  .sh-tick:focus-visible,
+  .sh-tick.is-on {
+    color: rgb(var(--c-bone));
+  }
+  .sh-tick:hover .sh-tick-name,
+  .sh-tick:focus-visible .sh-tick-name,
+  .sh-tick.is-on .sh-tick-name {
+    max-width: 12rem;
+    opacity: 1;
+  }
+  .sh-tick.is-on::after {
+    width: 36px;
+    background: rgb(var(--c-amber));
+  }
+  .sh-skip {
+    display: block;
+    margin-top: 18px;
+    text-align: right;
+    color: rgb(var(--c-bone) / 0.65);
+  }
+  .sh-skip:hover {
+    color: rgb(var(--c-amber));
+  }
+  .sh-bar {
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    height: 3px;
+    z-index: 5;
+    background: rgb(var(--c-bone) / 0.1);
+  }
+  .sh-bar span {
+    display: block;
+    height: 100%;
+    background: rgb(var(--c-yellow));
+    transform: scaleX(0);
+    transform-origin: 0 50%;
+  }
+  @media (min-width: 1024px) {
+    .sh.is-live .sh-rail {
+      display: block;
+    }
+  }
+  /* phones: the words over a shade at the foot of the screen, the film above them */
+  @media (max-width: 639px) {
+    .sh-step {
+      bottom: calc(84px + env(safe-area-inset-bottom, 0px));
+    }
+    .sh-scrim {
+      background:
+        linear-gradient(0deg, rgb(8 7 5 / 0.9) 0%, rgb(8 7 5 / 0.6) 34%, transparent 60%),
+        linear-gradient(180deg, rgb(8 7 5 / 0.5) 0%, transparent 18%);
+    }
+    .sh-figs dd {
+      font-size: 1.25rem;
+    }
+  }
+
+  /* one screen, without the motion (and for a moment before the script starts): the name at
+     the top, the promise and the buttons at the foot, over the film's last frame. The words flow,
+     the promise pushed to the foot, so a screen too short for both makes the hero taller rather
+     than letting the two overlap. Flow's mark shows once, in the stage's corner: the still is
+     drawn a little larger than the stage, so the footage's own mark (within 3.6% of the wide
+     still's corner, 5.4% of the tall one's) always falls outside it, whatever the crop. */
+  .sh:not(.is-live) .sh-step:not(.sh-open):not(.sh-end),
+  .sh:not(.is-live) .sh-cue,
+  .sh:not(.is-live) .sh-bar {
+    display: none;
+  }
+  .sh:not(.is-live) .sh-stage {
+    display: flex;
+    height: auto;
+    min-height: max(560px, 100vh);
+    min-height: max(560px, 100svh);
+  }
+  .sh:not(.is-live) .sh-words {
+    position: relative;
+    inset: auto;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    gap: clamp(40px, 7vh, 72px);
+    padding-top: calc(var(--nav-h) + 6vh);
+    padding-bottom: clamp(64px, 12vh, 128px);
+  }
+  .sh:not(.is-live) .sh-open,
+  .sh:not(.is-live) .sh-end {
+    position: relative;
+    inset: auto;
+    opacity: 1;
+    visibility: visible;
+    filter: none;
+    transform: none;
+    pointer-events: auto;
+  }
+  .sh:not(.is-live) .sh-name {
+    font-size: clamp(2.4rem, 6.4vw, 5.6rem);
+  }
+  .sh:not(.is-live) .sh-still img {
+    transform: scale(1.09);
+  }
+  .sh:not(.is-live) .sh-mark {
+    opacity: 1;
+  }
+  @media (max-aspect-ratio: 4/5) {
+    .sh:not(.is-live) .sh-still img {
+      transform: scale(1.13);
+    }
+  }
+  @media (max-width: 639px) {
+    .sh:not(.is-live) .sh-words {
+      padding-bottom: calc(84px + env(safe-area-inset-bottom, 0px));
+    }
+  }
+  /* phones: the name stands at the top of the still, over bright metal; shade it */
+  @media (max-width: 639px) {
+    .sh:not(.is-live) .sh-scrim {
+      background:
+        linear-gradient(0deg, rgb(8 7 5 / 0.9) 0%, rgb(8 7 5 / 0.6) 40%, transparent 62%),
+        linear-gradient(180deg, rgb(8 7 5 / 0.82) 0%, rgb(8 7 5 / 0.5) 28%, transparent 46%);
+    }
+  }
+}

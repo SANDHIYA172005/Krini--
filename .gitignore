@@ -1,0 +1,17 @@
+# dependencies and builds
+node_modules
+.next
+out
+preview-dist
+*.tsbuildinfo
+next-env.d.ts.bak
+
+# the film's source footage (kept out of the repository; see docs/HERO.md)
+film-src
+flow-src
+
+# local files
+.env*.local
+.vercel
+*.log
+.DS_Store

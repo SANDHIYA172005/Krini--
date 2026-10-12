@@ -1,0 +1,22 @@
+/** @type {import('next').NextConfig} */
+const nextConfig = {
+  reactStrictMode: true,
+  // `STATIC_EXPORT=1 next build` produces a fully static site in /out
+  output: process.env.STATIC_EXPORT ? "export" : undefined,
+  images: { unoptimized: true },
+  poweredByHeader: false,
+  async headers() {
+    return [
+      {
+        source: "/images/:path*",
+        headers: [{ key: "Cache-Control", value: "public, max-age=31536000, immutable" }],
+      },
+      {
+        source: "/video/:path*",
+        headers: [{ key: "Cache-Control", value: "public, max-age=31536000, immutable" }],
+      },
+    ];
+  },
+};
+
+export default nextConfig;
