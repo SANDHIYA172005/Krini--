@@ -1,5 +1,5 @@
 import { enquireHref, routes, site } from "../content/site";
-import { lines, type Line, type Product } from "../content/catalogue";
+import { lines, type Line, type Product, type ProductRangeItem } from "../content/catalogue";
 import { articles } from "../content/articles";
 import { lineSeo, trail, type Crumb } from "../content/pages";
 import { abs, breadcrumbs, faqPage, productList, webPage } from "../content/schema";
@@ -9,6 +9,7 @@ import { Faq } from "../components/Faq";
 import { CtaBand } from "../components/CtaBand";
 import { Guides, LineCards, SectionIntro } from "../components/Blocks";
 import { Arrow, Fact, Icon, SectionHead, type IconName } from "../components/ui";
+import { ProductDetailsTrigger } from "../components/ProductDetailsModal";
 
 const industryIcon: Record<string, IconName> = { "auto-assembly": "car", "auto-component": "gear", construction: "crane", paint: "spray" };
 
@@ -226,18 +227,55 @@ function ProductSheet({ p, n, type }: { p: Product; n: string; type: string }) {
             </div>
           ) : null}
           {p.range ? (
-            <div className="lp-row">
-              <dt className="label">Available products</dt>
-              <dd>
-                <ul className="lp-range">
-                  {p.range.map((r) => (
-                    <li key={r.name}>
-                      <span className="lp-range-name">{r.name}</span>
-                      <span className="lp-range-text">{r.text}</span>
-                    </li>
-                  ))}
-                </ul>
-              </dd>
+            <div className="lp-row lp-row-range">
+              <div className="lp-range-header">
+                <span className="label lp-range-lead-label">
+                  {p.range.length === 4 ? "Four products" : p.range.length === 2 ? "Two products" : `${p.range.length} products`} · Complete technical information
+                </span>
+              </div>
+              <ul className="lp-range-cards">
+                {p.range.map((r, rIdx) => (
+                  <li key={r.name} className={`lp-pitem ${r.details ? "lp-pitem-active" : ""}`}>
+                    <div className="lp-pitem-main">
+                      <div className="lp-pitem-thumb">
+                        {r.details?.image ? (
+                          <img
+                            src={r.details.image}
+                            alt={r.details.imageAlt || r.name}
+                            className="lp-pitem-img"
+                            width={88}
+                            height={88}
+                            loading="lazy"
+                          />
+                        ) : (
+                          <div className="lp-pitem-placeholder">
+                            <CanisterIcon />
+                          </div>
+                        )}
+                      </div>
+                      <div className="lp-pitem-info">
+                        <h4 className="lp-pitem-title">
+                          <span className="lp-pitem-num tabular-nums">0{rIdx + 1}.</span> {r.name}
+                        </h4>
+                        <p className="lp-pitem-sub">{r.text}</p>
+                        <p className="lp-pitem-meta">
+                          {r.details?.metaLine ||
+                            (r.details
+                              ? "Key benefits · Technical properties · Coverage · Application method · Storage and handling · Packing"
+                              : "Benefits · Technical properties · Coverage · Usage · Storage and packing")}
+                        </p>
+                        {r.details ? (
+                          <ProductDetailsTrigger product={r} type={type} />
+                        ) : (
+                          <div className="lp-pitem-chips">
+                            <span className="lp-chip lp-chip-muted">TDS on Request</span>
+                          </div>
+                        )}
+                      </div>
+                    </div>
+                  </li>
+                ))}
+              </ul>
             </div>
           ) : null}
           {p.uses ? (
@@ -281,6 +319,29 @@ function ProductSheet({ p, n, type }: { p: Product; n: string; type: string }) {
     </article>
   );
 }
+
+function CanisterIcon() {
+  return (
+    <svg
+      width="36"
+      height="36"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="1.2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      className="lp-canister-icon"
+      aria-hidden="true"
+    >
+      <rect x="5" y="5" width="14" height="16" rx="2" />
+      <path d="M8 2h8v3H8z" />
+      <path d="M12 9v5" />
+      <path d="M10 11.5h4" />
+    </svg>
+  );
+}
+
 
 /**
  * The last card in the grid, on navy: products made to the customer's own

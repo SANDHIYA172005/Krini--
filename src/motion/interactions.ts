@@ -460,11 +460,62 @@ export function initEnquiry(d: Disposer, scroller: Scroller) {
     });
   }
 
+  // Product details pop-up modals
+  document.querySelectorAll<HTMLDialogElement>(".pds-modal-dialog").forEach((pdsDialog) => {
+    const closePds = () => {
+      if (pdsDialog.open) pdsDialog.close();
+    };
+    d.on(pdsDialog, "close", () => {
+      document.documentElement.classList.remove("has-dialog");
+      scroller.start();
+      opener?.focus({ preventScroll: true });
+    });
+    pdsDialog.querySelectorAll<HTMLElement>("[data-modal-close]").forEach((b) => d.on(b, "click", closePds));
+    d.on(pdsDialog, "click", (e) => {
+      const me = e as MouseEvent;
+      if (me.target !== pdsDialog) return;
+      const r = pdsDialog.getBoundingClientRect();
+      if (me.clientX < r.left || me.clientX > r.right || me.clientY < r.top || me.clientY > r.bottom) closePds();
+    });
+  });
+
+  d.on(document, "click", (e) => {
+    const target = e.target as HTMLElement | null;
+    if (!target) return;
+
+    const pdsOpenBtn = target.closest<HTMLElement>("[data-pds-open]");
+    if (pdsOpenBtn) {
+      e.preventDefault();
+      const targetId = pdsOpenBtn.dataset.pdsOpen;
+      const pdsDialog = targetId ? (document.getElementById(targetId) as HTMLDialogElement | null) : null;
+      if (pdsDialog && typeof pdsDialog.showModal === "function" && !pdsDialog.open) {
+        opener = pdsOpenBtn;
+        scroller.stop();
+        pdsDialog.showModal();
+        document.documentElement.classList.add("has-dialog");
+      }
+      return;
+    }
+
+    const closeBtn = target.closest<HTMLElement>("[data-modal-close]");
+    if (closeBtn) {
+      const parentDialog = closeBtn.closest<HTMLDialogElement>("dialog");
+      if (parentDialog && parentDialog.open) {
+        e.preventDefault();
+        parentDialog.close();
+      }
+    }
+  });
+
   document.querySelectorAll<HTMLElement>("[data-enquire]").forEach((el) => {
     if (el.closest("[data-enquiry-form]")) return;
     d.on(el, "click", (e) => {
       const type = el.dataset.enquire || "Enquiry";
       const product = el.dataset.product;
+      const openDialog = el.closest<HTMLDialogElement>("dialog");
+      if (openDialog && openDialog.open && openDialog !== dialog) {
+        openDialog.close();
+      }
       if (pageForm) {
         e.preventDefault();
         prefill(pageForm, type, product);

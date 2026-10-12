@@ -15,3 +15,5 @@ flow-src
 .vercel
 *.log
 .DS_Store
+.agents
+*.code-workspace

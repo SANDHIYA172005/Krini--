@@ -12,13 +12,55 @@
  */
 import { placeholder, type Placeholder } from "./placeholder";
 
+export type ProductRangeItemDetails = {
+  image?: string;
+  imageAlt?: string;
+  description?: string;
+  purpose?: string[];
+  coverage?: string;
+  coverageNote?: string;
+  benefits?: string[];
+  properties?: {
+    property: string;
+    value: string;
+    spec?: string;
+  }[];
+  propertiesPendingNote?: string;
+  application?: string[];
+  packing?: string;
+  storage?: string;
+  shelfLife?: string;
+  note?: string;
+  pdsRevision?: string;
+  status?: "verified" | "pending";
+  purposeTitle?: string;
+  applicationTitle?: string;
+  dilution?: string;
+  dilutionNote?: string;
+  dilutionRatios?: {
+    operation: string;
+    ratio: string;
+  }[];
+  metaLine?: string;
+  reportUrl?: string;
+  reportLabel?: string;
+  reportKicker?: string;
+  reportButtonText?: string;
+};
+
+export type ProductRangeItem = {
+  name: string;
+  text: string;
+  details?: ProductRangeItemDetails;
+};
+
 export type Product = {
   id: string;
   name: string;
   /** Variants or grades, as listed on krinicrude.com. */
   variants?: string[];
   /** "Available products" under this category on krinicrude.com: each name and its description, word for word. */
-  range?: { name: string; text: string }[];
+  range?: ProductRangeItem[];
   /** What this type of product does, in general terms. */
   about: string;
   /** Typical uses, in general terms. */
@@ -87,14 +129,131 @@ export const lines: Line[] = [
         name: "Soluble Cutting Oil",
         variants: ["Mineral coolant oil", "Semi-synthetic coolant oil"],
         range: [
-          { name: "1-COOL Aquacut 150", text: "Mineral Coolant Oil" },
-          { name: "1-COOL AL 5000", text: "Multimetal Semisynthetic Coolant Oil" },
+          {
+            name: "1-COOL Aquacut 150",
+            text: "Premium mineral coolant cutting fluid developed for light to heavy duty machining and grinding.",
+            details: {
+              status: "verified",
+              pdsRevision: "PDS 2024",
+              image: "/images/1-cool-aquacut-150.webp",
+              imageAlt: "1-COOL Aquacut 150 mineral coolant container and sample emulsion",
+              description:
+                "1-COOL AQUACUT 150 is a premium mineral coolant cutting fluid developed for use in light to heavy duty machining of ferrous and non-ferrous metal alloys, as well as general purpose grinding. Formulated with special lubricity and E.P. additives and rust inhibitors, it delivers extended sump life and improved tool longevity.",
+              metaLine:
+                "Key benefits · Technical properties · Dilution ratios · Mixing guidelines · Storage & handling · Packing",
+              dilution: "3% – 8%",
+              dilutionNote: "Grinding (3–5%), General Machining (5–6%), Heavy Duty (5–8%)",
+              purposeTitle: "Suitable Operations & Material Compatibility",
+              purpose: [
+                "Light to heavy duty machining operations",
+                "General purpose metal grinding",
+                "Cast Iron",
+                "Ferrous & non-ferrous metal alloys",
+                "Stainless Steels",
+                "Turning, milling, drilling & sawing",
+              ],
+              benefits: [
+                "Excellent cooling and lubricating properties for superior surface finish",
+                "High resistance to bacterial attack, reducing foul odour and maximizing coolant life",
+                "Forms a highly stable milky emulsion even in hard water conditions",
+                "Offers excellent rust and corrosion protection for multi-metal components",
+                "Nitrite and chlorine free, ensuring an environmentally safe workspace",
+                "Significantly extends sump life while minimizing cutting tool wear",
+              ],
+              properties: [
+                { property: "Appearance (Concentrate)", value: "Clear brown transparent", spec: "Visual" },
+                { property: "Emulsion Appearance", value: "Milky White", spec: "Diluted in water" },
+                { property: "Density @ 29.5 °C", value: "0.840 g/ml", spec: "Standard density" },
+                { property: "Thermal Stability Test", value: "Passes", spec: "Stable thermal profile" },
+                { property: "Cast Iron Corrosion Test", value: "No rust", spec: "@ 3%, 200 ppm (IP 287)" },
+                { property: "pH (5% dilution)", value: "9.4", spec: "In distilled water" },
+                { property: "Refractometer Reading Factor", value: "1.0", spec: "Direct reading" },
+              ],
+              dilutionRatios: [
+                { operation: "Surface & Cylindrical Grinding", ratio: "3 – 5 %" },
+                { operation: "General Machining (Turning / Milling)", ratio: "5 – 6 %" },
+                { operation: "Heavy Duty Cutting & Broaching", ratio: "5 – 8 %" },
+              ],
+              applicationTitle: "Mixing Guidelines & Sump Management",
+              application: [
+                "While mixing, always add coolant oil to water and never the reverse, agitating continuously to ensure a homogenous milky emulsion.",
+                "Use good quality water. Deionized (D.I.) water provides extended sump life, as high water hardness and chlorides reduce emulsion life and corrosion inhibition.",
+                "Always thoroughly clean and sterilize the machine sump before charging with fresh coolant mixture.",
+                "Check emulsion concentration regularly using a refractometer (multiplication factor: 1.0) and top up with premixed coolant rather than pure water.",
+              ],
+              packing: "Standard packing: 20 L pails & 210 L industrial steel drums",
+              storage:
+                "Store indoors in original tightly sealed containers between 5 °C and 40 °C. Protect from freezing and direct exposure to intense heat or rain.",
+              shelfLife: "12 months from date of manufacture when stored in unopened containers",
+              note: "Typical values based on laboratory batch testing (PDS Rev. 2024). Technical values are typical and not a sales specification.",
+            },
+          },
+          {
+            name: "1-COOL AL 5000",
+            text: "High-performance semi-synthetic, environment friendly cutting fluid for light to heavy duty machining and grinding.",
+            details: {
+              status: "verified",
+              pdsRevision: "PDS 2026",
+              image: "/images/1-cool-al-5000.webp",
+              imageAlt: "1-COOL AL 5000 semi-synthetic coolant container during CNC milling",
+              description:
+                "1-COOL AL 5000 is a semi-synthetic, environment friendly cutting fluid developed for use in light to heavy duty machining of ferrous and non-ferrous metal alloys. It is also suitable for general purpose grinding. Formulated with special lubricity and E.P. additives and rust inhibitors, it delivers extended sump life, reduced downtime, and improved tool longevity.",
+              metaLine:
+                "Key benefits · Technical properties · Dilution ratios · Mixing guidelines · Storage & handling · Packing",
+              dilution: "3% – 12%",
+              dilutionNote: "Grinding (3–5%), General Machining (4–5%), Heavy Duty (6–12%)",
+              purposeTitle: "Suitable Operations & Material Compatibility",
+              purpose: [
+                "Light to heavy duty machining operations",
+                "General purpose metal grinding",
+                "Cast Iron",
+                "Ferrous and Non-ferrous Alloys",
+                "Stainless Steels",
+                "Turning, milling, drilling & sawing",
+              ],
+              benefits: [
+                "Excellent cooling and lubricating properties for precision surface finish",
+                "Pleasant odour of the emulsions, making it highly user friendly",
+                "High resistance to bacterial attack, reducing odour and maximizing coolant life",
+                "Forms a stable emulsion even in hard water conditions",
+                "Offers excellent rust protection of ferrous components",
+                "Reduces machine downtime and maintenance costs",
+                "Nitrite and chlorine free, hence environmentally safe",
+              ],
+              properties: [
+                { property: "Appearance (Concentrate)", value: "Clear Amber fluid", spec: "Visual inspection" },
+                { property: "Emulsion Appearance", value: "Translucent to off white", spec: "Diluted in water" },
+                { property: "Density @ 29.5 °C", value: "0.970 g/ml", spec: "Standard density" },
+                { property: "Thermal Stability Test", value: "Passes", spec: "Stable thermal profile" },
+                { property: "Cast Iron Corrosion Test", value: "No rust", spec: "@ 3%, 200 ppm (IP 287)" },
+                { property: "pH (10% dilution)", value: "9.6", spec: "In distilled water" },
+                { property: "Refractometer Reading Factor", value: "1.4", spec: "Refractometer multiplier" },
+              ],
+              dilutionRatios: [
+                { operation: "Surface & Cylindrical Grinding", ratio: "3 – 5 %" },
+                { operation: "General Machining (Turning / Milling)", ratio: "4 – 5 %" },
+                { operation: "Heavy Duty Machining & Cutting", ratio: "6 – 12 %" },
+              ],
+              applicationTitle: "Mixing Guidelines & Sump Management",
+              application: [
+                "While mixing, always add oil to water and never the reverse, agitating thoroughly to form a stable translucent emulsion.",
+                "Use good quality water. Deionized (D.I.) water gives extended sump life, as high hardness and chlorides reduce product life and corrosion inhibition.",
+                "Ensure machine sumps are thoroughly cleaned and sterilized before charging with fresh coolant mixture.",
+                "Check emulsion concentration regularly using a refractometer (multiplication factor: 1.4) and replenish with premixed emulsion rather than pure water.",
+              ],
+              packing: "Standard packing: 26 L pails & 210 L industrial steel drums",
+              storage:
+                "Store indoors in original tightly closed containers between 5 °C and 40 °C. Protect from freezing and direct exposure to intense heat or rain.",
+              shelfLife: "12 months from date of manufacture when stored in unopened containers",
+              note: "Typical values based on laboratory batch testing (PDS Rev. 2026). Technical values are typical and not a sales specification.",
+            },
+          },
           { name: "1-COOL AL 7000", text: "Premium Semi Synthetic Coolant Oil" },
         ],
         about:
           "Soluble cutting oils are mixed with water to make a coolant. The coolant carries heat away from the cutting zone, lubricates, flushes away chips and helps protect parts and machines from rust.",
         uses: ["Turning, milling, drilling and other machining with a coolant system", "Operations where cooling matters as much as lubrication"],
-        tbc: [TDS, placeholder("Recommended mixing ratio")],
+        tbc: [TDS],
       },
       {
         id: "rust-preventive-oil",
@@ -183,28 +342,254 @@ export const lines: Line[] = [
         id: "shuttering-oil",
         name: "Shuttering Oil",
         range: [
-          { name: "Repel Shuttering Oil", text: "Premium Shuttering Oil Suitable for Aluminium & All Formworks" },
-          { name: "Magic Shuttering Oil", text: "Suitable for Aluminium, MS, Plywood & All Formworks" },
-          { name: "Silease 360 Shuttering Oil", text: "Suitable for Precast Shuttering Oil" },
-          { name: "Nikri AL Shuttering Oil", text: "Cost Effective Mivan & Other Formworks" },
-          { name: "Nikri 30 Shuttering Oil", text: "Cost Effective MS, Plywood & Road Projects Shuttering Oil" },
+          {
+            name: "Silease 360 Shuttering Oil",
+            text: "Precast shuttering oil and mould release agent for precast concrete production.",
+            details: {
+              status: "verified",
+              pdsRevision: "Rev. 09/2026",
+              image: "/images/silease-360.webp",
+              imageAlt: "Silease 360 Precast Shuttering Oil product sample",
+              description:
+                "SILEASE 360 is a ready-to-use mould release oil developed for precast concrete production. It forms a uniform release film on the formwork, supports clean demoulding and helps reduce surface pinholes and honeycombing when applied correctly.",
+              purpose: [
+                "Precast concrete production",
+                "Mild steel moulds",
+                "Plywood formwork",
+                "FRP formwork",
+                "Vertical and horizontal precast moulding",
+              ],
+              coverage: "40 m²/L",
+              coverageNote:
+                "Average coverage. Actual coverage may vary with formwork porosity, surface condition and application method.",
+              benefits: [
+                "Helps minimise pinholes and improves the appearance of precast concrete surfaces",
+                "Provides clean and easy demoulding with reduced concrete adhesion to formwork",
+                "Promotes a uniform surface finish without adversely affecting concrete colour",
+                "Suitable for vertical and horizontal precast moulding applications",
+                "Ready to use and economical due to high spreading coverage",
+              ],
+              properties: [
+                { property: "Appearance", value: "Milky / Ivory Emulsion", spec: "Visual inspection" },
+                { property: "Viscosity, B4 cup", value: "Typical: 100 seconds", spec: "Specification: 30–200 seconds" },
+                { property: "Density at 15 °C", value: "Approx. 0.90 g/mL", spec: "Specification: >0.866 g/mL" },
+                { property: "Suitable formwork", value: "Mild steel, plywood and FRP", spec: "Precast moulds" },
+                { property: "Coverage", value: "Average 40 m²/L", spec: "Typical site rate" },
+              ],
+              application: [
+                "Clean the formwork and remove concrete residue, rust, dust, water and excess oil.",
+                "Apply a very thin, uniform film by fine spray, lint-free cloth, roller or suitable applicator.",
+                "Avoid puddles and over-application; wipe off excess oil before placing reinforcement or concrete.",
+                "For new or highly absorbent plywood, conduct a small site trial and adjust the application rate.",
+              ],
+              packing: "Standard packing: 200 L barrel",
+              storage:
+                "Store in the original closed container in a cool, dry, well-ventilated area away from heat and direct sunlight. Use appropriate gloves and eye protection. Avoid prolonged skin contact. Refer to the Safety Data Sheet before use.",
+              shelfLife: "6 months from date of manufacture when stored as recommended",
+              note: "Typical values are not guaranteed specifications. Suitability and coverage should be confirmed by a site trial under actual conditions. For industrial use only.",
+            },
+          },
+          {
+            name: "Magic Shuttering Oil",
+            text: "High-performance release oil for Mivan aluminium formwork, MS, plywood and all formworks.",
+            details: {
+              status: "verified",
+              pdsRevision: "Rev. 09/2026",
+              image: "/images/magic-shuttering-oil.webp",
+              imageAlt: "Magic Shuttering Oil laboratory sample in hydrometer cylinder",
+              description:
+                "Magic Shuttering Oil is a ready-to-use release oil developed for Mivan aluminium formwork. It forms a thin, uniform release film that supports clean demoulding, smooth concrete finishes and efficient reuse of formwork when applied correctly.",
+              purpose: [
+                "Mivan aluminium formwork",
+                "Mild steel (MS) formwork",
+                "Plywood formwork",
+                "Building and infrastructure site formwork",
+              ],
+              coverage: "30–40 m²/L",
+              coverageNote:
+                "Average coverage. Actual coverage may vary with formwork porosity, surface condition and application method.",
+              benefits: [
+                "Excellent release performance on Mivan aluminium formwork",
+                "Clean demoulding with reduced adhesion to the formwork",
+                "Promotes a smooth and uniform concrete surface finish",
+                "Helps reduce concrete build-up and simplifies cleaning",
+                "Ready to use with economical spreading coverage",
+              ],
+              properties: [
+                { property: "Appearance", value: "Brown transparent liquid", spec: "Visual inspection" },
+                { property: "Kinematic viscosity at 40 °C", value: "Typical: 32 cSt", spec: "Specification: >12 cSt" },
+                { property: "Density at 15 °C", value: "Typical: 0.88 g/mL", spec: "Specification: >0.80 g/mL" },
+                { property: "Flash point, Pensky-Martens", value: "Typical: 180 °C", spec: "Specification: >100 °C" },
+                { property: "Coverage", value: "30–40 m²/L", spec: "Typical site rate" },
+              ],
+              application: [
+                "Clean the formwork and remove concrete residue, rust, dust, water and excess oil.",
+                "Apply a very thin, uniform film by fine spray, lint-free cloth, roller or suitable applicator.",
+                "Avoid puddles and over-application; wipe off excess oil before placing reinforcement or concrete.",
+                "Conduct a small site trial to establish the optimum application rate for site conditions.",
+              ],
+              packing: "Standard packing: 200 L barrel",
+              storage:
+                "Store in the original closed container in a cool, dry, well-ventilated area away from heat and direct sunlight. Use appropriate gloves and eye protection. Avoid prolonged skin contact. Refer to the Safety Data Sheet before use.",
+              shelfLife: "12 months from date of manufacture when stored as recommended",
+              reportUrl: "/documents/magic-shuttering-oil-test-report-oct-2026.pdf",
+              reportLabel: "View original report (Sri Sai Test Report Oct 2026)",
+              note: "Typical values are not guaranteed specifications. Suitability and coverage should be confirmed by a site trial under actual conditions. For industrial use only.",
+            },
+          },
+          {
+            name: "Nikri 30 Shuttering Oil",
+            text: "Cost Effective MS, Plywood & Road Projects Shuttering Oil",
+          },
+          {
+            name: "Nikri AL Shuttering Oil",
+            text: "Emulsion-based concrete formwork release agent for Mivan aluminium, MS, plywood and FRP formwork.",
+            details: {
+              status: "verified",
+              pdsRevision: "NIKRI AL / 2026",
+              image: "/images/nikri-al.webp",
+              imageAlt: "Nikri AL Emulsion Based Shuttering Oil product sample and barrel",
+              description:
+                "NIKRI AL is an emulsion-based shuttering oil that forms a uniform release film between concrete and formwork, supporting cleaner stripping and a smoother concrete finish.",
+              purpose: [
+                "Mivan aluminium formwork",
+                "Mild steel (MS) formwork",
+                "Plywood formwork",
+                "FRP (Fibre-reinforced plastic) formwork",
+                "Compatible architectural formwork",
+              ],
+              benefits: [
+                "Promotes easy demoulding and reduces concrete adhesion",
+                "Helps minimise pinholes on concrete surfaces",
+                "Supports smoother, cleaner concrete finishes",
+                "Recommended for Mivan aluminium, MS, plywood and FRP formwork",
+              ],
+              properties: [
+                { property: "Appearance", value: "Ivory, non-transparent", spec: "Visual inspection" },
+                { property: "Density at 15 °C", value: "0.90 g/mL", spec: "Typical (MTC batch KN/AL/09)" },
+                { property: "Viscosity, B4 cup", value: "100 seconds", spec: "Standard flow cup test" },
+                { property: "Flash point", value: "Not applicable", spec: "Emulsion-based formulation" },
+              ],
+              application: [
+                "Prepare: Clean and dry the formwork; remove concrete, dust, rust flakes and excess oil.",
+                "Mix: Stir the emulsion thoroughly before use.",
+                "Apply: Spray, roll, brush or wipe on a thin, continuous, uniform film.",
+                "Best result: Remove pools and runs; use only the minimum quantity required for complete coverage.",
+              ],
+              packing: "Standard packing: 200 L barrel (custom packaging on request)",
+              storage:
+                "Store tightly closed in a cool, dry and well-ventilated place. Protect from freezing and excessive heat. Use suitable gloves and eye protection. Avoid prolonged skin contact and inhalation of mist. Trial application is recommended before full-scale use.",
+              shelfLife: "6 months from date of manufacture when stored as recommended",
+              reportUrl: "/documents/nikri-al-shuttering-oil-mtc-march-2025.pdf",
+              reportLabel: "View original report (MTC March 2025)",
+              note: "Typical values based on MTC batch KN/AL/09, September 2026. Values are indicative and not a sales specification. Technical values are typical and not a sales specification.",
+            },
+          },
         ],
         about:
           "Applied to formwork (shuttering) before the concrete is poured, shuttering oil leaves a release film so the formwork strips cleanly without concrete sticking to it, which protects the concrete surface and helps the formwork last for more pours.",
-        uses: ["Steel, plywood and other formwork on building and infrastructure sites"],
-        tbc: [TDS],
       },
       {
         id: "shuttering-grease",
         name: "Shuttering Grease",
         range: [
-          { name: "Krini Shuttering Grease", text: "Mold Release Grease" },
-          { name: "Repel Shuttering Grease", text: "Premium Mold Release Grease" },
+          {
+            name: "Krini Shuttering Grease",
+            text: "Heavy-duty calcium-based shuttering grease for wall ties, sleeves and structural formwork.",
+            details: {
+              status: "verified",
+              pdsRevision: "PDS - Calcium Based",
+              image: "/images/krini-shuttering-grease.webp",
+              imageAlt: "Krini Shuttering Grease product container and sample tub",
+              description:
+                "KRINI SHUTTERING GREASE is a calcium and oil-based release grease formulated for easy application and smooth demoulding. Ideal for wall ties, sleeves, and critical corner structures where oil runoff occurs.",
+              purpose: [
+                "Wall ties, sleeves and shuttering joints",
+                "Critical and corner formwork structures",
+                "Heavy-duty infrastructure formwork",
+                "Building and structural shuttering works",
+              ],
+              benefits: [
+                "Provides easy application and user friendly (non-hazardous)",
+                "Provides smooth release from wall ties, sleeves and other shuttering works",
+                "Used as mold release agent for critical or corner structures where oil performance is low",
+                "Non-stainable finishing on concrete surfaces",
+                "Does not leave any residue or powder after demolding",
+              ],
+              properties: [
+                { property: "Appearance", value: "Grease", spec: "Calcium & oil based" },
+                { property: "Colour", value: "Brown", spec: "Visual inspection" },
+                { property: "Relative Density", value: "0.910", spec: "Standard density" },
+                { property: "Drop Point", value: "100 °C", spec: "MTC Batch KN/SG/07" },
+                { property: "Flash Point", value: ">230 °C (230 °C MTC)", spec: "Non-combustible" },
+                { property: "Boiling Point", value: ">300 °C", spec: "Stable thermal profile" },
+                { property: "Solubility", value: "Insoluble in water", spec: "Water resistant film" },
+              ],
+              application: [
+                "Ensure formwork, wall ties, or sleeves are clean and free of heavy debris and loose rust flakes.",
+                "Apply a thin, continuous and uniform film of grease using a brush, cloth, or applicator.",
+                "Pay special attention to corners, joints, and critical sections prone to concrete sticking.",
+                "Avoid excessive grease buildup; remove heavy runs before concrete pouring.",
+              ],
+              packing: "Standard packing: 20 kg buckets & 180 kg drums",
+              storage:
+                "Store in original tightly closed containers in a cool, dry place. Avoid excessive heat for prolonged periods of time.",
+              shelfLife: "12 months from date of manufacture when stored as recommended",
+              reportUrl: "/documents/krini-shuttering-grease-mtc-july-2025.pdf",
+              reportLabel: "View original report (MTC July 2025)",
+              note: "Stable under normal temperature conditions. Typical values based on MTC Batch KN/SG/07, July 2025. Technical values are typical and not a sales specification.",
+            },
+          },
+          {
+            name: "Repel Shuttering Grease",
+            text: "Premium calcium-based shuttering grease for wall ties, sleeves and complex formwork.",
+            details: {
+              status: "verified",
+              pdsRevision: "PDS - Calcium Based",
+              image: "/images/repel-shuttering-grease.webp",
+              imageAlt: "Repel Shuttering Grease product container and sample tub",
+              description:
+                "REPEL SHUTTERING GREASE is a high-performance calcium and oil-based release grease formulated for easy application and smooth demoulding. Ideal for wall ties, sleeves, and critical corner structures where oil runoff occurs.",
+              purpose: [
+                "Wall ties, sleeves and shuttering joints",
+                "Critical and corner formwork structures",
+                "Complex architectural shapes and precast moulds",
+                "Building and infrastructure formwork",
+              ],
+              benefits: [
+                "Provides easy application and user friendly (non-hazardous)",
+                "Provides smooth release from wall ties, sleeves and other shuttering works",
+                "Used as mold release agent for critical or corner structures where oil performance is low",
+                "Non-stainable finishing on concrete surfaces",
+                "Does not leave any residue or powder after demolding",
+              ],
+              properties: [
+                { property: "Appearance", value: "Grease", spec: "Calcium & oil based" },
+                { property: "Colour", value: "Ivory (Half white) / Light Yellow", spec: "Visual" },
+                { property: "Relative Density", value: "0.910", spec: "Standard density" },
+                { property: "Drop Point", value: "100 °C", spec: "MTC Batch KN/RG/09" },
+                { property: "Flash Point", value: ">230 °C (220 °C MTC)", spec: "Non-combustible" },
+                { property: "Boiling Point", value: ">300 °C", spec: "Stable thermal profile" },
+                { property: "Solubility", value: "Insoluble in water", spec: "Water resistant film" },
+              ],
+              application: [
+                "Ensure formwork, wall ties, or sleeves are clean and free of heavy debris and loose rust flakes.",
+                "Apply a thin, continuous and uniform film of grease using a brush, cloth, or applicator.",
+                "Pay special attention to corners, joints, and critical sections prone to concrete sticking.",
+                "Avoid excessive grease buildup; remove heavy runs before concrete pouring.",
+              ],
+              packing: "Standard packing: 20 kg buckets & 180 kg drums (3,000 kg batch capacity)",
+              storage:
+                "Store in original tightly closed containers in a cool, dry place. Avoid excessive heat for prolonged periods of time.",
+              shelfLife: "12 months from date of manufacture when stored as recommended",
+              reportUrl: "/documents/repel-shuttering-grease-mtc-sep-2026.pdf",
+              reportLabel: "View original report (MTC Sep 2026 - 3,000 KGS)",
+              note: "Stable under normal temperature conditions. Typical values based on MTC Batch KN/RG/09, September 2026. Technical values are typical and not a sales specification.",
+            },
+          },
         ],
         about:
           "A release agent for formwork in grease form. Ask our team whether an oil or a grease suits your formwork, surface and site conditions.",
-        uses: ["Formwork on building and infrastructure sites"],
-        tbc: [TDS],
       },
       {
         id: "mold-release-oil",
