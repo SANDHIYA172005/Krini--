@@ -470,8 +470,8 @@ export const site = {
             name: "Lubricants & oils",
             series: "1-COOL Metal Working Fluid Series",
             line: "Premium quality lubricants and greases for automotive, industrial, and specialty applications.",
-            image: "",
-            alt: "",
+            image: "/images/range-oil.webp",
+            alt: "1-COOL metalworking fluids and industrial lubricants",
             rows: [
               { label: "Cutting oil", values: ["Neat", "Broaching", "Gear hobbing", "Stamping", "Drawing"], href: "/products/lubricants#cutting-oil" },
               { label: "Coolants", values: ["Aquacut 150", "AL 5000", "AL 7000"], href: "/products/lubricants#soluble-cutting-oil" },
@@ -488,8 +488,8 @@ export const site = {
             name: "Greases",
             series: "Greases and release greases",
             line: "Greases stay in place where an oil would run off: for bearings, joints and slides.",
-            image: "",
-            alt: "",
+            image: "/images/range-grease.webp",
+            alt: "High-performance industrial and formwork greases",
             rows: [
               { label: "Greases", values: ["Bearings", "Joints", "Slides"], href: "/products/lubricants#greases" },
               { label: "Shuttering grease", values: ["Krini", "Repel"], href: "/products/construction-chemicals#shuttering-grease" },
@@ -503,8 +503,8 @@ export const site = {
             name: "Aerosols & sprays",
             series: "Aerosol Sprays",
             line: "Advanced aerosol products for industrial maintenance, automotive care, and specialty applications.",
-            image: "",
-            alt: "",
+            image: "/images/range-spray.webp",
+            alt: "Industrial aerosol sprays for maintenance and manufacturing",
             rows: [
               { label: "Colour sprays", values: ["Black, glossy / matt", "Any RAL shade"], href: "/products/aerosols#colour-sprays" },
               { label: "Galva zinc", values: ["Zinc coating spray"], href: "/products/aerosols#colour-sprays" },

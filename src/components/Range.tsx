@@ -32,7 +32,7 @@ export function Range() {
         <ul className="range-grid m-swipe" data-swipe>
           {r.families.map((f, i) => (
             <li key={f.id} className="range-card" data-reveal>
-              <div className="range-media overflow-hidden rounded-t-[14px]" style={{ background: "#E5EAE8" }}>
+              <div className="range-media overflow-hidden">
                 {f.image ? (
                   // eslint-disable-next-line @next/next/no-img-element
                   <img src={f.image} alt={f.alt} width={1200} height={800} loading="lazy" decoding="async" />
