@@ -74,7 +74,6 @@ export function AboutPage() {
                       />
                     </picture>
                   </div>
-                  <Seal text={p.seal} />
                 </div>
                 <figcaption className="about-caption flex items-center justify-between gap-4">
                   <span className="label text-mute">Lubrication at the mesh point</span>

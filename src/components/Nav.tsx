@@ -48,7 +48,7 @@ export function Nav({ current, line: currentLine }: { current?: PageId; line?: L
           </a>
           <nav aria-label="Primary" className="ml-auto hidden lg:block">
             <ul className="nav-list">
-              {menu.pages.map((item) => (
+              {menu.pages.filter((p) => p.id !== "blog").map((item) => (
                 <li key={item.id}>
                   <a
                     className={`nav-link${item.id === current && !currentLine ? " is-current" : ""}`}
@@ -101,6 +101,17 @@ export function Nav({ current, line: currentLine }: { current?: PageId; line?: L
                       ))}
                     </ul>
                   </div>
+                </li>
+              ))}
+              {menu.pages.filter((p) => p.id === "blog").map((item) => (
+                <li key={item.id}>
+                  <a
+                    className={`nav-link${item.id === current && !currentLine ? " is-current" : ""}`}
+                    href={item.href}
+                    aria-current={item.id === current && !currentLine ? "page" : undefined}
+                  >
+                    {item.label}
+                  </a>
                 </li>
               ))}
               <li className="ml-1 xl:ml-2">
@@ -176,7 +187,7 @@ export function Nav({ current, line: currentLine }: { current?: PageId; line?: L
                   >
                     <span className="menu-tile-top">
                       <span className="label">{String(i + 1).padStart(2, "0")}</span>
-                      <Glyph name={item.id === "home" ? "home" : "user"} />
+                      <Glyph name={item.id === "home" ? "home" : item.id === "blog" ? "blog" : "user"} />
                     </span>
                     <span className="menu-tile-name display-tight">{item.label}</span>
                   </a>
