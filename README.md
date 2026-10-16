@@ -141,6 +141,8 @@ src/components/*.tsx      Server-rendered parts: Shell (nav, footer, structured 
                           Faq, CtaBand, ScrollHero, Showroom, Services, Products, Process, Contact, Enquiry,
                           QuickBar and Swipe (phones), cards…
 src/components/MotionRuntime.tsx   Client component that boots the motion layer
+src/components/preloader/ The first-visit loading screen: Preloader.tsx (its inline script, first in app/layout.tsx),
+                          boot.ts (the screen and its counter), gears.ts (the gear pair), preloader.css
 src/seo/metadata.ts       Turns a page's entry in pages.ts into Next.js metadata
 src/motion/*.ts           Lenis, ScrollTrigger, the hero film (scrollhero.ts), the showroom, reveals, the enquiry form, filters,
                           how it's made (process.ts), the phone bar and swipe rows (mobile.ts)
@@ -224,6 +226,31 @@ Everything after the hero is filmed rather than faded (`src/motion/reveal.ts`,
 
 With reduced motion none of this runs and every section is complete as it
 comes into view; without JavaScript the page reads fully.
+
+## Loading screen
+
+The first page a visitor opens in a tab starts behind a black and gold
+loading screen (`src/components/preloader/`): two gears in mesh draw themselves
+in and turn, a drop of oil forms where their teeth meet, the name rises letter
+by letter, and a counter runs to 100 along a gold rail while the line under it
+steps through Lubricants, Greases and Aerosols. Then the screen lifts away like
+a curtain onto the page.
+
+- **It is an inline script**, first in `<body>`, so it is up from the first
+  paint, before React and the page's bundles; it builds its own
+  `<kc-preloader>` element, which React leaves alone, and removes it when done.
+- **The counter is real:** it waits for the HTML, the fonts, the hero film's
+  first frame (Home only) and the page's load, creeping forward in between.
+  It stays at least 2 seconds and at most 8 (`minMs`, `maxMs` in
+  `Preloader.tsx`).
+- **Once per tab** (sessionStorage): every link on the site is a full page
+  load, so later pages open straight away. Add `?intro` to an address to see it
+  again.
+- While it is up the page doesn't scroll (Lenis included). It fires
+  `preloader:lift` on `window` as it lifts and `preloader:done` once it is gone.
+- With reduced motion the gears stand still and the screen fades instead of
+  lifting; without JavaScript there is no screen at all. If its script ever
+  stopped, CSS takes it away after 12 seconds.
 
 ## Content rules
 

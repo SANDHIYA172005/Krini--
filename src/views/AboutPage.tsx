@@ -8,7 +8,7 @@ import { Figures } from "../components/Figures";
 import { Faq } from "../components/Faq";
 import { CtaBand } from "../components/CtaBand";
 import { SectionIntro } from "../components/Blocks";
-import { Arrow, CgNote, Fact, Glyph, Icon, SectionHead, type IconName } from "../components/ui";
+import { Arrow, Fact, Glyph, Icon, SectionHead, type IconName, MediaSlot } from "../components/ui";
 import { isPlaceholder } from "../content/placeholder";
 
 /**
@@ -60,26 +60,9 @@ export function AboutPage() {
                   {/* 4:3 on phones, so the picture doesn't take the whole screen; 4:5 on tablets; 4:3 again from
                       1024px, filling its column beside the words. Each still has the frame's own shape. */}
                   <div className="media aspect-[4/3] rounded-sm sm:aspect-[4/5] lg:aspect-[4/3]" data-shutter>
-                    <picture className="media-pic">
-                      <source media="(min-width: 1024px)" srcSet="/images/blog-lubricants.webp" width={1200} height={900} />
-                      <source media="(min-width: 640px)" srcSet="/images/about.webp" width={1200} height={1500} />
-                      {/* eslint-disable-next-line @next/next/no-img-element */}
-                      <img
-                        src="/images/blog-lubricants.webp"
-                        alt="Helical steel gears in a gearbox, with a stream of oil feeding the mesh"
-                        width={1200}
-                        height={900}
-                        decoding="async"
-                        fetchPriority="high"
-                      />
-                    </picture>
+                    <MediaSlot label="Company / factory photo" w={1200} h={900} />
                   </div>
-                  <Seal text={p.seal} />
                 </div>
-                <figcaption className="about-caption flex items-center justify-between gap-4">
-                  <span className="label text-mute">Lubrication at the mesh point</span>
-                  <CgNote />
-                </figcaption>
               </figure>
             </div>
             <Facts items={p.facts} />
@@ -199,7 +182,7 @@ export function AboutPage() {
                 <p className="label text-mute" data-reveal>
                   {p.rd.desk}
                 </p>
-                <h2 id="rd-title" className="display mt-5 text-[clamp(min(2rem,8.4vw),4.4vw,4.5rem)] leading-[0.95]" data-split>
+                <h2 id="rd-title" className="display mt-5 text-h leading-[0.95]" data-split>
                   {p.rd.heading}
                 </h2>
                 <div className="letter" data-reveal>
@@ -259,33 +242,6 @@ export function AboutPage() {
             <div className="mt-16 lg:mt-24">
               <Figures />
             </div>
-          </div>
-        </section>
-
-        {/* How we work */}
-        <section id="process" className="section border-t border-bone/10" aria-labelledby="process-title">
-          <div className="frame">
-            <SectionIntro
-              label={p.process.label}
-              heading={p.process.heading}
-              id="process-title"
-              aside={
-                <a href={`${routes.services}#private-label`} className="btn btn-ghost" data-magnetic>
-                  Private label, step by step <Arrow />
-                </a>
-              }
-            />
-            <ol className="track mt-16 lg:mt-24" data-rows>
-              {p.process.steps.map((st, i) => (
-                <li key={st.title} className="track-step">
-                  <span className="track-node label tabular-nums" aria-hidden="true">
-                    {String(i + 1).padStart(2, "0")}
-                  </span>
-                  <h3 className="display-tight text-lg leading-tight">{st.title}</h3>
-                  <p className="mt-2 text-sm leading-relaxed text-mute">{st.body}</p>
-                </li>
-              ))}
-            </ol>
           </div>
         </section>
 

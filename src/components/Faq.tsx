@@ -29,7 +29,7 @@ export function Faq({
         <SectionHead>{label}</SectionHead>
         <div className="mt-12 grid gap-12 lg:mt-16 lg:grid-cols-12 lg:gap-8">
           <div className="lg:col-span-5">
-            <h2 id={`${id}-title`} className="display text-[clamp(min(2rem,8.4vw),3.6vw,3.5rem)] leading-[0.95]" data-split>
+            <h2 id={`${id}-title`} className="display text-h leading-[0.95]" data-split>
               {heading}
             </h2>
             {lead ? (
@@ -40,7 +40,7 @@ export function Faq({
           </div>
           <div className="faq lg:col-span-7 lg:col-start-6" data-rows>
             {items.map((f, i) => (
-              <details key={f.q} className="faq-item" open={i === 0}>
+              <details key={f.q} className="faq-item">
                 <summary className="faq-q">
                   <span className="faq-n label" aria-hidden="true">
                     {String(i + 1).padStart(2, "0")}

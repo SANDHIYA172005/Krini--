@@ -1,6 +1,6 @@
 import { routes } from "../content/site";
 import { readingTime, type Article } from "../content/articles";
-import { Arrow } from "./ui";
+import { Arrow, MediaSlot } from "./ui";
 
 /**
  * A blog article as a card: picture with its topic as a badge, reading time,
@@ -14,8 +14,7 @@ export function ArticleCard({ a, level = 3, featured = false }: { a: Article; le
   return (
     <article className={`card group${featured ? " card-featured" : ""}`} {...(featured ? {} : { "data-tilt": "" })}>
       <div className="card-media media aspect-[4/3] rounded-sm" data-shutter>
-        {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img src={a.image} alt={a.imageAlt} width={1200} height={900} loading={featured ? "eager" : "lazy"} decoding="async" />
+        <MediaSlot label="Guide photo" w={1200} h={900} />
         <span className="card-badge label">{a.category}</span>
       </div>
       <div className="card-body">

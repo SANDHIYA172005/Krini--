@@ -57,9 +57,6 @@ export function ScrollHero() {
                 </li>
               ))}
             </ul>
-            <p className="sh-cue label" aria-hidden="true">
-              <span className="sh-cue-line" /> Scroll to see what we do
-            </p>
           </div>
 
           {work.map((w, i) => (
@@ -103,6 +100,17 @@ export function ScrollHero() {
           </div>
         </div>
 
+        {/* in the middle at the foot of the first screen: keep scrolling */}
+        <div className="sh-scroll" aria-hidden="true">
+          <span className="sh-mouse">
+            <span className="sh-wheel" />
+          </span>
+          <span className="sh-scroll-text">Scroll to see what we do</span>
+          <svg className="sh-chev" width="14" height="9" viewBox="0 0 14 9" fill="none">
+            <path d="M1 1.5 7 7.5l6-6" stroke="currentColor" strokeWidth="1.6" />
+          </svg>
+        </div>
+
         {/* where the visitor is: one mark per step, each a way to jump there */}
         <nav className="sh-rail" aria-label="Hero steps">
           <ol>
@@ -114,9 +122,6 @@ export function ScrollHero() {
               </li>
             ))}
           </ol>
-          <a href="#range" className="sh-skip label">
-            Skip intro
-          </a>
         </nav>
         <div className="sh-bar" aria-hidden="true">
           <span data-sh-bar />

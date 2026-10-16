@@ -41,12 +41,24 @@ export function initSmoothScroll(d: Disposer): Scroller {
     lenis.destroy();
   });
 
-  return {
+  const scroller: Scroller = {
     scrollTo: (target, opts) => lenis.scrollTo(target, { offset: opts?.offset ?? navOffset(), immediate: opts?.immediate, duration: 1.6 }),
     stop: () => lenis.stop(),
     start: () => lenis.start(),
     velocity: () => lenis.velocity * 60,
   };
+  (window as unknown as { __scroller?: Scroller }).__scroller = scroller;
+  const onStop = () => lenis.stop();
+  const onStart = () => lenis.start();
+  window.addEventListener("scroller:stop", onStop);
+  window.addEventListener("scroller:start", onStart);
+  d.add(() => {
+    window.removeEventListener("scroller:stop", onStop);
+    window.removeEventListener("scroller:start", onStart);
+    delete (window as unknown as { __scroller?: Scroller }).__scroller;
+  });
+
+  return scroller;
 }
 
 /**

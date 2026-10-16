@@ -69,7 +69,6 @@ export function initNav(d: Disposer, scroller: Scroller) {
   const nav = document.querySelector<HTMLElement>("[data-nav]");
   if (!nav) return;
   const { ScrollTrigger } = gsapReady();
-  const hero = document.querySelector<HTMLElement>("[data-hero]");
 
   const page = ScrollTrigger.create({
     start: 0,
@@ -78,8 +77,8 @@ export function initNav(d: Disposer, scroller: Scroller) {
   });
   d.add(() => page.kill());
 
-  // transparent over the hero (or the first 40px of other pages), solid once past it
-  const edge = () => (hero ? hero.offsetHeight - 80 : 40);
+  // the top strip folds away (and the bar gains its shadow) once the page has moved 40px
+  const edge = () => 40;
   const pastHero = () => window.scrollY > edge();
   const solid = ScrollTrigger.create({
     start: edge,
@@ -87,6 +86,23 @@ export function initNav(d: Disposer, scroller: Scroller) {
     onToggle: (self) => nav.classList.toggle("is-solid", self.isActive),
   });
   d.add(() => solid.kill());
+
+  // over the home hero's film the bar is plain: no white ground, no box round the links, white
+  // words; it turns back into the white bar once the film has scrolled away
+  const hero = document.querySelector<HTMLElement>("[data-scrollhero]");
+  if (hero) {
+    const heroEnd = () => hero.offsetTop + hero.offsetHeight - nav.offsetHeight;
+    const over = ScrollTrigger.create({
+      start: -1,
+      end: heroEnd,
+      onToggle: (self) => nav.classList.toggle("is-over", self.isActive),
+    });
+    nav.classList.toggle("is-over", window.scrollY < heroEnd());
+    d.add(() => {
+      over.kill();
+      nav.classList.remove("is-over");
+    });
+  }
 
   initDrops(d, nav);
 
@@ -142,8 +158,14 @@ export function initNav(d: Disposer, scroller: Scroller) {
   });
 }
 
-/** Buttons lean toward the pointer. Desktop only. */
+const MAGNETIC_OFF = true;
+
+/**
+ * Buttons used to lean toward the pointer; they now stay where they are
+ * (the site's buttons are fixed). Turn it back on by deleting the next line.
+ */
 export function initMagnetic(d: Disposer) {
+  if (MAGNETIC_OFF) return;
   if (!finePointer() || prefersReducedMotion()) return;
   const { gsap } = gsapReady();
   document.querySelectorAll<HTMLElement>("[data-magnetic]").forEach((el) => {
@@ -189,7 +211,7 @@ export function initProducts(d: Disposer) {
   const caption = document.querySelector<HTMLElement>("[data-product-caption]");
   if (!media) return;
   const { ScrollTrigger } = gsapReady();
-  const imgs = Array.from(media.querySelectorAll("img"));
+  const imgs = Array.from(media.querySelectorAll("img, .media-slot"));
   const bars = Array.from(media.querySelectorAll<HTMLElement>("[data-product-step]"));
   let current = 0;
   document.querySelectorAll<HTMLElement>("[data-product]").forEach((article, i) => {
@@ -384,9 +406,8 @@ function wireEnquiryForm(d: Disposer, form: HTMLFormElement) {
 }
 
 /**
- * Enquiries. Every "Enquire now" button (data-enquire) opens the pop-up with
- * the form; on the Contact page, which has the form itself, it scrolls there
- * instead. What the button is about (data-enquire, and data-product when it
+ * Enquiries. Every "Enquire now" button (data-enquire) opens the Contact
+ * page; on the Contact page itself it fills in the form there. What the button is about (data-enquire, and data-product when it
  * names one) goes into the message, where the visitor can change it, and
  * travels with the enquiry as `type`. Links that arrive without JavaScript as
  * /contact?type=…&product=…#enquiry are read the same way.
@@ -429,20 +450,6 @@ export function initEnquiry(d: Disposer, scroller: Scroller) {
 
   // the pop-up
   let opener: HTMLElement | null = null;
-  const open = (type?: string | null, product?: string | null) => {
-    if (!dialog || dialog.open) return;
-    const form = dialog.querySelector<HTMLFormElement>("[data-enquiry-form]");
-    if (form) {
-      prefill(form, type, product);
-      const status = form.querySelector<HTMLElement>("[data-form-status]");
-      if (status?.dataset.tone === "ok") status.textContent = "";
-    }
-    opener = document.activeElement as HTMLElement | null;
-    scroller.stop();
-    dialog.showModal();
-    document.documentElement.classList.add("has-dialog");
-    if (form) focusFirst(form);
-  };
   if (dialog) {
     const close = () => dialog.open && dialog.close();
     d.on(dialog, "close", () => {
@@ -460,19 +467,69 @@ export function initEnquiry(d: Disposer, scroller: Scroller) {
     });
   }
 
+  // Product details pop-up modals
+  document.querySelectorAll<HTMLDialogElement>(".pds-modal-dialog").forEach((pdsDialog) => {
+    const closePds = () => {
+      if (pdsDialog.open) pdsDialog.close();
+    };
+    d.on(pdsDialog, "close", () => {
+      document.documentElement.classList.remove("has-dialog");
+      scroller.start();
+      opener?.focus({ preventScroll: true });
+    });
+    pdsDialog.querySelectorAll<HTMLElement>("[data-modal-close]").forEach((b) => d.on(b, "click", closePds));
+    d.on(pdsDialog, "click", (e) => {
+      const me = e as MouseEvent;
+      if (me.target !== pdsDialog) return;
+      const r = pdsDialog.getBoundingClientRect();
+      if (me.clientX < r.left || me.clientX > r.right || me.clientY < r.top || me.clientY > r.bottom) closePds();
+    });
+  });
+
+  d.on(document, "click", (e) => {
+    const target = e.target as HTMLElement | null;
+    if (!target) return;
+
+    const pdsOpenBtn = target.closest<HTMLElement>("[data-pds-open]");
+    if (pdsOpenBtn) {
+      e.preventDefault();
+      const targetId = pdsOpenBtn.dataset.pdsOpen;
+      const pdsDialog = targetId ? (document.getElementById(targetId) as HTMLDialogElement | null) : null;
+      if (pdsDialog && typeof pdsDialog.showModal === "function" && !pdsDialog.open) {
+        opener = pdsOpenBtn;
+        scroller.stop();
+        pdsDialog.showModal();
+        document.documentElement.classList.add("has-dialog");
+      }
+      return;
+    }
+
+    const closeBtn = target.closest<HTMLElement>("[data-modal-close]");
+    if (closeBtn) {
+      const parentDialog = closeBtn.closest<HTMLDialogElement>("dialog");
+      if (parentDialog && parentDialog.open) {
+        e.preventDefault();
+        parentDialog.close();
+      }
+    }
+  });
+
   document.querySelectorAll<HTMLElement>("[data-enquire]").forEach((el) => {
     if (el.closest("[data-enquiry-form]")) return;
     d.on(el, "click", (e) => {
       const type = el.dataset.enquire || "Enquiry";
       const product = el.dataset.product;
+      const openDialog = el.closest<HTMLDialogElement>("dialog");
+      if (openDialog && openDialog.open && openDialog !== dialog) {
+        openDialog.close();
+      }
+      // on Contact itself: fill in the form and bring it up; anywhere else the
+      // link opens the Contact page (no pop-up)
       if (pageForm) {
         e.preventDefault();
         prefill(pageForm, type, product);
-        scroller.scrollTo(pageForm);
-        window.setTimeout(() => focusFirst(pageForm), 900);
-      } else if (dialog && typeof dialog.showModal === "function") {
-        e.preventDefault();
-        open(type, product);
+        scroller.scrollTo(0);
+        window.setTimeout(() => focusFirst(pageForm), 700);
       }
     });
   });
@@ -520,5 +577,21 @@ export function initFilters(d: Disposer) {
     if (status) status.textContent = `${shown} ${shown === 1 ? noun : `${noun}s`}${f === "all" ? "" : ` in ${name}`}`;
     ScrollTrigger.refresh();
   };
-  buttons.forEach((b) => d.on(b, "click", () => apply(b.dataset.filter || "all")));
+  // picking a topic or category after scrolling down brings the list back to its first item
+  // (instead of leaving the visitor further down a list that has just changed)
+  const toTop = () => {
+    const nav = document.querySelector<HTMLElement>(".nav-bar")?.getBoundingClientRect().height ?? 0;
+    const top = list.getBoundingClientRect().top;
+    if (top >= nav + 8) return;
+    const y = top + window.scrollY - nav - 16;
+    const sc = (window as unknown as { __scroller?: { scrollTo: (t: number, o?: object) => void } }).__scroller;
+    if (sc) sc.scrollTo(y, { offset: 0 });
+    else window.scrollTo({ top: y, behavior: prefersReducedMotion() ? "auto" : "smooth" });
+  };
+  buttons.forEach((b) =>
+    d.on(b, "click", () => {
+      apply(b.dataset.filter || "all");
+      toTop();
+    }),
+  );
 }

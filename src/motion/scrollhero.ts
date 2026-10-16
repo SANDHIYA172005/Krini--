@@ -148,6 +148,8 @@ export function initScrollHero(d: Disposer, scroller: Scroller) {
 
   let last = -1;
   let raf = 0;
+  /** Opened from a link to Home: the last screen, shown as the sharp still. */
+  let arrived = false;
   const draw = () => {
     raf = 0;
     const total = root.offsetHeight - H;
@@ -156,6 +158,11 @@ export function initScrollHero(d: Disposer, scroller: Scroller) {
     while (k + 1 < starts.length && p >= starts[k + 1]) k++;
     setStep(k);
     if (bar) bar.style.transform = `scaleX(${p.toFixed(4)})`;
+    // once the film has ended (the last screen: the promise and the buttons), show its last frame
+    // as the sharp still rather than a frame drawn from the sheets
+    // (arriving from Home keeps the still for the whole last screen, until the visitor scrolls back)
+    if (k < steps.length - 1) arrived = false;
+    root.classList.toggle("at-end", arrived || p >= hold - 0.002);
 
     // the film: still until heroSeq.lead, playing to heroSeq.hold, then still on its last frame
     const t = clamp((p - lead) / (hold - lead)) * (n - 1);
@@ -209,6 +216,73 @@ export function initScrollHero(d: Disposer, scroller: Scroller) {
     queue();
   });
   d.add(() => cancelAnimationFrame(raf));
+
+  // arriving from a link to Home (FastNav): open on the last screen, not the start of the film
+  const toEnd = () => {
+    arrived = true;
+    root.classList.add("at-end");
+    measure();
+    const y = root.getBoundingClientRect().top + window.scrollY + root.offsetHeight - window.innerHeight;
+    scroller.scrollTo(y, { immediate: true, offset: 0 });
+    queue();
+  };
+  const w = window as unknown as { __kcHeroEnd?: boolean };
+  if (w.__kcHeroEnd) {
+    w.__kcHeroEnd = false;
+    toEnd();
+    // and again once the router has finished putting the new page at the top
+    requestAnimationFrame(() => requestAnimationFrame(toEnd));
+    window.setTimeout(toEnd, 120);
+    window.setTimeout(toEnd, 450);
+  }
+  d.on(window, "hero:end", toEnd);
+
+  // ---- four scrolls: on a mouse wheel or trackpad, each scroll inside the hero moves exactly one
+  // step (the name → lubricants → greases → aerosols → get started), so the whole film takes four
+  // scrolls; the next one carries on down the page, and scrolling up steps back the same way.
+  // Touch screens scroll freely.
+  const stepAt = (k: number) => (k <= 0 ? 0 : k >= starts.length - 1 ? 1 : starts[k] + (starts[k + 1] - starts[k]) * 0.6);
+  const heroTop = () => root.getBoundingClientRect().top + window.scrollY;
+  const heroTotal = () => root.offsetHeight - window.innerHeight;
+  let lockedUntil = 0;
+  let lastWheel = 0;
+  const onWheel = (ev: Event) => {
+    const e = ev as WheelEvent;
+    if (e.ctrlKey || Math.abs(e.deltaY) < Math.abs(e.deltaX) || e.deltaY === 0) return;
+    const top = heroTop();
+    const total = heroTotal();
+    const y = window.scrollY;
+    // only while the hero fills the screen
+    if (y < top - 2 || y > top + total + 2) return;
+    const now = performance.now();
+    const p = total > 0 ? clamp((y - top) / total) : 0;
+    let k = 0;
+    while (k + 1 < starts.length && p >= starts[k + 1] - 0.0005) k++;
+    const down = e.deltaY > 0;
+    const next = down ? k + 1 : k - 1;
+    // past the ends: leave the scroll to the page
+    if (next < 0 || next > starts.length - 1) {
+      if (now < lockedUntil || now - lastWheel < 180) {
+        lastWheel = now;
+        e.preventDefault();
+        e.stopImmediatePropagation();
+      }
+      return;
+    }
+    e.preventDefault();
+    e.stopImmediatePropagation();
+    // one step per scroll: the rest of a flick (a trackpad's glide) is swallowed until it stops
+    const quiet = now - lastWheel > 180;
+    lastWheel = now;
+    if (now < lockedUntil || (!quiet && now < lockedUntil + 900)) return;
+    lockedUntil = now + 1100;
+    if (next !== starts.length - 1) arrived = false;
+    scroller.scrollTo(top + total * stepAt(next), { offset: 0 });
+  };
+  if (window.matchMedia("(pointer: fine)").matches) {
+    window.addEventListener("wheel", onWheel, { capture: true, passive: false });
+    d.add(() => window.removeEventListener("wheel", onWheel, { capture: true }));
+  }
 
   // the rail: each mark jumps to its step (the middle of it)
   ticks.forEach((tick, i) => {

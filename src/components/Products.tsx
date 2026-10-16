@@ -1,6 +1,6 @@
 import { enquireHref, routes } from "../content/site";
 import { lines } from "../content/catalogue";
-import { Arrow, CgNote, SectionHead } from "./ui";
+import { Arrow, MediaSlot, SectionHead } from "./ui";
 
 /**
  * Products page: the three lines. Desktop: a sticky frame on the left; as each
@@ -33,17 +33,7 @@ export function ProductLines({ label, heading }: { label: string; heading: reado
                   rolls up over the last one (src/motion/interactions.ts, initProducts) */}
               <div className="product-media media relative aspect-[4/5] w-[min(100%,calc(78vh*0.8))] rounded-sm" data-product-media data-shutter>
                 {lines.map((l, i) => (
-                  // eslint-disable-next-line @next/next/no-img-element
-                  <img
-                    key={l.id}
-                    src={l.image}
-                    alt={l.imageAlt}
-                    width={1200}
-                    height={1500}
-                    loading="lazy"
-                    decoding="async"
-                    className={i === 0 ? "is-active" : ""}
-                  />
+                  <MediaSlot key={l.id} label={`${l.title} photo`} w={1200} h={1500} className={i === 0 ? "is-active" : ""} />
                 ))}
                 <ol className="product-steps" aria-hidden="true">
                   {lines.map((l, i) => (
@@ -55,7 +45,6 @@ export function ProductLines({ label, heading }: { label: string; heading: reado
                 <p className="label text-bone" data-product-caption>
                   {lines[0].index} / {lines[0].title}
                 </p>
-                <CgNote />
               </div>
             </div>
           </div>
@@ -70,13 +59,12 @@ export function ProductLines({ label, heading }: { label: string; heading: reado
                 aria-labelledby={`${l.id}-title`}
               >
                 <div className="media mb-8 aspect-[4/3] rounded-sm lg:hidden" data-shutter>
-                  {/* eslint-disable-next-line @next/next/no-img-element */}
-                  <img src={l.image.replace(".webp", "-43.webp")} alt={l.imageAlt} width={1200} height={900} loading="lazy" decoding="async" />
+                  <MediaSlot label={`${l.title} photo`} w={1200} h={900} />
                 </div>
                 <p className="label text-amber" data-reveal>
                   {l.index}
                 </p>
-                <h3 id={`${l.id}-title`} className="display-tight mt-4 text-[clamp(min(2rem,8.6vw),3.9vw,3.75rem)] leading-[0.95]" data-reveal>
+                <h3 id={`${l.id}-title`} className="display-tight mt-4 text-h leading-[0.95]" data-reveal>
                   <a href={routes.line(l.slug)} className="hover:text-amber">
                     {l.title}
                   </a>

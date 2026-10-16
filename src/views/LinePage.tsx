@@ -1,14 +1,15 @@
 import { enquireHref, routes, site } from "../content/site";
 import { lines, type Line, type Product } from "../content/catalogue";
-import { articles } from "../content/articles";
 import { lineSeo, trail, type Crumb } from "../content/pages";
 import { abs, breadcrumbs, faqPage, productList, webPage } from "../content/schema";
 import { Shell } from "../components/Shell";
 import { Breadcrumbs } from "../components/PageHeader";
 import { Faq } from "../components/Faq";
 import { CtaBand } from "../components/CtaBand";
-import { Guides, LineCards, SectionIntro } from "../components/Blocks";
-import { Arrow, Fact, Icon, SectionHead, type IconName } from "../components/ui";
+import { LineCards, SectionIntro } from "../components/Blocks";
+import { Arrow, Fact, Icon, SectionHead, type IconName, MediaSlot } from "../components/ui";
+import { ProductDetailsTrigger } from "../components/ProductDetailsModal";
+import { orderHref, WhatsAppIcon } from "../components/ProductShop";
 
 const industryIcon: Record<string, IconName> = { "auto-assembly": "car", "auto-component": "gear", construction: "crane", paint: "spray" };
 
@@ -24,13 +25,12 @@ const numberOf = (line: Line, i: number) => `${line.index}.${String(i + 1).padSt
  * sheet on a pale band (grades or variants, the products available under it,
  * what it is for, Krini Crude's own published claims, what is still to be
  * confirmed) and a card for products made to the customer's formulation; the
- * industries the line serves; guides; questions; the other lines.
+ * industries the line serves; questions; the other lines.
  */
 export function LinePage({ line }: { line: Line }) {
   const s = lineSeo(line);
   const t = trail.line(line);
   const type = `Enquiry: ${line.title}`;
-  const guides = articles.filter((a) => a.line === line.id);
   const industries = site.industries.filter((i) => i.line === line.id);
   const others = lines.filter((l) => l.id !== line.id);
   return (
@@ -54,7 +54,7 @@ export function LinePage({ line }: { line: Line }) {
           </p>
           <div className="lp-grid mt-10 lg:mt-14">
             {line.products.map((p, i) => (
-              <ProductSheet key={p.id} p={p} n={numberOf(line, i)} type={type} />
+              <ProductSheet key={p.id} p={p} n={numberOf(line, i)} type={type} line={line} />
             ))}
             <FormulationCard />
           </div>
@@ -85,7 +85,6 @@ export function LinePage({ line }: { line: Line }) {
         </section>
       ) : null}
 
-      {guides.length ? <Guides list={guides} label="Guides" heading={`Choosing and using ${line.title.toLowerCase()}.`} wide /> : null}
 
       <Faq items={line.faq} />
 
@@ -148,11 +147,7 @@ function LineHero({ line, trail: t, type }: { line: Line; trail: Crumb[]; type: 
           <figure className="lp-hero-fig" data-drift="0.05">
             <div className="lp-hero-frame">
               <div className="media lp-hero-media" data-shutter>
-                <picture className="media-pic">
-                  <source media="(min-width: 1024px)" srcSet={line.image} width={1200} height={1500} />
-                  {/* eslint-disable-next-line @next/next/no-img-element */}
-                  <img src={line.image.replace(".webp", "-43.webp")} alt={line.imageAlt} width={1200} height={900} decoding="async" fetchPriority="high" />
-                </picture>
+                <MediaSlot label="Product line photo" w={1200} h={1500} />
               </div>
             </div>
           </figure>
@@ -184,7 +179,7 @@ function LineHero({ line, trail: t, type }: { line: Line; trail: Crumb[]; type: 
  * foot, Enquire (the form opens with the product named) and what is still to
  * be confirmed.
  */
-function ProductSheet({ p, n, type }: { p: Product; n: string; type: string }) {
+function ProductSheet({ p, n, type, line }: { p: Product; n: string; type: string; line: Line }) {
   // a product with its own list of available products shows that list instead of its variants
   const v = p.range ? undefined : p.variants;
   const grades = v && isGrades(v) ? v : undefined;
@@ -226,18 +221,42 @@ function ProductSheet({ p, n, type }: { p: Product; n: string; type: string }) {
             </div>
           ) : null}
           {p.range ? (
-            <div className="lp-row">
-              <dt className="label">Available products</dt>
-              <dd>
-                <ul className="lp-range">
-                  {p.range.map((r) => (
-                    <li key={r.name}>
-                      <span className="lp-range-name">{r.name}</span>
-                      <span className="lp-range-text">{r.text}</span>
-                    </li>
-                  ))}
-                </ul>
-              </dd>
+            <div className="lp-row lp-row-range">
+              <div className="lp-range-header">
+                <span className="label lp-range-lead-label">
+                  {p.range.length === 4 ? "Four products" : p.range.length === 2 ? "Two products" : `${p.range.length} products`} · Complete technical information
+                </span>
+              </div>
+              <ul className="lp-shop">
+                {p.range.map((r) => (
+                  <li key={r.name}>
+                    <article className="scard">
+                      <div className="scard-media">
+                        <MediaSlot label="Product photo" w={800} h={600} />
+                        <span className="scard-tag">{p.name}</span>
+                      </div>
+                      <div className="scard-body">
+                        <h4 className="scard-name">{r.name}</h4>
+                        <p className="scard-text">{r.text}</p>
+                        {r.details?.pdsRevision ? <p className="scard-pds">{r.details.pdsRevision}</p> : null}
+                      </div>
+                      <div className="scard-actions">
+                        <a
+                          href={orderHref(r.name, line.short)}
+                          className="scard-wa"
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          aria-label={`Order ${r.name} on WhatsApp`}
+                        >
+                          <WhatsAppIcon />
+                          Order now
+                        </a>
+                        {r.details ? <ProductDetailsTrigger product={r} type={type} compact /> : null}
+                      </div>
+                    </article>
+                  </li>
+                ))}
+              </ul>
             </div>
           ) : null}
           {p.uses ? (

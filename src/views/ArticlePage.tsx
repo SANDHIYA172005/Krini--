@@ -7,7 +7,7 @@ import { Shell } from "../components/Shell";
 import { Breadcrumbs } from "../components/PageHeader";
 import { ArticleCard } from "../components/ArticleCard";
 import { SectionIntro } from "../components/Blocks";
-import { Arrow, CgNote, Fact, Glyph } from "../components/ui";
+import { Arrow, Fact, Glyph, MediaSlot } from "../components/ui";
 import { SwipeUI } from "../components/Swipe";
 
 /**
@@ -48,12 +48,8 @@ export function ArticlePage({ a }: { a: Article }) {
               </div>
               <figure className="lg:col-span-5">
                 <div className="media aspect-[4/3] rounded-sm" data-shutter>
-                  {/* eslint-disable-next-line @next/next/no-img-element */}
-                  <img src={a.image} alt={a.imageAlt} width={1200} height={900} decoding="async" fetchPriority="high" />
+                  <MediaSlot label="Guide photo" w={1200} h={900} />
                 </div>
-                <figcaption className="mt-4 flex justify-end">
-                  <CgNote />
-                </figcaption>
               </figure>
             </div>
           </div>

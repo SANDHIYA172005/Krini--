@@ -24,17 +24,19 @@ export const routes = {
   blog: "/blog",
   contact: "/contact",
   process: "/how-its-made",
+  privacy: "/privacy-policy",
+  terms: "/terms-and-conditions",
   line: (slug: string) => `/products/${slug}`,
   article: (slug: string) => `/blog/${slug}`,
 } as const;
 
 /**
- * Where an enquiry button leads: the form on the Contact page, with its type
- * chosen and, from a product, the product named in the message
- * (src/motion/interactions.ts, initEnquiry).
+ * Where an enquiry button leads: the Contact page (quick buttons, the form and
+ * Visit us), with the form's type chosen and, from a product, the product
+ * named in the message (src/motion/interactions.ts, initEnquiry).
  */
 export const enquireHref = (type = "Enquiry", product?: string) =>
-  `${routes.contact}?type=${encodeURIComponent(type)}${product ? `&product=${encodeURIComponent(product)}` : ""}#enquiry`;
+  `${routes.contact}?type=${encodeURIComponent(type)}${product ? `&product=${encodeURIComponent(product)}` : ""}`;
 
 export type PageId = "home" | "about" | "services" | "products" | "blog" | "contact";
 
@@ -58,6 +60,7 @@ export const site = {
     pages: [
       { id: "home", label: "Home", href: routes.home },
       { id: "about", label: "About Us", href: routes.about },
+      { id: "blog", label: "Blog", href: routes.blog },
     ] as { id: PageId; label: string; href: string }[],
     lines: [
       {
@@ -401,7 +404,6 @@ export const site = {
     links: [
       { label: "About Us", href: routes.about },
       { label: "Our Products", href: routes.products },
-      { label: "Contact Us", href: routes.contact },
     ],
   },
 
@@ -422,7 +424,7 @@ export const site = {
     /** Google Maps searches for the two addresses. */
     officeMap: "https://www.google.com/maps/search/?api=1&query=95%2F20B%20Gujji%20Main%20Road%2C%20Anna%20Nagar%20East%2C%20Chennai%20600102",
     factoryMap: "https://www.google.com/maps/search/?api=1&query=161A%20Chinakoladi%20Lakshmi%20Nagar%2C%20Tiruverkadu%2C%20Chennai%20600077",
-    hours: placeholder("Office hours"),
+    hours: "9:00 AM – 6:00 PM",
     enquiryTypes: ["Enquiry", "Request a quote", "Private label", "Custom formulation"],
   },
 
@@ -462,7 +464,7 @@ export const site = {
         heading: ["Lubricants, greases", "and aerosols."],
         /** What the range is and where it is made, product by product (each named as in catalogue.ts). */
         lead: "Made at our factory in Tiruverkadu, Chennai: 1-COOL cutting oils and coolants, rust preventives, hydraulic, gear and engine oils; greases for bearings, formwork and precast moulds; and aerosol sprays for painting, welding and maintenance.",
-        credit: "Stills from the film above, generated with Google Flow (Veo): illustrations, not Krini Crude's plant or products",
+        credit: "",
         families: [
           {
             id: "lubricants",
@@ -470,7 +472,7 @@ export const site = {
             series: "1-COOL Metal Working Fluid Series",
             line: "Premium quality lubricants and greases for automotive, industrial, and specialty applications.",
             image: "/images/range-oil.webp",
-            alt: "Golden lubricating oil pouring over a rusted gear shaft",
+            alt: "1-COOL metalworking fluids and industrial lubricants",
             rows: [
               { label: "Cutting oil", values: ["Neat", "Broaching", "Gear hobbing", "Stamping", "Drawing"], href: "/products/lubricants#cutting-oil" },
               { label: "Coolants", values: ["Aquacut 150", "AL 5000", "AL 7000"], href: "/products/lubricants#soluble-cutting-oil" },
@@ -488,7 +490,7 @@ export const site = {
             series: "Greases and release greases",
             line: "Greases stay in place where an oil would run off: for bearings, joints and slides.",
             image: "/images/range-grease.webp",
-            alt: "A thick coat of industrial grease over the teeth of a steel gear",
+            alt: "High-performance industrial and formwork greases",
             rows: [
               { label: "Greases", values: ["Bearings", "Joints", "Slides"], href: "/products/lubricants#greases" },
               { label: "Shuttering grease", values: ["Krini", "Repel"], href: "/products/construction-chemicals#shuttering-grease" },
@@ -503,7 +505,7 @@ export const site = {
             series: "Aerosol Sprays",
             line: "Advanced aerosol products for industrial maintenance, automotive care, and specialty applications.",
             image: "/images/range-spray.webp",
-            alt: "A fine aerosol spray misting the teeth of a greased gear",
+            alt: "Industrial aerosol sprays for maintenance and manufacturing",
             rows: [
               { label: "Colour sprays", values: ["Black, glossy / matt", "Any RAL shade"], href: "/products/aerosols#colour-sprays" },
               { label: "Galva zinc", values: ["Zinc coating spray"], href: "/products/aerosols#colour-sprays" },

@@ -2,7 +2,7 @@ import type { CSSProperties, ReactNode } from "react";
 import { enquireHref, routes, site } from "../content/site";
 import { heroMedia } from "../content/media";
 import { lineById } from "../content/catalogue";
-import { Arrow } from "./ui";
+import { Arrow, MediaSlot } from "./ui";
 
 /**
  * Holds the entrance (CSS, paused until `.is-go`) until the section comes into
@@ -43,7 +43,6 @@ function markWords(line: string, start: number): [ReactNode[], number] {
  */
 export function Showroom() {
   const { hero, products } = site;
-  const { stages } = heroMedia;
 
   let k = 0;
   const heading = hero.heading.map((line, i) => {
@@ -90,24 +89,11 @@ export function Showroom() {
         <div className="hs-stage" data-hs-stage>
           <ol className="hs-bays" aria-label="Product lines" data-hs-track>
             {products.map((p, n) => {
-              const st = stages[p.id];
               return (
                 <li key={p.id} className="hs-bay" data-hs-bay={n} style={vars({ "--k": n })}>
                   <div className="hs-figure" data-hs-figure>
                     <div className="hs-media">
-                      {/* eslint-disable-next-line @next/next/no-img-element */}
-                      <img
-                        src={st.src}
-                        srcSet={`${st.srcSmall} 720w, ${st.src} 1200w`}
-                        sizes="(orientation: landscape) and (min-width: 900px) 30vw, min(78vw, 420px)"
-                        width={heroMedia.width}
-                        height={heroMedia.height}
-                        alt={st.alt}
-                        style={{ objectPosition: st.focus }}
-                        decoding="async"
-                        fetchPriority={n === 0 ? "high" : "auto"}
-                        data-hs-img
-                      />
+                      <MediaSlot label={`${lineById(p.id).short} photo`} w={heroMedia.width} h={heroMedia.height} />
                       <span className="hs-cone" aria-hidden="true" />
                       <span className="hs-torch" aria-hidden="true" />
                       <span className="hs-sweep" aria-hidden="true" />
@@ -148,7 +134,6 @@ export function Showroom() {
           </div>
         </div>
 
-        <p className="hs-foot label">{heroMedia.credit}</p>
       </div>
       <script dangerouslySetInnerHTML={{ __html: GO }} />
     </section>

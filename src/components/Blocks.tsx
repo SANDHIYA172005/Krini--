@@ -3,7 +3,7 @@ import { routes } from "../content/site";
 import { lines as allLines, type Line } from "../content/catalogue";
 import type { Article } from "../content/articles";
 import { ArticleCard } from "./ArticleCard";
-import { Arrow, CgNote, SectionHead } from "./ui";
+import { Arrow, SectionHead, MediaSlot } from "./ui";
 import { SwipeUI } from "./Swipe";
 
 /**
@@ -16,12 +16,10 @@ export function HeaderFigure({ src, alt, caption }: { src: string; alt: string; 
   return (
     <figure className="w-full" data-drift="0.05">
       <div className="media aspect-[4/3] rounded-sm" data-shutter>
-        {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img src={src} alt={alt} width={1200} height={900} decoding="async" fetchPriority="high" />
+        <MediaSlot label="Page photo" w={1200} h={900} />
       </div>
       <figcaption className="mt-4 flex items-center justify-between gap-4">
         <span className="label text-mute">{caption}</span>
-        <CgNote />
       </figcaption>
     </figure>
   );
@@ -72,8 +70,7 @@ export function LineCards({ list, level = 3 }: { list: readonly Line[]; level?: 
           <li key={l.id} data-reveal>
             <article className="card group" data-tilt>
               <div className="media aspect-[4/3] rounded-sm" data-shutter>
-                {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img src={l.image.replace(".webp", "-43.webp")} alt={l.imageAlt} width={1200} height={900} loading="lazy" decoding="async" />
+                <MediaSlot label="Product line photo" w={1200} h={900} />
               </div>
               <p className="label mt-6 text-amber">{l.index}</p>
               <H className="display-tight mt-3 text-2xl leading-tight">
@@ -146,8 +143,7 @@ export function LineThumbs() {
           <li key={l.id}>
             <a href={routes.line(l.slug)} className="group block">
               <div className="media aspect-[4/5] rounded-sm" data-shutter>
-                {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img src={l.image} alt="" width={1200} height={1500} decoding="async" />
+                <MediaSlot label="Product line photo" w={1200} h={1500} />
               </div>
               <span className="label mt-3 block text-amber">{l.index}</span>
               <span className="mt-1.5 flex items-start justify-between gap-2 text-sm leading-snug text-bone transition-colors group-hover:text-amber">
@@ -158,9 +154,6 @@ export function LineThumbs() {
           </li>
         ))}
       </ul>
-      <p className="mt-4 text-right">
-        <CgNote />
-      </p>
     </nav>
   );
 }

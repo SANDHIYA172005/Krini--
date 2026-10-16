@@ -58,9 +58,30 @@ export function Wordmark() {
   );
 }
 
-/** Small caption for AI-generated imagery, so it is never mistaken for photos of the Krini Crude plant. */
+/** Small caption for AI-generated imagery (Google Flow, on the home page), so it is never mistaken for photos of the Krini Crude plant. */
 export function CgNote({ children = "AI-generated visualisation" }: { children?: ReactNode }) {
   return <span className="label text-bone/50">{children}</span>;
+}
+
+/**
+ * A blank frame where an original photograph goes. It fills its parent (or,
+ * given `w` and `h`, keeps that shape) and says what belongs there and at what
+ * size, so the picture can be dropped in later: replace the <MediaSlot …/>
+ * with an <img src="/images/…" alt="…" />, keeping the parent element.
+ */
+export function MediaSlot({ label, w, h, className = "" }: { label: string; w?: number; h?: number; className?: string }) {
+  return (
+    <div className={`media-slot ${className}`} style={w && h ? { aspectRatio: `${w} / ${h}` } : undefined} aria-hidden="true" data-media-slot>
+      <span className="media-slot-in">
+        <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.3" strokeLinecap="round" strokeLinejoin="round">
+          <path d="M4 7.5h3l1.6-2.5h6.8L17 7.5h3a1 1 0 0 1 1 1V18a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V8.5a1 1 0 0 1 1-1Z" />
+          <circle cx="12" cy="13" r="3.6" />
+        </svg>
+        <span className="media-slot-label">{label}</span>
+        {w && h ? <span className="media-slot-size">{`${w} × ${h} px`}</span> : null}
+      </span>
+    </div>
+  );
 }
 
 /**
