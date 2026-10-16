@@ -4180,3 +4180,784 @@ html.js .shop-cats {
 .shop-help strong {
   color: #0f5c2d;
 }
+
+/* ---- Footer, light: four columns under a gold rule -------------------------
+   Ivory ground (the LUBECON logo in its own colours), a gold gradient rule
+   along the top, then the logo with a line about us and Enquire now; the
+   pages; the product lines; and how to reach us. A slim bottom row: the
+   copyright left; Privacy Policy, Terms & Conditions and back to top right. */
+.site-footer.ft2 {
+  --c-bone: 15 23 42;
+  --c-mute: 100 116 139;
+  position: relative;
+  padding: 0;
+  border-top: 0;
+  background:
+    radial-gradient(60% 120% at 100% 0%, rgb(212 175 55 / 0.10), transparent 60%),
+    #fbf9f3;
+  color: var(--slate);
+}
+.site-footer.ft2::before {
+  content: "";
+  position: absolute;
+  inset: 0 0 auto;
+  height: 3px;
+  background: linear-gradient(90deg, #b9911e, var(--gold) 35%, var(--gold-hi) 55%, var(--gold) 75%, #b9911e);
+}
+.ft2-grid {
+  display: grid;
+  gap: 32px 40px;
+  padding: clamp(40px, 6vh, 64px) 0 clamp(28px, 4vh, 44px);
+}
+@media (min-width: 900px) {
+  .ft2-grid {
+    grid-template-columns: minmax(0, 1.5fr) repeat(3, minmax(0, 1fr));
+  }
+}
+@media (min-width: 560px) and (max-width: 899px) {
+  .ft2-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+  .ft2-brand {
+    grid-column: 1 / -1;
+  }
+}
+.ft2-brand {
+  display: grid;
+  align-content: start;
+  justify-items: start;
+  gap: 14px;
+}
+.ft2-logo img {
+  display: block;
+  width: auto;
+  height: 72px;
+}
+.ft2-about {
+  max-width: 22rem;
+  color: #475569;
+  line-height: 1.6;
+}
+.ft2-cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  margin-top: 4px;
+  padding: 10px 18px;
+  border-radius: 999px;
+  background: var(--gold-grad);
+  color: var(--slate);
+  font-weight: 700;
+  box-shadow: inset 0 1px 0 rgb(255 250 230 / 0.6), 0 10px 22px -14px rgb(184 146 30 / 0.9);
+  transition: filter 0.25s;
+}
+.ft2-cta:hover {
+  filter: brightness(1.05);
+}
+.ft2-k {
+  margin-bottom: 14px;
+  color: var(--gold-deep);
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+.ft2-col ul {
+  display: grid;
+  gap: 10px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.ft2-col a {
+  color: #334155;
+  transition: color 0.2s;
+}
+.ft2-col a:hover,
+.ft2-col a[aria-current="page"] {
+  color: var(--gold-deep);
+}
+.ft2-reach a,
+.ft2-hours {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  overflow-wrap: anywhere;
+}
+.ft2-reach svg {
+  flex: none;
+  color: var(--gold-deep);
+}
+.ft2-hours {
+  color: #64748b;
+}
+.ft2-bottom {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px 24px;
+  padding: 16px 0 18px;
+  border-top: 1px solid #ebe5d4;
+  color: #64748b;
+}
+.ft2-bottom-r {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+.ft2-legal {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px 18px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.ft2-legal li {
+  position: relative;
+}
+.ft2-legal li + li::before {
+  content: "";
+  position: absolute;
+  left: -10px;
+  top: 50%;
+  width: 3px;
+  height: 3px;
+  margin-top: -1.5px;
+  border-radius: 50%;
+  background: var(--gold);
+}
+.ft2-legal a {
+  color: #475569;
+}
+.ft2-legal a:hover,
+.ft2-legal a[aria-current="page"] {
+  color: var(--gold-deep);
+}
+.ft2-up {
+  display: inline-grid;
+  place-items: center;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: var(--slate);
+  color: #fff;
+  transition: background 0.25s, color 0.25s;
+}
+.ft2-up:hover {
+  background: var(--gold);
+  color: var(--slate);
+}
+@media (max-width: 640px) {
+  .ft2-bottom {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  .ft2-bottom-r {
+    width: 100%;
+    justify-content: space-between;
+  }
+}
+
+/* ---- Footer, animated -------------------------------------------------------
+   An ivory footer that comes alive: a gold oil wave flows along its top edge,
+   a ticker of every product runs slowly past, the columns rise in one after
+   another as it scrolls into view (FooterMotion.tsx adds .is-in), a giant
+   outlined KRINI CRUDE fills with gold from left to right and a sheen runs
+   across it, and the back to top button carries a ring that follows how far
+   down the page you are (--ft-p). Reduced motion: all still, all shown. */
+.site-footer.ft3 {
+  --c-bone: 15 23 42;
+  --c-mute: 100 116 139;
+  position: relative;
+  padding: 0;
+  border-top: 0;
+  margin-top: 0;
+  background: #fbf9f3;
+  color: var(--slate);
+  overflow: hidden;
+}
+.site-footer.ft3::before {
+  display: none;
+}
+/* the wave: two layers drifting at different speeds */
+.ft3-wave {
+  position: relative;
+  height: 46px;
+  margin-bottom: -1px;
+  background: transparent;
+}
+.ft3-wave svg {
+  position: absolute;
+  inset: 0;
+  width: 200%;
+  height: 100%;
+}
+.ft3-wave-back {
+  fill: rgb(212 175 55 / 0.55);
+  animation: ft3-flow 14s linear infinite;
+}
+.ft3-wave-front {
+  fill: #fbf9f3;
+  animation: ft3-flow 9s linear infinite reverse;
+}
+@keyframes ft3-flow {
+  from { transform: translateX(0); }
+  to { transform: translateX(-50%); }
+}
+/* the wave sits on the band above it */
+main + .site-footer.ft3,
+.site-footer.ft3 {
+  margin-top: -46px;
+  z-index: 1;
+}
+.site-footer.ft3 .ft3-wave {
+  background: none;
+}
+/* the ticker */
+.ft3-ticker {
+  position: relative;
+  overflow: hidden;
+  padding: 12px 0;
+  border-bottom: 1px solid #ebe5d4;
+  background: #fbf9f3;
+  -webkit-mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent);
+  mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent);
+}
+.ft3-ticker-track {
+  display: flex;
+  width: max-content;
+  animation: ft3-ticker 60s linear infinite;
+}
+.ft3-ticker:hover .ft3-ticker-track {
+  animation-play-state: paused;
+}
+.ft3-ticker ul {
+  display: flex;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.ft3-ticker li {
+  display: inline-flex;
+  align-items: center;
+  gap: 18px;
+  padding-right: 18px;
+  color: #64748b;
+  font-weight: 600;
+  white-space: nowrap;
+}
+.ft3-ticker li::after {
+  content: "";
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--gold);
+}
+@keyframes ft3-ticker {
+  to { transform: translateX(-50%); }
+}
+/* the columns */
+.ft3-grid {
+  display: grid;
+  gap: 32px 40px;
+  padding: clamp(36px, 5vh, 56px) 0 clamp(16px, 2.5vh, 28px);
+}
+@media (min-width: 900px) {
+  .ft3-grid {
+    grid-template-columns: minmax(0, 1.5fr) repeat(3, minmax(0, 1fr));
+  }
+}
+@media (min-width: 560px) and (max-width: 899px) {
+  .ft3-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+  .ft3-brand {
+    grid-column: 1 / -1;
+  }
+}
+html.js .ft3 [data-ft] {
+  opacity: 0;
+  transform: translateY(22px);
+  transition: opacity 0.7s var(--ease-film), transform 0.8s var(--ease-film);
+  transition-delay: calc(var(--i, 0) * 110ms);
+}
+html.js .ft3.is-in [data-ft] {
+  opacity: 1;
+  transform: none;
+}
+.ft3-brand {
+  display: grid;
+  align-content: start;
+  justify-items: start;
+  gap: 14px;
+}
+.ft3-logo img {
+  display: block;
+  width: auto;
+  height: 70px;
+  transition: transform 0.4s var(--ease-film);
+}
+.ft3-logo:hover img {
+  transform: rotate(-2deg) scale(1.03);
+}
+.ft3-about {
+  max-width: 22rem;
+  color: #475569;
+  line-height: 1.6;
+}
+.ft3-cta {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 18px;
+  border-radius: 999px;
+  overflow: hidden;
+  background: var(--slate);
+  color: #fff;
+  font-weight: 700;
+  isolation: isolate;
+}
+.ft3-cta::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background: var(--gold-grad);
+  transform: translateX(-101%);
+  transition: transform 0.45s var(--ease-film);
+}
+.ft3-cta:hover {
+  color: var(--slate);
+}
+.ft3-cta:hover::before {
+  transform: none;
+}
+.ft3-cta .arrow {
+  transition: transform 0.3s var(--ease-film);
+}
+.ft3-cta:hover .arrow {
+  transform: translateX(4px);
+}
+.ft3-k {
+  margin-bottom: 14px;
+  color: var(--gold-deep);
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+.ft3-col ul {
+  display: grid;
+  gap: 10px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+/* links: a gold line grows under them */
+.ft3-col a {
+  position: relative;
+  color: #334155;
+  transition: color 0.2s;
+}
+.ft3-col nav a,
+nav.ft3-col a {
+  background: linear-gradient(var(--gold), var(--gold)) 0 100% / 0 1.5px no-repeat;
+  transition: background-size 0.35s var(--ease-film), color 0.2s;
+}
+nav.ft3-col a:hover,
+nav.ft3-col a[aria-current="page"] {
+  color: var(--gold-deep);
+  background-size: 100% 1.5px;
+}
+.ft3-reach a,
+.ft3-hours {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  overflow-wrap: anywhere;
+}
+.ft3-ic {
+  display: grid;
+  place-items: center;
+  flex: none;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: var(--gold-soft);
+  color: var(--gold-deep);
+  transition: background 0.25s, color 0.25s, transform 0.3s var(--ease-film);
+}
+.ft3-reach a:hover .ft3-ic {
+  background: var(--gold-grad);
+  color: var(--slate);
+  transform: rotate(-12deg);
+}
+.ft3-reach a:hover {
+  color: var(--gold-deep);
+}
+.ft3-hours {
+  color: #64748b;
+}
+/* the name */
+.ft3-word {
+  display: block;
+  width: 100%;
+  height: auto;
+  margin: clamp(4px, 1vh, 12px) 0 0;
+  overflow: visible;
+}
+.ft3-word-text {
+  font-family: var(--font-display), Archivo, "Arial Black", Arial, sans-serif;
+  font-size: 124px;
+  font-weight: 800;
+  letter-spacing: 2px;
+}
+.ft3-word-line {
+  fill: none;
+  stroke: rgb(212 175 55 / 0.55);
+  stroke-width: 1.4;
+}
+.ft3-word-fill {
+  transform-box: fill-box;
+  transform-origin: 0 50%;
+  transform: scaleX(0);
+  transition: transform 2.2s cubic-bezier(0.65, 0, 0.35, 1) 0.35s;
+}
+.ft3.is-in .ft3-word-fill {
+  transform: scaleX(1);
+}
+.ft3-word-sheen {
+  opacity: 0;
+}
+.ft3.is-in .ft3-word-sheen {
+  animation: ft3-sheen 5s ease-in-out 2.8s infinite;
+}
+@keyframes ft3-sheen {
+  0% { transform: translateX(0); opacity: 1; }
+  45% { transform: translateX(1300px); opacity: 1; }
+  46%, 100% { transform: translateX(1300px); opacity: 0; }
+}
+/* the bottom row */
+.ft3-bottom {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px 24px;
+  padding: 16px 0 calc(18px + env(safe-area-inset-bottom, 0px));
+  border-top: 1px solid #ebe5d4;
+  color: #64748b;
+}
+.ft3-bottom-r {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+.ft3-legal {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px 18px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.ft3-legal li {
+  position: relative;
+}
+.ft3-legal li + li::before {
+  content: "";
+  position: absolute;
+  left: -10px;
+  top: 50%;
+  width: 3px;
+  height: 3px;
+  margin-top: -1.5px;
+  border-radius: 50%;
+  background: var(--gold);
+}
+.ft3-legal a {
+  color: #475569;
+}
+.ft3-legal a:hover,
+.ft3-legal a[aria-current="page"] {
+  color: var(--gold-deep);
+}
+/* back to top, with the page's progress as a gold ring */
+.ft3-up {
+  position: relative;
+  display: inline-grid;
+  place-items: center;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: var(--slate);
+  color: #fff;
+  transition: background 0.25s, color 0.25s;
+}
+.ft3-up:hover {
+  background: var(--gold);
+  color: var(--slate);
+}
+.ft3-up-ring {
+  position: absolute;
+  inset: -4px;
+  width: calc(100% + 8px);
+  height: calc(100% + 8px);
+  transform: rotate(-90deg);
+}
+.ft3-up-ring circle {
+  fill: none;
+  stroke: #ebe5d4;
+  stroke-width: 2.5;
+}
+.ft3-up-ring .ft3-up-p {
+  stroke: var(--gold);
+  stroke-linecap: round;
+  stroke-dasharray: 1;
+  stroke-dashoffset: calc(1 - var(--ft-p, 0));
+}
+.ft3-up:hover .ft3-up-arrow {
+  animation: ft3-bob 0.8s ease-in-out infinite;
+}
+@keyframes ft3-bob {
+  50% { transform: translateY(-3px); }
+}
+@media (max-width: 640px) {
+  .ft3-bottom {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  .ft3-bottom-r {
+    width: 100%;
+    justify-content: space-between;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .ft3-wave-back,
+  .ft3-wave-front,
+  .ft3-ticker-track,
+  .ft3.is-in .ft3-word-sheen,
+  .ft3-up:hover .ft3-up-arrow {
+    animation: none;
+  }
+  html.js .ft3 [data-ft] {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+  .ft3-word-fill {
+    transform: scaleX(1);
+    transition: none;
+  }
+}
+
+/* ---- The page's scrollbar, in gold ----------------------------------------
+   A gold thumb (deepening on hover) on a pale ivory track. */
+/* Firefox (no ::-webkit-scrollbar): the same colours, the simple way */
+@supports not selector(::-webkit-scrollbar) {
+  html {
+    scrollbar-color: #c9a432 #f6f1e2;
+    scrollbar-width: thin;
+  }
+}
+html::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+html::-webkit-scrollbar-track {
+  background: #f6f1e2;
+}
+html::-webkit-scrollbar-thumb {
+  border: 2px solid #f6f1e2;
+  border-radius: 999px;
+  background: linear-gradient(180deg, #e8c860, #d4af37 50%, #b08a1f);
+}
+html::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(180deg, #d4af37, #b08a1f);
+}
+html::-webkit-scrollbar-button {
+  display: none;
+  width: 0;
+  height: 0;
+}
+
+/* ---- Enquiry band on white: the panel on a plain white ground, with a fine
+   gold-tinted outline and a soft shadow so its white half still reads ---- */
+main section.cta3 {
+  background: #fff !important;
+}
+.cta3-panel {
+  box-shadow: 0 40px 80px -48px rgb(15 23 42 / 0.45), 0 0 0 1px #ece4cc;
+}
+/* the phone and email tiles: one under the other until there is room for both,
+   so the email address never breaks */
+@media (max-width: 1279px) {
+  .cta3-reach {
+    grid-template-columns: 1fr;
+  }
+}
+.cta3-reach a > span:last-child {
+  overflow-wrap: normal;
+  word-break: keep-all;
+}
+
+/* ---- Footer, enhanced --------------------------------------------------------
+   No overlap with the section above (it is white now); three fine gold lines
+   flowing along the top; the product ticker as a dark strip with ivory names
+   and small gold oil drops between them; headings with a short gold bar; a
+   soft gold glow and a faint diagonal texture on the ivory ground. */
+main + .site-footer.ft3,
+.site-footer.ft3 {
+  margin-top: 0;
+  background:
+    radial-gradient(50% 80% at 100% 0%, rgb(212 175 55 / 0.12), transparent 65%),
+    radial-gradient(40% 60% at 0% 100%, rgb(212 175 55 / 0.08), transparent 65%),
+    repeating-linear-gradient(135deg, rgb(212 175 55 / 0.035) 0 1px, transparent 1px 16px),
+    #fbf9f3;
+}
+.ft3-wave {
+  height: 48px;
+  margin: 0;
+  background: #fff;
+}
+.ft3-line {
+  fill: none;
+  stroke: url(#ft3-line);
+  stroke-linecap: round;
+  transform-box: view-box;
+}
+.ft3-line-1 {
+  stroke-width: 2.2;
+  opacity: 0.9;
+  filter: drop-shadow(0 2px 3px rgb(212 175 55 / 0.45));
+  animation: ft3-flow 16s linear infinite;
+}
+.ft3-line-2 {
+  stroke-width: 1.4;
+  opacity: 0.6;
+  animation: ft3-flow 11s linear infinite reverse;
+}
+.ft3-line-3 {
+  stroke-width: 1;
+  opacity: 0.45;
+  animation: ft3-flow 7s linear infinite;
+}
+/* the ticker as a dark strip */
+.ft3-ticker {
+  padding: 13px 0;
+  border-bottom: 0;
+  background: linear-gradient(180deg, #111a2e, #0b1220);
+  box-shadow: inset 0 1px 0 rgb(212 175 55 / 0.35), inset 0 -1px 0 rgb(212 175 55 / 0.35);
+}
+.ft3-ticker li {
+  gap: 20px;
+  padding-right: 20px;
+  color: rgb(255 255 255 / 0.85);
+  letter-spacing: 0.02em;
+}
+.ft3-ticker li::after {
+  width: 7px;
+  height: 7px;
+  border-radius: 0 50% 50% 50%;
+  transform: rotate(45deg);
+  background: var(--gold-grad);
+  box-shadow: 0 0 8px rgb(212 175 55 / 0.6);
+}
+/* headings with a short gold bar */
+.ft3-k {
+  position: relative;
+  padding-bottom: 10px;
+}
+.ft3-k::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 28px;
+  height: 2px;
+  border-radius: 2px;
+  background: var(--gold-grad);
+  transition: width 0.5s var(--ease-film);
+}
+.ft3-col:hover .ft3-k::after {
+  width: 52px;
+}
+/* the copyright line: a small gold drop before it */
+.ft3-bottom > p {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+}
+.ft3-bottom > p::before {
+  content: "";
+  width: 8px;
+  height: 8px;
+  border-radius: 0 50% 50% 50%;
+  transform: rotate(45deg);
+  background: var(--gold-grad);
+}
+@media (prefers-reduced-motion: reduce) {
+  .ft3-line-1,
+  .ft3-line-2,
+  .ft3-line-3 {
+    animation: none;
+  }
+}
+
+/* the gold lines sit on the footer's own ground: the top of the footer fades
+   from the white section above into the ivory, with no band or edge */
+.ft3-wave {
+  background: linear-gradient(180deg, #fff 0%, rgb(255 255 255 / 0) 100%);
+}
+main section.cta3 {
+  padding-bottom: clamp(32px, 5vh, 56px) !important;
+}
+
+/* ---- Enquiry band, white half on inner pages: "What to send us" fills the
+   space below the buttons, in the same rows as the home page's office and
+   factory ---- */
+.cta3-send {
+  display: grid;
+  gap: 4px;
+  margin-top: 8px;
+  padding-top: 18px;
+  border-top: 1px solid var(--line);
+}
+.cta3-send-k {
+  color: var(--gold-deep);
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+.cta3-places.cta3-steps {
+  margin: 0;
+  padding: 0;
+  border-top: 0;
+  list-style: none;
+}
+.cta3-steps li {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  align-items: center;
+  gap: 14px;
+  padding: 14px 0;
+  border-bottom: 1px solid var(--line);
+  color: #475569;
+  line-height: 1.45;
+}
+.cta3-steps li:last-child {
+  border-bottom: 0;
+  padding-bottom: 0;
+}
+.cta3-steps .cta3-pin {
+  font-weight: 800;
+  font-size: 0.95rem;
+}
+
+/* the footer's top strip: white from the section above fading into the
+   footer's ivory (beats the earlier `.site-footer.ft3 .ft3-wave` reset) */
+.site-footer.ft3 .ft3-wave {
+  background: linear-gradient(180deg, #fff 0%, rgb(255 255 255 / 0) 100%);
+}

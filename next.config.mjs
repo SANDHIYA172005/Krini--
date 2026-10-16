@@ -5,6 +5,8 @@ const nextConfig = {
   output: process.env.STATIC_EXPORT ? "export" : undefined,
   images: { unoptimized: true },
   poweredByHeader: false,
+  // no Next.js badge in the corner while developing
+  devIndicators: false,
   async headers() {
     return [
       {

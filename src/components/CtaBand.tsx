@@ -1,6 +1,13 @@
 import { enquireHref, site } from "../content/site";
 import { Arrow, Glyph } from "./ui";
 
+/** On pages without the office and factory, the white half lists what an enquiry needs. */
+const SEND = [
+  { t: "The product", d: "Its name or grade, and what it is used for." },
+  { t: "The quantity", d: "Pack size and how much you need, once or every month." },
+  { t: "Delivery", d: "The city or site it is to be delivered to." },
+];
+
 /**
  * The band that closes a page: on gold, one panel in two halves. The dark
  * half says what it is about (the label, the line, what to send us, the hours)
@@ -102,7 +109,20 @@ export function CtaBand({
                 </a>
               </address>
             ) : (
-              <p className="cta3-note">Tell us the product, the quantity and where it is to be delivered.</p>
+              <div className="cta3-send">
+                <p className="cta3-send-k">What to send us</p>
+                <ol className="cta3-places cta3-steps">
+                  {SEND.map((s, i) => (
+                    <li key={s.t}>
+                      <span className="cta3-pin">{i + 1}</span>
+                      <span className="cta3-place">
+                        <strong>{s.t}</strong>
+                        <span>{s.d}</span>
+                      </span>
+                    </li>
+                  ))}
+                </ol>
+              </div>
             )}
           </div>
         </div>

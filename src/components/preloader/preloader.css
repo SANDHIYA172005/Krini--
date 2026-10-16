@@ -1,99 +1,22 @@
 /* ==========================================================================
-   The first-visit loading screen: <kc-preloader>, built by boot.ts
-   (Preloader.tsx), with the meshing gear pair from gears.ts. Black and gold,
-   in the site's own fonts; plain CSS (no @layer) so Tailwind never drops it.
+   The loading screen: <kc-preloader>, built by boot.ts (Preloader.tsx).
+   On white, a drop of gold oil falls onto a still surface, ripples spread out
+   from where it lands, and the LUBECON logo rises out of the surface; then the
+   screen fades away. The drawing is a 320 × 200 grid (the SVG's viewBox): the
+   surface is at y = 124, which is 62% of the way down the stage.
+   Plain CSS (no @layer) so Tailwind never drops it.
    ========================================================================== */
 
-/* ---- the gear pair ---------------------------------------------------- */
-
-.kc-gears {
-  --gear-a: rgb(var(--c-amber, 212 175 55));
-  --gear-b: currentColor;
-  display: block;
-  width: 100%;
-  height: auto;
-  overflow: visible;
-}
-
-.kc-gear {
-  transform-box: fill-box;
-  transform-origin: center;
-}
-.kc-gear > * {
-  fill: none;
-  stroke-width: 1.1;
-  stroke-linejoin: round;
-}
-.kc-gear--big > * { stroke: var(--gear-a); }
-.kc-gear--big > path { fill: rgb(var(--c-amber, 212 175 55) / 0.07); }
-.kc-gear--small > * { stroke: var(--gear-b); }
-
-/* the outlines draw themselves in, then the bores and holes appear */
-.kc-gear > path {
-  stroke-dasharray: 1;
-  stroke-dashoffset: 1;
-  animation: kc-draw 1.6s var(--ease-film, cubic-bezier(0.22, 1, 0.36, 1)) 0.1s forwards;
-}
-.kc-gear--small > path { animation-delay: 0.3s; }
-.kc-gear > circle {
-  opacity: 0;
-  animation: kc-fade 0.8s ease 0.9s forwards;
-}
-
-/* 18 teeth to 10: the small gear turns 1.8 times for each turn of the big one */
-.kc-gear--big { animation: kc-spin 12s linear infinite; }
-.kc-gear--small { animation: kc-spin 6.6667s linear infinite reverse; }
-
-/* a drop of oil forms where the teeth meet and falls away */
-.kc-drop {
-  fill: rgb(var(--c-amber, 212 175 55));
-  transform-box: fill-box;
-  transform-origin: 50% 0;
-  opacity: 0;
-  animation: kc-drip 2.6s 1.4s infinite;
-}
-
-@keyframes kc-spin { to { transform: rotate(360deg); } }
-@keyframes kc-draw { to { stroke-dashoffset: 0; } }
-@keyframes kc-fade { to { opacity: 1; } }
-@keyframes kc-drip {
-  0%   { opacity: 0; transform: translateY(0) scale(0.2); animation-timing-function: ease-out; }
-  35%  { opacity: 1; transform: translateY(0) scale(1); animation-timing-function: cubic-bezier(0.55, 0, 0.9, 0.45); }
-  80%  { opacity: 1; transform: translateY(34px) scale(0.85, 1.15); }
-  100% { opacity: 0; transform: translateY(44px) scale(0.6); }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .kc-gear, .kc-gear > *, .kc-drop { animation: none; }
-  .kc-gear > path { stroke-dashoffset: 0; }
-  .kc-gear > circle { opacity: 1; }
-  .kc-drop { display: none; }
-}
-
-/* ---- the first-visit screen -------------------------------------------- */
-
 kc-preloader {
-  --kc-amber: rgb(var(--c-amber, 212 175 55));
-  --kc-cream: 245 239 225;
-  --kc-ease: var(--ease-film, cubic-bezier(0.22, 1, 0.36, 1));
-  --kc-mono: var(--font-mono), "IBM Plex Mono", ui-monospace, monospace;
-  --kc-display: var(--font-display), Archivo, "Arial Narrow", Arial, sans-serif;
-
   position: fixed;
   inset: 0;
   z-index: 2147483000;
   display: grid;
-  grid-template-rows: auto 1fr auto;
-  padding: clamp(18px, 3vw, 34px) var(--gutter, clamp(16px, 4vw, 56px)) clamp(26px, 3.6vw, 44px);
+  place-items: center;
   overflow: hidden;
-  color: rgb(var(--kc-cream));
-  background:
-    radial-gradient(42% 46% at 50% 44%, rgb(212 175 55 / 0.14), transparent 72%),
-    radial-gradient(120% 90% at 50% 45%, #1a1610 0%, #0c0b09 58%, #070605 100%);
-  font-family: var(--font-sans), "IBM Plex Sans", "Helvetica Neue", Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
+  background: #fff;
   cursor: progress;
-  transition: transform 0.7s var(--kc-ease), opacity 0.35s ease;
+  transition: opacity 0.45s ease;
   /* if its script ever stops, the screen still gets out of the way */
   animation: kc-pre-failsafe 0s linear 5s forwards;
 }
@@ -103,394 +26,76 @@ kc-preloader *::after { box-sizing: border-box; }
 
 @keyframes kc-pre-failsafe { to { opacity: 0; visibility: hidden; pointer-events: none; } }
 
-/* a faint drafting grid, strongest behind the emblem */
-.kc-pre__grid {
-  position: absolute;
-  inset: 0;
-  pointer-events: none;
-  background-image:
-    linear-gradient(rgb(var(--kc-cream) / 0.05) 1px, transparent 1px),
-    linear-gradient(90deg, rgb(var(--kc-cream) / 0.05) 1px, transparent 1px);
-  background-size: 72px 72px;
-  background-position: calc(50% - 36px) calc(50% - 36px);
-  -webkit-mask-image: radial-gradient(56% 52% at 50% 46%, #000 0%, transparent 78%);
-  mask-image: radial-gradient(56% 52% at 50% 46%, #000 0%, transparent 78%);
-  opacity: 0;
-  animation: kc-fade 1.2s ease 0.1s forwards;
-}
-
-/* a soft gold light behind the logo */
-.kc-pre__glow {
-  position: absolute;
-  inset: 0;
-  pointer-events: none;
-  background: radial-gradient(32% 38% at 50% 42%, rgb(212 175 55 / 0.22), transparent 70%);
-  animation: kc-breathe 3.2s ease-in-out infinite;
-}
-@keyframes kc-breathe {
-  50% { opacity: 0.55; }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .kc-pre__glow { animation: none; }
-}
-
-.kc-pre__top,
-.kc-pre__foot,
-.kc-pre__center {
+/* the stage: 16 by 10, as large as fits */
+.kc-pre__stage {
   position: relative;
-  transition: opacity 0.45s ease, transform 0.8s var(--kc-ease);
+  width: min(88vw, 900px, calc(82vh * 1.6));
+  aspect-ratio: 16 / 10;
 }
-
-/* top line: what we make, who we are */
-.kc-pre__top {
-  display: flex;
-  justify-content: space-between;
-  gap: 16px;
-  padding-bottom: 14px;
-  border-bottom: 1px solid rgb(var(--kc-cream) / 0.1);
-  font-family: var(--kc-mono);
-  font-size: 10.5px;
-  font-weight: 500;
-  letter-spacing: 0.18em;
-  text-transform: uppercase;
-  color: rgb(var(--kc-cream) / 0.55);
-  opacity: 0;
-  animation: kc-fade 0.8s ease 0.2s forwards;
-}
-
-/* centre: the emblem and the name */
-.kc-pre__center {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  gap: clamp(18px, 2.6vw, 30px);
-  text-align: center;
-}
-.kc-pre__emblem {
-  width: clamp(168px, 24vw, 280px);
-  filter: drop-shadow(0 0 22px rgb(212 175 55 / 0.18));
-}
-.kc-pre__emblem .kc-gears { --gear-b: rgb(var(--kc-cream) / 0.7); }
-
-.kc-pre__mark {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  gap: 0 0.26em;
-  margin: 0;
-  font-family: var(--kc-display);
-  font-weight: 800;
-  font-size: clamp(46px, 9.4vw, 128px);
-  line-height: 0.92;
-  letter-spacing: -0.01em;
-  text-transform: uppercase;
-}
-.kc-pre__word {
-  display: inline-flex;
-  overflow: hidden;
-  padding: 0.04em 0 0.06em;
-}
-.kc-pre__word--amber { color: var(--kc-amber); }
-.kc-pre__word > span {
-  display: inline-block;
-  transform: translateY(108%);
-  animation: kc-rise 0.95s var(--kc-ease) forwards;
-  animation-delay: calc(0.35s + var(--i) * 0.05s);
-}
-.kc-pre__word + .kc-pre__word > span { animation-delay: calc(0.6s + var(--i) * 0.05s); }
-
-@keyframes kc-rise { to { transform: translateY(0); } }
-
-.kc-pre__tag {
-  display: flex;
-  align-items: center;
-  gap: 14px;
-  font-family: var(--kc-mono);
-  font-size: 11px;
-  font-weight: 500;
-  letter-spacing: 0.2em;
-  text-transform: uppercase;
-  color: rgb(var(--kc-cream) / 0.72);
-  opacity: 0;
-  animation: kc-fade 0.9s ease 1s forwards;
-}
-.kc-pre__tag::before,
-.kc-pre__tag::after {
-  content: "";
-  width: clamp(18px, 4vw, 44px);
-  height: 1px;
-  background: var(--kc-amber);
-}
-
-/* foot: which line is "loading", and how far along */
-.kc-pre__foot {
-  display: flex;
-  align-items: flex-end;
-  justify-content: space-between;
-  gap: 16px;
-  opacity: 0;
-  animation: kc-fade 0.8s ease 0.3s forwards;
-}
-.kc-pre__now {
-  display: flex;
-  align-items: baseline;
-  gap: 14px;
-  font-family: var(--kc-mono);
-  font-size: 11px;
-  font-weight: 500;
-  letter-spacing: 0.2em;
-  text-transform: uppercase;
-  color: rgb(var(--kc-cream) / 0.85);
-}
-.kc-pre__now b {
-  font-weight: 500;
-  color: var(--kc-amber);
-}
-.kc-pre__now.is-swap > * { animation: kc-swap 0.5s var(--kc-ease); }
-@keyframes kc-swap { from { opacity: 0; transform: translateY(8px); } }
-
-.kc-pre__count {
-  display: flex;
-  align-items: flex-start;
-  gap: 4px;
-  font-family: var(--kc-display);
-  font-weight: 800;
-  font-size: clamp(44px, 6.4vw, 84px);
-  line-height: 0.8;
-  letter-spacing: -0.02em;
-  font-variant-numeric: tabular-nums;
-}
-.kc-pre__count small {
-  font-family: var(--kc-mono);
-  font-size: 12px;
-  font-weight: 500;
-  letter-spacing: 0.1em;
-  line-height: 1;
-  color: var(--kc-amber);
-}
-
-/* the full-width progress rail along the bottom edge (it becomes the curtain's lip) */
-.kc-pre__bar {
-  position: absolute;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  height: 2px;
-  background: rgb(var(--kc-cream) / 0.1);
-}
-.kc-pre__bar > i {
+.kc-pre__svg {
   position: absolute;
   inset: 0;
-  background: linear-gradient(90deg, #b9911e, var(--kc-amber) 70%, #f3d77a);
-  box-shadow: 0 0 14px rgb(212 175 55 / 0.55);
-  transform: scaleX(0);
-  transform-origin: 0 50%;
-}
-
-/* ---- leaving: the content rises away, then the whole screen lifts ---- */
-kc-preloader.is-done .kc-pre__center { opacity: 0; transform: translateY(-36px); }
-kc-preloader.is-done .kc-pre__top { opacity: 0; transform: translateY(-14px); }
-kc-preloader.is-done .kc-pre__foot { opacity: 0; transform: translateY(-14px); }
-kc-preloader.is-lift {
-  transform: translateY(-100%);
-  pointer-events: none;
-}
-
-@media (max-width: 560px) {
-  .kc-pre__iso { display: none; }
-  .kc-pre__top { justify-content: center; }
-  .kc-pre__now { gap: 10px; }
-  .kc-pre__tag {
-    gap: 10px;
-    font-size: 10px;
-    letter-spacing: 0.14em;
-    white-space: nowrap;
-  }
-  .kc-pre__tag::before,
-  .kc-pre__tag::after { width: 14px; }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  kc-preloader { transition: opacity 0.4s ease; }
-  kc-preloader .kc-pre__grid,
-  kc-preloader .kc-pre__top,
-  kc-preloader .kc-pre__tag,
-  kc-preloader .kc-pre__foot,
-  kc-preloader .kc-pre__word > span,
-  kc-preloader .kc-pre__now.is-swap > * {
-    animation: none;
-    opacity: 1;
-    transform: none;
-  }
-  kc-preloader.is-done .kc-pre__center,
-  kc-preloader.is-done .kc-pre__top,
-  kc-preloader.is-done .kc-pre__foot { transform: none; }
-  kc-preloader.is-lift { transform: none; opacity: 0; }
-}
-
-/* ---- the engine (engine.ts; boot.ts moves it) --------------------------- */
-kc-preloader .kc-pre__emblem:has(.kc-engine) {
-  width: clamp(240px, 32vw, 400px);
-  max-height: 36vh;
-  aspect-ratio: 270 / 190;
-  filter: drop-shadow(0 18px 40px rgb(0 0 0 / 0.55)) drop-shadow(0 0 30px rgb(212 175 55 / 0.12));
-  opacity: 0;
-  animation: kc-fade 0.9s ease 0.1s forwards;
-}
-.kc-engine {
-  display: block;
   width: 100%;
   height: 100%;
   overflow: visible;
-  stroke-linejoin: round;
-  stroke-linecap: round;
-  /* a running engine trembles a little */
-  animation: kc-idle 0.11s linear infinite alternate;
-}
-@keyframes kc-idle { to { transform: translate(0.4px, -0.5px); } }
-.kc-e-static * { vector-effect: non-scaling-stroke; }
-.kc-e-case,
-.kc-e-sump {
-  fill: #17140f;
-  stroke: rgb(245 239 225 / 0.35);
-  stroke-width: 1.2;
-}
-.kc-e-oil {
-  fill: rgb(212 175 55 / 0.55);
-  animation: kc-slosh 1.6s ease-in-out infinite alternate;
-  transform-box: fill-box;
-  transform-origin: 50% 100%;
-}
-@keyframes kc-slosh { to { transform: skewX(-6deg) scaleY(0.9); } }
-.kc-e-block {
-  fill: #221e17;
-  stroke: rgb(245 239 225 / 0.55);
-  stroke-width: 1.4;
-}
-.kc-e-fins path {
-  fill: none;
-  stroke: rgb(245 239 225 / 0.4);
-  stroke-width: 2.2;
-}
-.kc-e-bore {
-  fill: #0d0b08;
-  stroke: rgb(245 239 225 / 0.3);
-  stroke-width: 1;
-}
-.kc-e-head {
-  fill: #2c271e;
-  stroke: rgb(245 239 225 / 0.6);
-  stroke-width: 1.4;
-}
-.kc-e-rib {
-  stroke: rgb(245 239 225 / 0.18);
-  stroke-width: 1;
-}
-.kc-e-plug rect {
-  fill: #e9e3d3;
-  stroke: none;
-}
-.kc-e-plug rect + path {
-  stroke: #e9e3d3;
-  stroke-width: 1.6;
-}
-.kc-e-plug rect:last-child {
-  fill: rgb(var(--c-amber, 212 175 55));
-}
-.kc-e-fire {
-  fill: #ffb43a;
-  filter: drop-shadow(0 0 6px #ff8a00) drop-shadow(0 0 14px rgb(255 160 40 / 0.8));
-}
-.kc-e-sparks circle {
-  fill: #fff6c8;
-  filter: drop-shadow(0 0 4px #fff) drop-shadow(0 0 8px #ffd34d);
-}
-.kc-e-shaft {
-  stroke: rgb(245 239 225 / 0.7);
-  stroke-width: 5;
-}
-.kc-e-main {
-  fill: #17140f;
-  stroke: rgb(245 239 225 / 0.6);
-  stroke-width: 1.2;
-}
-.kc-e-cw {
-  fill: #6f5a1d;
-  stroke: rgb(var(--c-amber, 212 175 55));
-  stroke-width: 1;
-}
-.kc-e-web {
-  fill: #b9911e;
-  stroke: #f3d77a;
-  stroke-width: 0.8;
-}
-.kc-e-pin {
-  fill: #f3d77a;
-}
-.kc-e-rod {
-  stroke: #d9c48a;
-  stroke-width: 6;
-}
-.kc-e-piston rect {
-  fill: #cfc8b6;
-  stroke: #f5efe1;
-  stroke-width: 1;
-}
-.kc-e-piston path {
-  stroke: #6b6556;
-  stroke-width: 1;
-}
-.kc-e-piston circle {
-  fill: rgb(var(--c-amber, 212 175 55));
-}
-.kc-e-wheel circle {
-  fill: none;
-  stroke: rgb(var(--c-amber, 212 175 55));
-  stroke-width: 1.6;
-}
-.kc-e-wheel circle:first-child {
-  fill: #1d1912;
-}
-.kc-e-wheel .kc-e-hole {
-  fill: #0c0b09;
-  stroke-width: 1;
-}
-.kc-e-wheel path {
-  stroke: rgb(var(--c-amber, 212 175 55));
-  stroke-width: 1.6;
-}
-.kc-e-wheel .kc-e-teeth {
-  stroke-width: 2.4;
-}
-@media (prefers-reduced-motion: reduce) {
-  .kc-engine,
-  .kc-e-oil { animation: none; }
 }
 
-/* ---- the reel: the gears film, with no frame. Its ground is black and it is
-   blended "lighten" over the screen, so only the gears show: they turn on the
-   screen's own dark ground and grid. (The film must be shot on pure black, with
-   no glow or vignette of its own, for its edges to vanish.) ---- */
-.kc-pre__reel {
-  position: relative;
-  width: clamp(280px, 40vw, 520px);
-  aspect-ratio: 816 / 432;
-  mix-blend-mode: lighten;
+/* the drop: falls from above the stage to the surface, stretching as it speeds up */
+.kc-drop-fall {
   opacity: 0;
-  animation: kc-fade 0.8s ease 0.05s forwards;
+  transform: translate(160px, -20px);
+  animation: kc-fall 0.48s cubic-bezier(0.55, 0, 1, 0.45) 0.05s forwards;
 }
-.kc-pre__reel video {
+@keyframes kc-fall {
+  0% { opacity: 1; transform: translate(160px, -20px) scale(1, 1); }
+  94% { opacity: 1; }
+  100% { opacity: 0; transform: translate(160px, 120px) scale(0.85, 1.2); }
+}
+
+/* the ripples: four rings spread out from where the drop lands and fade */
+.kc-ring {
+  fill: none;
+  stroke: #d4af37;
+  stroke-width: 1.6;
+  opacity: 0;
+  transform-box: fill-box;
+  transform-origin: center;
+  transform: scale(0.04);
+  animation: kc-ripple 1.4s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+  animation-delay: calc(0.52s + var(--i) * 0.16s);
+}
+@keyframes kc-ripple {
+  0% { opacity: 0.9; transform: scale(0.04); }
+  100% { opacity: 0; transform: scale(1); }
+}
+
+/* the logo rises out of the surface: everything below the surface is hidden */
+.kc-pre__rise {
+  position: absolute;
+  left: 50%;
+  bottom: 38%;
+  width: 56%;
+  transform: translateX(-50%);
+  overflow: hidden;
+}
+.kc-pre__rise img {
   display: block;
   width: 100%;
-  height: 100%;
-  object-fit: cover;
-  background: transparent;
+  height: auto;
+  transform: translateY(101%);
+  animation: kc-rise-up 1s cubic-bezier(0.22, 1, 0.36, 1) 0.62s forwards;
 }
-@media (max-height: 760px) {
-  .kc-pre__reel { width: clamp(240px, 32vw, 420px); }
+@keyframes kc-rise-up { to { transform: translateY(0); } }
+
+/* leaving: the whole screen fades */
+kc-preloader.is-lift {
+  opacity: 0;
+  pointer-events: none;
 }
+
 @media (prefers-reduced-motion: reduce) {
-  .kc-pre__reel { animation: none; opacity: 1; }
+  kc-preloader { transition: opacity 0.3s ease; }
+  .kc-drop-fall,
+  .kc-ring { display: none; }
+  .kc-pre__rise img { animation: none; transform: none; }
 }
