@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { useMemo, useState } from "react";
 
 /** A guide as the Blog page lists it (built on the server: BlogPage.tsx). */
@@ -131,9 +132,9 @@ export function BlogClient({ items, topics, whatsapp }: { items: BlogItem[]; top
           <a href={whatsapp} target="_blank" rel="noopener noreferrer" className="bl-ask-wa">
             Ask on WhatsApp
           </a>
-          <a href="/products" className="bl-ask-shop">
+          <Link href="/products" className="bl-ask-shop">
             Browse products →
-          </a>
+          </Link>
         </aside>
       </div>
     </>
