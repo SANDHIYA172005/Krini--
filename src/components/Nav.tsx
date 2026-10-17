@@ -1,17 +1,9 @@
 import type { CSSProperties } from "react";
 import { enquireHref, routes, site, type PageId } from "../content/site";
-import { lineById, type Line } from "../content/catalogue";
+import type { Line } from "../content/catalogue";
 import { Arrow, Glyph } from "./ui";
 
 const vars = (v: Record<string, string | number>) => v as CSSProperties;
-
-function Chevron({ dir = "down" }: { dir?: "down" | "right" }) {
-  return (
-    <svg className="nav-chev" width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-      {dir === "down" ? <path d="M3 4.5 6 7.5l3-3" /> : <path d="M4.5 3 7.5 6l-3 3" />}
-    </svg>
-  );
-}
 
 /**
  * The top of every page, in two levels. A thin dark strip (ISO, the factory,
@@ -19,12 +11,11 @@ function Chevron({ dir = "down" }: { dir?: "down" | "right" }) {
  * bar: the logo on the left; Home, About Us, Products and Blog in one box and
  * the gold Enquire now button on the right. Each is a plain link (Products
  * goes to the Products page; no panel opens under it). Below 1024px the menu
- * opens as a sheet from the bar, with the lines and their products.
+ * opens as a sheet from the bar: Home, About Us, Products and Blog.
  */
 export function Nav({ current, line: currentLine }: { current?: PageId; line?: Line["id"] }) {
   const { contact, menu } = site;
   const here = currentLine ? menu.lines.find((m) => m.line === currentLine)?.label : menu.pages.find((n) => n.id === current)?.label;
-  const href = (line: string, product?: string) => `${routes.line(lineById(line as Line["id"]).slug)}${product ? `#${product}` : ""}`;
   const onProducts = current === "products" || !!currentLine;
   const links: { id: string; label: string; href: string; on: boolean }[] = [
     { id: "home", label: "Home", href: routes.home, on: current === "home" },
@@ -72,6 +63,9 @@ export function Nav({ current, line: currentLine }: { current?: PageId; line?: L
             <a href={routes.home} className="nav-logo nav-logo-c shrink-0" aria-label="Krini Crude, home">
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img src="/images/logo-lubecon.webp" alt="" width={476} height={220} className="nav-mark nav-logo-full nav-logo-dark" />
+              {/* the same logo with white words, for the dark home film on a phone */}
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img src="/images/logo-lubecon-light.webp" alt="" width={476} height={220} className="nav-logo-lite" />
             </a>
             <nav aria-label="Primary" className="nav-box hidden lg:block">
               <ul className="nav-list">
@@ -110,9 +104,9 @@ export function Nav({ current, line: currentLine }: { current?: PageId; line?: L
         </div>
       </header>
 
-      {/* Phones and tablets: a sheet that drops from the top bar over the dimmed page: Home and
-          About Us as tiles, then the three product lines, each folding open to its products,
-          then quick ways to get in touch and Enquire now. */}
+      {/* Phones and tablets: a sheet that drops from the top bar over the dimmed page: Home,
+          About Us, Products and Blog, then quick ways to get in touch and Enquire now (the
+          Contact page). */}
       <div id="site-menu" className="menu lg:hidden" data-menu aria-hidden="true">
         <div className="menu-dim" data-menu-dim />
         <div className="menu-sheet" data-lenis-prevent>
@@ -132,66 +126,17 @@ export function Nav({ current, line: currentLine }: { current?: PageId; line?: L
                 <li key={item.id} className="menu-item" style={vars({ "--i": i + 1 })}>
                   <a
                     href={item.href}
-                    className={`menu-tile${item.id === current && !currentLine ? " is-current" : ""}`}
-                    aria-current={item.id === current && !currentLine ? "page" : undefined}
+                    className={`menu-tile${item.id === current || (item.id === "products" && currentLine) ? " is-current" : ""}`}
+                    aria-current={item.id === current || (item.id === "products" && currentLine) ? "page" : undefined}
                     data-menu-link
                     tabIndex={-1}
                   >
                     <span className="menu-tile-top">
                       <span className="label">{String(i + 1).padStart(2, "0")}</span>
-                      <Glyph name={item.id === "home" ? "home" : item.id === "blog" ? "blog" : "user"} />
+                      <Glyph name={item.id === "about" ? "user" : item.id} />
                     </span>
                     <span className="menu-tile-name display-tight">{item.label}</span>
                   </a>
-                </li>
-              ))}
-            </ul>
-            <ul className="menu-lines">
-              {menu.lines.map((m, i) => (
-                <li key={m.line} className={`menu-line menu-item${m.line === currentLine ? " is-current" : ""}`} style={vars({ "--i": i + 3 })}>
-                  <div className="menu-line-row">
-                    <a
-                      href={href(m.line)}
-                      className="menu-line-name display-tight"
-                      aria-current={m.line === currentLine ? "page" : undefined}
-                      data-menu-link
-                      tabIndex={-1}
-                    >
-                      <span className="label menu-line-idx">{lineById(m.line).index}</span>
-                      {m.label}
-                    </a>
-                    <button
-                      type="button"
-                      className="menu-line-toggle"
-                      aria-expanded="false"
-                      aria-controls={`menu-${m.line}`}
-                      aria-label={`${m.label}: products`}
-                      data-menu-acc
-                      tabIndex={-1}
-                    >
-                      <Chevron />
-                    </button>
-                  </div>
-                  <ul className="menu-products" id={`menu-${m.line}`} hidden>
-                    {m.items.map((it) => (
-                      <li key={it.product}>
-                        <a href={href(m.line, it.product)} className="menu-product" data-menu-link>
-                          {it.label}
-                        </a>
-                        {it.sub ? (
-                          <ul className="menu-range">
-                            {it.sub.map((s) => (
-                              <li key={s.label}>
-                                <a href={href(m.line, s.product ?? it.product)} className="menu-range-item" data-menu-link>
-                                  {s.label}
-                                </a>
-                              </li>
-                            ))}
-                          </ul>
-                        ) : null}
-                      </li>
-                    ))}
-                  </ul>
                 </li>
               ))}
             </ul>

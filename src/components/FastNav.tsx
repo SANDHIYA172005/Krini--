@@ -12,10 +12,10 @@ import { usePathname, useRouter } from "next/navigation";
  * reaches them or they get focus. The page fades out and the new one fades in
  * (theme.css, html[data-route]).
  *
- * Links to Home (the Home link, the logo) open Home on the hero's last screen
- * ("Engineered for performance", the buttons) rather than at the start of the
- * film: scrollhero.ts reads the flag set here; on Home itself the page just
- * goes there. Only a refresh or a fresh visit starts the film from the top.
+ * Every page opens at its top: after a click (Home included, which starts the
+ * film from its first screen), after a refresh, and with the back button. A
+ * link with a #place in it (/products#all-products) still goes to that place.
+ * On Home itself, a link to Home glides back up to the top.
  *
  * It listens on window, after everything else has seen the click, so the
  * enquiry buttons, in-page anchors and the menus keep their own behaviour
@@ -40,23 +40,23 @@ export function FastNav() {
     };
     const onClick = (e: MouseEvent) => {
       if (e.defaultPrevented || e.button !== 0 || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
-      // Home, from Home: no reload, straight to the hero's last screen
+      // Home, from Home: no reload, glide back up to the top
       const a = (e.target as Element | null)?.closest?.("a[href]") as HTMLAnchorElement | null;
       if (a && a.target !== "_blank") {
         const to = new URL(a.href, location.href);
-        if (to.origin === location.origin && to.pathname === "/" && !to.hash) {
-          if (location.pathname === "/") {
-            e.preventDefault();
-            window.dispatchEvent(new Event("hero:end"));
-            return;
-          }
-          (window as unknown as { __kcHeroEnd?: boolean }).__kcHeroEnd = true;
+        if (to.origin === location.origin && to.pathname === "/" && !to.hash && location.pathname === "/") {
+          e.preventDefault();
+          const w = window as unknown as { __scroller?: { scrollTo: (y: number, o?: object) => void } };
+          if (w.__scroller) w.__scroller.scrollTo(0);
+          else window.scrollTo({ top: 0, behavior: "smooth" });
+          return;
         }
       }
       const url = target(e);
       if (!url) return;
       e.preventDefault();
       root.dataset.route = "leaving";
+      root.dataset.routeHash = url.hash ? "1" : "";
       router.push(url.pathname + url.search + url.hash);
     };
     const seen = new Set<string>();
@@ -76,9 +76,25 @@ export function FastNav() {
     };
   }, [router]);
 
-  // the new page is in: fade it up
+  // a refresh or the back button opens a page at its top too
+  useEffect(() => {
+    if ("scrollRestoration" in history) history.scrollRestoration = "manual";
+  }, []);
+
+  // the new page is in: put it at its top (unless the link went to a #place), and fade it up
   useEffect(() => {
     const root = document.documentElement;
+    const toTop = () => {
+      const w = window as unknown as { __scroller?: { scrollTo: (y: number, o?: object) => void } };
+      w.__scroller?.scrollTo(0, { immediate: true, force: true });
+      window.scrollTo(0, 0);
+    };
+    if (!root.dataset.routeHash && !location.hash) {
+      toTop();
+      requestAnimationFrame(toTop);
+      window.setTimeout(toTop, 150);
+    }
+    delete root.dataset.routeHash;
     if (root.dataset.route !== "leaving") return;
     root.dataset.route = "arriving";
     const t = window.setTimeout(() => delete root.dataset.route, 450);

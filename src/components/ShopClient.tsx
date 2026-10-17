@@ -14,6 +14,22 @@ export type ShopItem = {
   line: string;
   lineTitle: string;
   lineShort: string;
+  /** For the product page: what the catalogue has on it (any of these may be missing). */
+  image?: string;
+  imageAlt?: string;
+  description?: string;
+  benefits?: string[];
+  uses?: string[];
+  usesTitle?: string;
+  properties?: { property: string; value: string; spec?: string }[];
+  dilution?: string;
+  dilutionRatios?: { operation: string; ratio: string }[];
+  howTo?: string[];
+  howToTitle?: string;
+  packing?: string;
+  storage?: string;
+  shelfLife?: string;
+  note?: string;
 };
 export type ShopLine = { id: string; title: string };
 type CartLine = { id: string; key: string; name: string; type: string; line: string; grade: string; qty: number };
@@ -26,11 +42,11 @@ const norm = (s: string) => s.toLowerCase().normalize("NFKD").replace(/[^a-z0-9 
  * as chips narrow the cards; each card has a photo, what it is, a short line
  * about it, a grade to pick where there are grades, and Add to cart. The cart
  * (remembered on this device) opens from the side: change quantities, add a
- * note, and send the whole list on WhatsApp or by email in one tap. There is
+ * note, and send the whole list on WhatsApp in one tap. There is
  * no payment online: Krini Crude replies with price, stock and delivery.
  * Every product is in the page's HTML; the search and cart need scripts.
  */
-export function ShopClient({ items, lines, whatsapp, email, top }: { items: ShopItem[]; lines: ShopLine[]; whatsapp: string; email: string; top?: ReactNode }) {
+export function ShopClient({ items, lines, whatsapp, top }: { items: ShopItem[]; lines: ShopLine[]; whatsapp: string; email?: string; top?: ReactNode }) {
   const [query, setQuery] = useState("");
   const [cat, setCat] = useState("all");
   const [grades, setGrades] = useState<Record<string, string>>({});
@@ -39,7 +55,12 @@ export function ShopClient({ items, lines, whatsapp, email, top }: { items: Shop
   const [open, setOpen] = useState(false);
   const [bump, setBump] = useState(0);
   const [ready, setReady] = useState(false);
+  /** The product whose page is open (its key), or none. */
+  const [view, setView] = useState<string | null>(null);
+  const [pvQty, setPvQty] = useState(1);
   const closeRef = useRef<HTMLButtonElement>(null);
+  const pvRef = useRef<HTMLDivElement>(null);
+  const pvBackRef = useRef<HTMLButtonElement>(null);
 
   // the cart is kept on this device between visits
   useEffect(() => {
@@ -61,24 +82,72 @@ export function ShopClient({ items, lines, whatsapp, email, top }: { items: Shop
     }
   }, [cart, notes, ready]);
 
-  // the cart panel: the page stays still behind it, Esc closes it
+  // while the cart or a product page is open, the page behind stays still
+  const locked = open || view !== null;
   useEffect(() => {
-    if (!open) return;
+    if (!locked) return;
     const root = document.documentElement;
     const scroller = (window as unknown as { __scroller?: { stop?: () => void; start?: () => void } }).__scroller;
     root.classList.add("has-dialog");
     scroller?.stop?.();
+    return () => {
+      root.classList.remove("has-dialog");
+      scroller?.start?.();
+    };
+  }, [locked]);
+
+  // the cart panel: Esc closes it
+  useEffect(() => {
+    if (!open) return;
     const prev = document.activeElement as HTMLElement | null;
     closeRef.current?.focus();
     const onKey = (e: KeyboardEvent) => e.key === "Escape" && setOpen(false);
     window.addEventListener("keydown", onKey);
     return () => {
-      root.classList.remove("has-dialog");
-      scroller?.start?.();
       window.removeEventListener("keydown", onKey);
       prev?.focus?.();
     };
   }, [open]);
+
+  // a product page: a link of its own (#p=…), so the back button closes it and it can be shared
+  useEffect(() => {
+    const fromHash = () => {
+      const m = location.hash.match(/^#p=(.+)$/);
+      const key = m ? decodeURIComponent(m[1]) : null;
+      setView(key && items.some((i) => i.key === key) ? key : null);
+    };
+    fromHash();
+    window.addEventListener("popstate", fromHash);
+    window.addEventListener("hashchange", fromHash);
+    return () => {
+      window.removeEventListener("popstate", fromHash);
+      window.removeEventListener("hashchange", fromHash);
+    };
+  }, [items]);
+  const openProduct = (key: string) => {
+    history.pushState({ kcp: key }, "", `#p=${encodeURIComponent(key)}`);
+    setView(key);
+  };
+  const closeProduct = () => {
+    setView(null);
+    if ((history.state as { kcp?: string } | null)?.kcp) history.back();
+    else history.replaceState(history.state, "", location.pathname + location.search);
+  };
+  // a new product page opens at its top, quantity 1, the back button in focus; Esc goes back
+  useEffect(() => {
+    if (!view) return;
+    setPvQty(1);
+    const top = () => pvRef.current?.scrollTo({ top: 0 });
+    top();
+    requestAnimationFrame(top);
+    pvBackRef.current?.focus({ preventScroll: true });
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === "Escape" && !document.querySelector(".pdrawer.is-open")) closeProduct();
+    };
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [view]);
 
   const shown = useMemo(() => {
     const words = norm(query).split(" ").filter(Boolean);
@@ -100,6 +169,12 @@ export function ShopClient({ items, lines, whatsapp, email, top }: { items: Shop
     setCart((c) => (c.some((l) => l.id === id) ? c.map((l) => (l.id === id ? { ...l, qty: l.qty + 1 } : l)) : [...c, { id, key: it.key, name: it.name, type: it.type, line: it.lineShort, grade, qty: 1 }]));
     setBump((b) => b + 1);
   };
+  const addQty = (it: ShopItem, qty: number) => {
+    const grade = grades[it.key] ?? "";
+    const id = lineId(it, grade);
+    setCart((c) => (c.some((l) => l.id === id) ? c.map((l) => (l.id === id ? { ...l, qty: l.qty + qty } : l)) : [...c, { id, key: it.key, name: it.name, type: it.type, line: it.lineShort, grade, qty }]));
+    setBump((b) => b + 1);
+  };
   const setQty = (id: string, qty: number) => setCart((c) => (qty <= 0 ? c.filter((l) => l.id !== id) : c.map((l) => (l.id === id ? { ...l, qty } : l))));
 
   const order = [
@@ -112,7 +187,27 @@ export function ShopClient({ items, lines, whatsapp, email, top }: { items: Shop
     .filter(Boolean)
     .join("\n");
   const waHref = `${whatsapp.split("?")[0]}?text=${encodeURIComponent(order)}`;
-  const mailHref = `mailto:${email}?subject=${encodeURIComponent("Order enquiry from the website")}&body=${encodeURIComponent(order)}`;
+  const pv = view ? items.find((i) => i.key === view) : undefined;
+  // more products under it: the same kind first, then the same line, then the rest
+  const similar = pv
+    ? [
+        ...items.filter((i) => i.key !== pv.key && i.type === pv.type),
+        ...items.filter((i) => i.key !== pv.key && i.type !== pv.type && i.line === pv.line),
+        ...items.filter((i) => i.line !== pv.line),
+      ].slice(0, 6)
+    : [];
+  const pvGrade = pv ? grades[pv.key] ?? "" : "";
+  const pvLine = pv ? inCart(pv) : undefined;
+  const pvWa = pv
+    ? `${whatsapp.split("?")[0]}?text=${encodeURIComponent(
+        [
+          "Hi Krini Crude, I would like to order:",
+          `1. ${pv.name}${pvGrade ? ` (${pvGrade})` : ""} · ${pv.type} · Qty: ${pvQty}`,
+          "Company / name: ",
+          "Delivery location: ",
+        ].join("\n"),
+      )}`
+    : "";
 
   return (
     <section id="all-products" className="pshop" aria-labelledby="page-title">
@@ -133,7 +228,7 @@ export function ShopClient({ items, lines, whatsapp, email, top }: { items: Shop
               <b>1</b> Add to cart
             </li>
             <li>
-              <b>2</b> Send on WhatsApp or email
+              <b>2</b> Send the list on WhatsApp
             </li>
             <li>
               <b>3</b> We confirm price and delivery
@@ -180,14 +275,24 @@ export function ShopClient({ items, lines, whatsapp, email, top }: { items: Shop
             {shown.map((it) => {
               const line = inCart(it);
               return (
-                <li key={it.key} className="kcard">
+                <li
+                  key={it.key}
+                  className="kcard"
+                  onClick={(e) => {
+                    if (!(e.target as HTMLElement).closest("select, button, label, a")) openProduct(it.key);
+                  }}
+                >
                   <div className="kcard-media">
-                    <PhotoSlot />
+                    <Photo src={it.image} alt="" />
                     <span className="kcard-line">{it.lineShort}</span>
                   </div>
                   <div className="kcard-body">
                     <p className="kcard-type">{it.type}</p>
-                    <h3 className="kcard-name">{it.name}</h3>
+                    <h3 className="kcard-name">
+                      <button type="button" className="kcard-link" onClick={() => openProduct(it.key)}>
+                        {it.name}
+                      </button>
+                    </h3>
                     <p className="kcard-text">{it.text}</p>
                     {it.grades.length ? (
                       <label className="kcard-grade">
@@ -245,6 +350,198 @@ export function ShopClient({ items, lines, whatsapp, email, top }: { items: Shop
           <CartIcon />
           View cart <b>{count}</b>
         </button>
+      ) : null}
+
+      {/* a product's own page, over the shop: like a store's product page */}
+      {pv ? (
+        <div className="pv" role="dialog" aria-modal="true" aria-labelledby="pv-title" ref={pvRef} data-lenis-prevent>
+          <div className="pv-bar">
+            <button type="button" className="pv-back" onClick={closeProduct} ref={pvBackRef} aria-label="Back to products">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+                <path d="M15 5l-7 7 7 7" />
+              </svg>
+            </button>
+            <p className="pv-bar-t">{pv.name}</p>
+            <button type="button" className="pv-cartbtn" onClick={() => setOpen(true)} aria-label={`Open cart, ${count} items`}>
+              <CartIcon />
+              {count ? <b>{count}</b> : null}
+            </button>
+          </div>
+
+          <div className="pv-top">
+            <div className="pv-media">
+              <Photo src={pv.image} alt={pv.imageAlt ?? pv.name} />
+              <span className="pv-line">{pv.lineTitle}</span>
+            </div>
+            <div className="pv-info">
+              <p className="pv-type">{pv.type}</p>
+              <h2 id="pv-title" className="pv-name">
+                {pv.name}
+              </h2>
+              <p className="pv-text">{pv.text}</p>
+              <p className="pv-price">
+                <b>Price on request</b>
+                <span>Add it to the cart and send the list: we reply with price, stock and delivery.</span>
+              </p>
+              {pv.grades.length ? (
+                <div className="pv-block">
+                  <p className="pv-k">Grade</p>
+                  <div className="pv-chips" role="group" aria-label="Grade">
+                    {["", ...pv.grades].map((g) => (
+                      <button key={g || "any"} type="button" className="pv-chip" aria-pressed={pvGrade === g} onClick={() => setGrades((x) => ({ ...x, [pv.key]: g }))}>
+                        {g || "Not sure / any"}
+                      </button>
+                    ))}
+                  </div>
+                </div>
+              ) : null}
+              <div className="pv-block pv-qtyrow">
+                <p className="pv-k">Quantity</p>
+                <div className="pv-qty">
+                  <button type="button" onClick={() => setPvQty((q) => Math.max(1, q - 1))} aria-label="One less">
+                    −
+                  </button>
+                  <b aria-live="polite">{pvQty}</b>
+                  <button type="button" onClick={() => setPvQty((q) => q + 1)} aria-label="One more">
+                    +
+                  </button>
+                </div>
+              </div>
+              <ul className="pv-assure">
+                <li>ISO certified factory, Chennai</li>
+                <li>No payment online</li>
+                <li>Reply on WhatsApp</li>
+              </ul>
+            </div>
+          </div>
+
+          <div className="pv-details">
+            {pv.description && pv.description !== pv.text ? (
+              <section className="pv-sec">
+                <h3>About this product</h3>
+                <p>{pv.description}</p>
+              </section>
+            ) : null}
+            {pv.benefits?.length ? (
+              <section className="pv-sec">
+                <h3>Highlights</h3>
+                <ul className="pv-list">
+                  {pv.benefits.map((b) => (
+                    <li key={b}>{b}</li>
+                  ))}
+                </ul>
+              </section>
+            ) : null}
+            {pv.uses?.length ? (
+              <section className="pv-sec">
+                <h3>{pv.usesTitle ?? "Where it is used"}</h3>
+                <ul className="pv-tags">
+                  {pv.uses.map((u) => (
+                    <li key={u}>{u}</li>
+                  ))}
+                </ul>
+              </section>
+            ) : null}
+            {pv.properties?.length ? (
+              <section className="pv-sec">
+                <h3>Specifications</h3>
+                <dl className="pv-specs">
+                  {pv.properties.map((r) => (
+                    <div key={r.property}>
+                      <dt>{r.property}</dt>
+                      <dd>{r.value}</dd>
+                    </div>
+                  ))}
+                </dl>
+              </section>
+            ) : null}
+            {pv.dilution || pv.dilutionRatios?.length ? (
+              <section className="pv-sec">
+                <h3>Dilution{pv.dilution ? `: ${pv.dilution}` : ""}</h3>
+                {pv.dilutionRatios?.length ? (
+                  <dl className="pv-specs">
+                    {pv.dilutionRatios.map((r) => (
+                      <div key={r.operation}>
+                        <dt>{r.operation}</dt>
+                        <dd>{r.ratio}</dd>
+                      </div>
+                    ))}
+                  </dl>
+                ) : null}
+              </section>
+            ) : null}
+            {pv.howTo?.length ? (
+              <section className="pv-sec">
+                <h3>{pv.howToTitle ?? "How to use"}</h3>
+                <ul className="pv-list">
+                  {pv.howTo.map((h) => (
+                    <li key={h}>{h}</li>
+                  ))}
+                </ul>
+              </section>
+            ) : null}
+            {pv.packing || pv.storage || pv.shelfLife ? (
+              <section className="pv-sec">
+                <h3>Packing &amp; storage</h3>
+                <dl className="pv-specs">
+                  {pv.packing ? (
+                    <div>
+                      <dt>Packing</dt>
+                      <dd>{pv.packing}</dd>
+                    </div>
+                  ) : null}
+                  {pv.storage ? (
+                    <div>
+                      <dt>Storage</dt>
+                      <dd>{pv.storage}</dd>
+                    </div>
+                  ) : null}
+                  {pv.shelfLife ? (
+                    <div>
+                      <dt>Shelf life</dt>
+                      <dd>{pv.shelfLife}</dd>
+                    </div>
+                  ) : null}
+                </dl>
+              </section>
+            ) : null}
+            {pv.note ? <p className="pv-note">{pv.note}</p> : null}
+
+            <section className="pv-sec pv-more">
+              <h3>Similar products</h3>
+              <ul className="pv-similar">
+                {similar.map((s2) => (
+                  <li key={s2.key}>
+                    <button type="button" className="pv-mini" onClick={() => openProduct(s2.key)}>
+                      <span className="pv-mini-media">
+                        <Photo src={s2.image} alt="" />
+                      </span>
+                      <span className="pv-mini-type">{s2.type}</span>
+                      <span className="pv-mini-name">{s2.name}</span>
+                      <span className="pv-mini-go">View product</span>
+                    </button>
+                  </li>
+                ))}
+              </ul>
+            </section>
+          </div>
+
+          {/* always at the foot: Add to cart and Order on WhatsApp */}
+          <div className="pv-buy">
+            {pvLine ? (
+              <button type="button" className="pv-add is-in" onClick={() => setOpen(true)}>
+                <CartIcon /> Go to cart ({pvLine.qty})
+              </button>
+            ) : (
+              <button type="button" className="pv-add" onClick={() => addQty(pv, pvQty)}>
+                <CartIcon /> Add to cart
+              </button>
+            )}
+            <a href={pvWa} className="pv-wa" target="_blank" rel="noopener noreferrer">
+              <WaIcon /> Order on WhatsApp
+            </a>
+          </div>
+        </div>
       ) : null}
 
       <div className={`pdrawer-dim${open ? " is-open" : ""}`} onClick={() => setOpen(false)} aria-hidden="true" />
@@ -309,7 +606,7 @@ export function ShopClient({ items, lines, whatsapp, email, top }: { items: Shop
                 <CartIcon />
               </span>
               <p>Your cart is empty</p>
-              <span>Add products from the list, then send us the order on WhatsApp or by email.</span>
+              <span>Add products from the list, then send us the order on WhatsApp.</span>
               <button type="button" onClick={() => setOpen(false)} tabIndex={open ? 0 : -1}>
                 Browse products
               </button>
@@ -326,7 +623,7 @@ export function ShopClient({ items, lines, whatsapp, email, top }: { items: Shop
             <p className="cart-next-k">What happens next</p>
             <ol>
               <li>
-                <b>1</b> You send the list on WhatsApp or email
+                <b>1</b> You send the list on WhatsApp
               </li>
               <li>
                 <b>2</b> We check stock and reply with price and delivery
@@ -352,20 +649,11 @@ export function ShopClient({ items, lines, whatsapp, email, top }: { items: Shop
           <a href={cart.length ? waHref : undefined} aria-disabled={!cart.length} className="cart-wa" target="_blank" rel="noopener noreferrer" tabIndex={open ? 0 : -1}>
             <WaIcon /> Send order on WhatsApp
           </a>
-          <div className="cart-foot-row">
-            <a href={cart.length ? mailHref : undefined} aria-disabled={!cart.length} className="cart-mail" tabIndex={open ? 0 : -1}>
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-                <rect x="3" y="5" width="18" height="14" rx="2" />
-                <path d="m3.5 6.5 8.5 6.5 8.5-6.5" />
-              </svg>
-              Email the order
-            </a>
-            {cart.length ? (
-              <button type="button" className="cart-clear" onClick={() => setCart([])} tabIndex={open ? 0 : -1}>
-                Clear cart
-              </button>
-            ) : null}
-          </div>
+          {cart.length ? (
+            <button type="button" className="cart-clear cart-clear-solo" onClick={() => setCart([])} tabIndex={open ? 0 : -1}>
+              Clear cart
+            </button>
+          ) : null}
           <p className="cart-fine">
             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
               <path d="M12 3 4.5 6v5.5c0 4.5 3.2 8.4 7.5 9.5 4.3-1.1 7.5-5 7.5-9.5V6L12 3Z" />
@@ -393,6 +681,13 @@ function PhotoSlot() {
       </span>
     </div>
   );
+}
+
+/** A product's photo, or the empty frame where one will go. */
+function Photo({ src, alt }: { src?: string; alt: string }) {
+  if (!src) return <PhotoSlot />;
+  // eslint-disable-next-line @next/next/no-img-element
+  return <img className="kphoto" src={src} alt={alt} width={800} height={600} loading="lazy" decoding="async" />;
 }
 
 /** A small drum, for a product in the cart. */

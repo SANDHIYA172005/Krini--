@@ -6,7 +6,6 @@ import { Nav } from "./Nav";
 import { Footer } from "./Footer";
 import { MotionRuntime } from "./MotionRuntime";
 import { EnquiryDialog } from "./Enquiry";
-import { QuickBar } from "./QuickBar";
 import { JsonLd } from "./ui";
 
 /**
@@ -33,9 +32,11 @@ export function Shell({
   return (
     <>
       <Nav current={current} line={line} />
-      <main id="main">{children}</main>
+      {/* the page's words in British English, so browsers can hyphenate the justified text (en-IN has no hyphenation dictionary) */}
+      <main id="main" lang="en-GB">
+        {children}
+      </main>
       {footer && <Footer current={current} />}
-      {current !== "contact" && <QuickBar />}
       {current !== "contact" && <EnquiryDialog />}
       <div className="cursor" aria-hidden="true" data-cursor />
       <JsonLd data={graph(schema)} />

@@ -2834,12 +2834,13 @@ main > section.legal {
   background: var(--gold);
 }
 
-/* ---- Home hero: four scrolls ------------------------------------------------
-   Five steps (the name, the three lines, Get started): one scroll takes you
-   from each to the next, so the film plays out over four screens. */
+/* ---- Home hero: four screens -----------------------------------------------
+   Four steps (the name, the three lines side by side, aerosols with the spray
+   can, Get started): one scroll takes you from each to the next, and the
+   fourth goes on down the page. */
 @media (prefers-reduced-motion: no-preference) {
   .sh.is-live {
-    height: 500svh;
+    height: 440svh;
   }
 }
 
@@ -6376,4 +6377,3245 @@ main section.cta3 {
 }
 .cart-fine svg {
   color: var(--gold-deep);
+}
+
+/* ---- Home hero: the three lines of products on one screen -----------------
+   A label, then the three side by side (number, name, a line about it, what
+   it covers), then one link to the products. Phones: one under another, each
+   name with its first line. */
+.sh-step.sh-lines {
+  max-width: min(68rem, calc(100% - 2 * var(--gutter)));
+  /* the film is bright behind the words in places: a soft shade keeps them legible */
+  text-shadow: 0 1px 14px rgb(8 7 5 / 0.85), 0 0 2px rgb(8 7 5 / 0.6);
+}
+.sh-lines .grade {
+  text-shadow: none;
+}
+.sh-lines-list {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: clamp(18px, 2.4vw, 36px);
+  margin-top: 1.1rem;
+}
+.sh-line {
+  padding-top: 14px;
+  border-top: 1px solid rgb(var(--c-bone) / 0.22);
+  opacity: 0;
+  transform: translate3d(0, 18px, 0);
+  transition: opacity 0.7s var(--ease-film), transform 0.9s var(--ease-film);
+}
+.sh-step.is-on .sh-line {
+  opacity: 1;
+  transform: none;
+}
+.sh-step.is-on .sh-line:nth-child(1) { transition-delay: 0.18s; }
+.sh-step.is-on .sh-line:nth-child(2) { transition-delay: 0.32s; }
+.sh-step.is-on .sh-line:nth-child(3) { transition-delay: 0.46s; }
+.sh-line-n {
+  color: rgb(var(--c-amber));
+}
+.sh-line-name {
+  margin-top: 0.55rem;
+  font-size: clamp(1.5rem, 2.3vw, 2.15rem);
+  line-height: 1;
+  color: rgb(var(--c-bone));
+}
+.sh-line-body {
+  margin-top: 0.7rem;
+  font-size: 0.95rem;
+  line-height: 1.5;
+  color: rgb(var(--c-bone) / 0.86);
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 3;
+  overflow: hidden;
+}
+.sh-line-grades {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 5px;
+  margin-top: 0.85rem;
+}
+.sh-lines .sh-link {
+  margin-top: 1.5rem;
+}
+/* laptops: clear of the rail of steps on the right */
+@media (min-width: 1024px) {
+  .sh-step.sh-lines {
+    right: calc(var(--gutter) + 190px);
+    max-width: 64rem;
+  }
+}
+/* tablets and phones: one under another */
+@media (max-width: 899px) {
+  .sh-lines-list {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 12px;
+    margin-top: 0.8rem;
+  }
+  .sh-line {
+    display: grid;
+    grid-template-columns: auto minmax(0, 1fr);
+    column-gap: 12px;
+    align-items: baseline;
+    padding-top: 10px;
+  }
+  .sh-line-n {
+    grid-row: span 2;
+  }
+  .sh-line-name {
+    margin-top: 0;
+    font-size: 1.3rem;
+  }
+  .sh-line-body {
+    grid-column: 2;
+    margin-top: 0.3rem;
+    font-size: 0.86rem;
+    -webkit-line-clamp: 2;
+  }
+  .sh-line-grades {
+    display: none;
+  }
+  .sh-lines .sh-link {
+    margin-top: 1rem;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .sh-line {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+}
+
+/* ---- Home hero: aerosols, the spray can at work --------------------------
+   The film on its own: no words over the can and its mist, and the rail of
+   steps on the right fades out for this screen. */
+.sh-step.sh-spray {
+  display: none;
+}
+.sh-rail {
+  transition: opacity 0.5s var(--ease-film);
+}
+.sh[data-step="2"] .sh-rail {
+  opacity: 0;
+  pointer-events: none;
+}
+
+/* ============================================================================
+   PHONES ONLY (under 640px). Laptops and tablets are unchanged.
+   ========================================================================== */
+@media (max-width: 639px) {
+  /* ---- the menu: one white card, a row per page (icon, name, a small arrow),
+     the page you are on in soft gold; Call and WhatsApp, then Enquire now. */
+  .menu-head {
+    margin-bottom: 10px;
+    font-size: 0.72rem;
+  }
+  .menu-grid {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 0;
+    overflow: hidden;
+    border: 1px solid rgb(15 23 42 / 0.07);
+    border-radius: 18px;
+    background: #fff;
+    box-shadow: 0 14px 30px -26px rgb(15 23 42 / 0.5);
+  }
+  .menu-grid > li + li {
+    border-top: 1px solid rgb(15 23 42 / 0.06);
+  }
+  .menu-tile,
+  .menu-tile.is-current {
+    flex-direction: row;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 12px;
+    min-height: 54px;
+    padding: 0 16px 0 12px;
+    border: 0;
+    border-radius: 0;
+    background: transparent;
+  }
+  .menu-tile:active {
+    transform: none;
+    background: rgb(15 23 42 / 0.03);
+  }
+  .menu-tile::after {
+    content: "";
+    flex: none;
+    margin-left: auto;
+    width: 7px;
+    height: 7px;
+    border-right: 1.6px solid rgb(15 23 42 / 0.3);
+    border-bottom: 1.6px solid rgb(15 23 42 / 0.3);
+    transform: rotate(-45deg);
+  }
+  .menu-tile-top {
+    display: contents;
+  }
+  .menu-tile-top > :not(.label) {
+    order: -1;
+    flex: none;
+    width: 32px;
+    height: 32px;
+    padding: 7px;
+    border-radius: 10px;
+    background: rgb(212 175 55 / 0.12);
+    color: #a8841c;
+  }
+  .menu-tile-top > .label {
+    display: none;
+  }
+  .menu-tile-name {
+    font-size: 0.95rem;
+    line-height: 1.1;
+    white-space: nowrap;
+  }
+  .menu-tile.is-current {
+    background: rgb(212 175 55 / 0.09);
+  }
+  .menu-tile.is-current .menu-tile-name {
+    color: #8a6a10;
+  }
+  .menu-tile.is-current .menu-tile-top > :not(.label) {
+    background: var(--gold-grad);
+    color: var(--slate);
+  }
+  .menu-tile.is-current::after {
+    border-color: #a8841c;
+  }
+  .menu-foot {
+    gap: 8px;
+    margin-top: 12px;
+  }
+  .menu-quick {
+    min-height: 44px;
+    gap: 8px;
+    border-color: rgb(15 23 42 / 0.1);
+    background: #fff;
+    font-size: 0.72rem;
+    letter-spacing: 0.1em;
+  }
+  .menu-quick svg {
+    width: 17px;
+    height: 17px;
+  }
+  .menu-enquire {
+    min-height: 48px;
+    border-radius: 14px;
+    font-size: 0.82rem;
+    box-shadow: none;
+  }
+  .menu-contact {
+    margin-top: 10px;
+    font-size: 0.68rem;
+    letter-spacing: 0.06em;
+  }
+  .menu-sheet {
+    padding-bottom: 16px;
+    border-radius: 0 0 24px 24px;
+    background: #f7f5ef;
+  }
+
+  /* ---- the top bar: a floating white bar with round corners, the same over
+     the home film and on every page, so the logo always reads; the Menu
+     button dark with a gold mark. */
+  .nav .nav-main,
+  .nav.is-solid .nav-main,
+  .nav.is-over .nav-main,
+  .nav.is-over.is-solid .nav-main {
+    margin: 8px 10px 0;
+    border: 1px solid rgb(15 23 42 / 0.06);
+    border-radius: 18px;
+    background: rgb(255 255 255 / 0.92);
+    -webkit-backdrop-filter: blur(14px) saturate(1.4);
+    backdrop-filter: blur(14px) saturate(1.4);
+    box-shadow: 0 14px 30px -20px rgb(15 23 42 / 0.5);
+  }
+  .nav .nav-main::after {
+    display: none;
+  }
+  .nav .nav-bar {
+    height: 58px;
+    padding: 0 8px 0 12px;
+  }
+  .nav .nav-split .nav-logo-c,
+  .nav.is-over .nav-split .nav-logo-c {
+    padding: 0;
+    background: none;
+    box-shadow: none;
+  }
+  .nav .nav-split .nav-logo-c .nav-logo-dark,
+  .nav.is-over .nav-split .nav-logo-c .nav-logo-dark {
+    display: block !important;
+    height: 38px !important;
+    filter: none !important;
+  }
+  .nav .nav-split .menu-toggle,
+  .nav.is-over .nav-split .menu-toggle,
+  .nav .nav-split .menu-toggle[aria-expanded="true"] {
+    height: 40px;
+    gap: 9px;
+    padding: 0 15px 0 14px;
+    border: 0;
+    border-radius: 12px;
+    background: var(--slate);
+    color: #fff;
+  }
+  .nav .menu-toggle .menu-toggle-icon {
+    color: #e6c75f;
+  }
+  .nav .menu-toggle .menu-toggle-label {
+    font-size: 0.8rem;
+    font-weight: 600;
+    letter-spacing: 0.02em;
+  }
+}
+
+@media (max-width: 639px) {
+  /* ---- Contact (Enquire now): one calm screen on a phone ---------------------
+     A row of four light buttons (call, WhatsApp, email, visit); the form as a
+     white card (name, phone and message one under another, the labels kept
+     for screen readers, Submit and WhatsApp); then one slim strip: office and
+     factory directions and the hours. */
+  main:has(> section.contact-hero) {
+    background: linear-gradient(180deg, #fbf7ea 0%, #fff 45%);
+  }
+  .contact-hero {
+    padding: calc(var(--nav-h) + 14px) 0 0;
+  }
+  .contact-hero .quick {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 8px;
+  }
+  .contact-hero .quick-tile {
+    grid-template-columns: 1fr;
+    justify-items: center;
+    row-gap: 6px;
+    padding: 10px 4px 9px;
+    border-radius: 14px;
+    border-color: rgb(15 23 42 / 0.08);
+    background: #fff;
+    box-shadow: 0 6px 16px -12px rgb(15 23 42 / 0.35);
+    text-align: center;
+  }
+  .contact-hero .quick-icon {
+    grid-row: auto;
+    width: 34px;
+    height: 34px;
+    background: rgb(212 175 55 / 0.14);
+    color: #a8841c;
+  }
+  .contact-hero .quick-icon svg {
+    width: 18px;
+    height: 18px;
+  }
+  .contact-hero .quick-label {
+    font-size: 0.66rem;
+    font-weight: 600;
+    letter-spacing: 0.02em;
+  }
+  .contact-hero .quick-value {
+    display: none;
+  }
+
+  #details {
+    padding: 14px 0 16px;
+  }
+  #details > .frame {
+    gap: 0;
+  }
+  #details .enquiry .enq-form {
+    padding: 20px 16px 14px;
+    border-radius: 18px;
+    border-color: rgb(15 23 42 / 0.08);
+    box-shadow: 0 18px 36px -28px rgb(15 23 42 / 0.4);
+  }
+  #details .enquiry .enq-form::before {
+    height: 3px;
+  }
+  #details .enq-title {
+    padding-right: 0;
+    font-size: 1.4rem;
+  }
+  #details .enq-lead {
+    margin-top: 4px;
+    font-size: 0.84rem;
+    line-height: 1.4;
+  }
+  #details .enq-form-wide .enq-fields {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 10px;
+    margin-top: 16px;
+  }
+  /* the labels stay for screen readers; the placeholders say what goes where */
+  #details .field > label {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip: rect(0 0 0 0);
+    white-space: nowrap;
+  }
+  #details .input.input-box {
+    min-height: 46px;
+    padding-left: 40px;
+    border-radius: 12px;
+    font-size: 0.92rem;
+  }
+  #details .input-wrap > svg {
+    left: 13px;
+    width: 18px;
+    height: 18px;
+  }
+  #details textarea.input.input-box {
+    min-height: 92px;
+    height: 92px;
+    padding-top: 12px;
+    padding-bottom: 12px;
+  }
+  #details .enq-actions {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    gap: 2px;
+    margin-top: 14px;
+  }
+  #details .enq-submit {
+    width: 100%;
+    min-height: 48px;
+    border-radius: 12px;
+    box-shadow: none;
+  }
+  #details .enq-wa {
+    justify-content: center;
+    min-height: 38px;
+    font-size: 0.84rem;
+    text-decoration: none;
+    color: #128c4a;
+  }
+  #details .enq-wa svg {
+    color: #25d366;
+  }
+
+  /* where to find us: one slim white strip, three columns (office, factory, hours) */
+  #details > .frame > .visit {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr) minmax(0, 1.25fr);
+    gap: 0;
+    margin-top: 12px;
+    padding: 12px 4px;
+    border: 1px solid rgb(15 23 42 / 0.08);
+    border-radius: 16px;
+    background: #fff;
+    box-shadow: none;
+  }
+  #details .visit .visit-k,
+  #details .visit .visit-title,
+  #details .visit .visit-addr,
+  #details .visit .visit-icon {
+    display: none;
+  }
+  #details .visit-place {
+    display: block;
+    padding: 0 6px;
+    border-top: 0;
+    text-align: center;
+  }
+  #details .visit-place + .visit-place {
+    border-left: 1px solid rgb(15 23 42 / 0.08);
+  }
+  #details .visit-label {
+    font-size: 0.62rem;
+    font-weight: 600;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: rgb(15 23 42 / 0.55);
+  }
+  #details .visit-dir {
+    gap: 4px;
+    margin-top: 4px;
+    padding: 0;
+    background: none;
+    font-size: 0.74rem;
+    color: #a8841c;
+    white-space: nowrap;
+  }
+  #details .visit-dir:hover {
+    background: none;
+    color: var(--slate);
+  }
+  #details .visit-dir svg {
+    display: none;
+  }
+  #details .visit-dir {
+    text-decoration: underline;
+    text-decoration-color: rgb(168 132 28 / 0.35);
+    text-underline-offset: 3px;
+  }
+  #details .visit-hours {
+    margin-top: 4px;
+    font-size: 0.72rem;
+    line-height: 1.3;
+    white-space: nowrap;
+  }
+}
+@media (max-width: 639px) and (max-height: 700px) {
+  #details > .frame > .visit {
+    display: none;
+  }
+}
+
+@media (max-width: 639px) {
+  /* ---- the footer, very minimal on a phone: the logo, the four pages in one
+     line, three round buttons (call, email, WhatsApp), then the copyright and
+     the two policies in small type. */
+  .ft3-wave {
+    height: 30px;
+  }
+  main + .site-footer.ft3,
+  .site-footer.ft3 {
+    margin-top: -30px;
+  }
+  .ft3-grid {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 18px;
+    padding: 26px 0 20px;
+    text-align: center;
+  }
+  .ft3-brand {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  .ft3-about,
+  .ft3-cta,
+  .ft3-col .ft3-k,
+  nav.ft3-col[aria-label="Product lines"],
+  .ft3-reach .ft3-hours,
+  .ft3-up {
+    display: none;
+  }
+  .ft3-logo img {
+    width: auto;
+    height: 44px;
+  }
+  nav.ft3-col[aria-label="Pages"] ul {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 6px 22px;
+  }
+  nav.ft3-col[aria-label="Pages"] a {
+    font-size: 0.88rem;
+    font-weight: 600;
+  }
+  .site-footer .ft3-col ul.ft3-reach {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    gap: 12px;
+  }
+  .ft3-reach a {
+    gap: 0;
+    font-size: 0;
+  }
+  .ft3-reach .ft3-ic {
+    width: 44px;
+    height: 44px;
+    border: 1px solid rgb(212 175 55 / 0.4);
+    background: #fff;
+  }
+  .ft3-reach .ft3-ic svg {
+    width: 18px;
+    height: 18px;
+  }
+  .ft3-bottom {
+    flex-direction: column;
+    align-items: center;
+    gap: 6px;
+    padding: 14px 0 calc(16px + env(safe-area-inset-bottom, 0px));
+    font-size: 0.72rem;
+    text-align: center;
+  }
+  .ft3-bottom-r {
+    width: auto;
+    justify-content: center;
+  }
+  .ft3-legal {
+    justify-content: center;
+    font-size: 0.72rem;
+  }
+}
+
+@media (max-width: 639px) {
+  /* ---- no sideways swiping on phones: rows of cards stack one under
+     another, rows of chips wrap onto a second line */
+  .m-swipe {
+    display: grid !important;
+    grid-template-columns: minmax(0, 1fr) !important;
+    gap: 14px !important;
+    margin-inline: 0;
+    padding: 0;
+    overflow: visible;
+    scroll-snap-type: none;
+  }
+  .m-swipe > li,
+  .m-swipe > * {
+    flex: none;
+    max-width: none;
+    min-width: 0;
+  }
+  .swipe-ui,
+  html.js .swipe-ui {
+    display: none !important;
+  }
+  .hs-bays {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    gap: 14px;
+    margin: 0;
+    padding: 0;
+    overflow: visible;
+    scroll-snap-type: none;
+  }
+  .hs-bay {
+    flex: none;
+    min-width: 0;
+  }
+  html.js .filters {
+    flex-wrap: wrap;
+    width: auto;
+    border-radius: 18px;
+    overflow: visible;
+  }
+  .pshop-cats,
+  .bl-topics {
+    flex-wrap: wrap;
+    overflow: visible;
+  }
+
+  /* ---- Blog, on a phone: a short header, the latest guide as one card
+     (picture on top), the topics wrapping as small chips, a full-width
+     search, then each guide as a slim row: a square picture, its topic and
+     reading time, its title. The Ask our team box closes the page. */
+  .bl {
+    padding-top: calc(var(--nav-h, 72px) + 16px);
+    padding-bottom: 40px;
+    background: linear-gradient(180deg, var(--gold-soft) 0, #fff 320px);
+  }
+  .bl .crumbs {
+    font-size: 0.8rem;
+  }
+  .bl-title {
+    margin-top: 16px;
+    font-size: 1.75rem;
+    line-height: 1.08;
+  }
+  .bl-lead {
+    margin-top: 8px;
+    font-size: 0.92rem;
+    line-height: 1.5;
+  }
+  .bl-feature {
+    margin-top: 20px;
+    border-radius: 20px;
+  }
+  .bl-feature-media {
+    min-height: 0;
+    aspect-ratio: 16 / 10;
+  }
+  .bl-feature-body {
+    gap: 10px;
+    padding: 18px 18px 20px;
+  }
+  .bl-feature .bl-kicker {
+    font-size: 0.68rem;
+    line-height: 1.6;
+  }
+  .bl-feature-title {
+    font-size: 1.25rem;
+    line-height: 1.2;
+  }
+  .bl-feature-sum {
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 3;
+    overflow: hidden;
+    font-size: 0.88rem;
+    line-height: 1.5;
+  }
+  .bl-read {
+    padding: 10px 18px;
+    font-size: 0.86rem;
+  }
+  .bl-tools {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 12px;
+    margin-top: 22px;
+    padding-bottom: 16px;
+  }
+  /* the search first, the topics under it as small soft chips (no counts),
+     the one chosen in navy with a gold dot */
+  .bl-search {
+    order: -1;
+    width: 100%;
+    min-height: 48px;
+    border-width: 1px;
+    border-radius: 14px;
+    box-shadow: 0 8px 20px -16px rgb(15 23 42 / 0.4);
+  }
+  .bl-topics {
+    gap: 6px;
+  }
+  .bl-topic {
+    gap: 6px;
+    padding: 6px 10px;
+    border: 1px solid transparent;
+    background: #f1eee5;
+    color: #334155;
+    font-size: 0.75rem;
+    font-weight: 600;
+  }
+  .bl-topic span {
+    display: none;
+  }
+  .bl-topic[aria-pressed="true"] {
+    border-color: var(--slate);
+    background: var(--slate);
+    color: #fff;
+  }
+  .bl-topic[aria-pressed="true"]::before {
+    content: "";
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--gold);
+  }
+  .bl-count {
+    margin-top: 16px;
+    font-size: 0.72rem;
+  }
+  .bl-list {
+    margin-top: 4px;
+  }
+  .bl-row {
+    grid-template-columns: 76px minmax(0, 1fr);
+    gap: 12px;
+    padding: 12px 0;
+    border-radius: 0;
+  }
+  .bl-row:hover {
+    background: none;
+  }
+  .bl-thumb {
+    aspect-ratio: 1;
+    border-radius: 12px;
+  }
+  .bl-n,
+  .bl-go,
+  .bl-row-sum {
+    display: none;
+  }
+  .bl-row-body {
+    gap: 4px;
+  }
+  .bl-row .bl-kicker {
+    font-size: 0.66rem;
+  }
+  .bl-row-title {
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 3;
+    overflow: hidden;
+    font-size: 0.98rem;
+    line-height: 1.3;
+  }
+  .bl-ask {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    margin-top: 22px;
+    padding: 20px;
+    border-radius: 18px;
+  }
+  .bl-ask > * {
+    grid-column: 1 / -1;
+  }
+  /* WhatsApp and Browse products side by side, the same size */
+  .bl-ask > .bl-ask-wa,
+  .bl-ask > .bl-ask-shop {
+    grid-column: auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 46px;
+    margin-top: 6px;
+    border-radius: 12px;
+    font-size: 0.86rem;
+    white-space: nowrap;
+  }
+  .bl-ask > .bl-ask-shop {
+    justify-self: stretch;
+    border: 1px solid rgb(15 23 42 / 0.14);
+    background: #fff;
+  }
+  .bl-ask-t {
+    font-size: 1.15rem;
+  }
+  .bl-ask-b {
+    font-size: 0.86rem;
+  }
+}
+
+/* ---- Phones and touch screens: buttons stay still --------------------------
+   No button, link or card moves when it is tapped or hovered: no lift, no
+   press-in, no arrow sliding, no picture zooming. Colours still change, so a
+   tap is still seen. (The menu button's two lines still turn into an X.) */
+@media (max-width: 639px), (hover: none) and (pointer: coarse) {
+  a:not([href="#main"]),
+  button,
+  summary,
+  [role="button"],
+  .btn,
+  [data-magnetic],
+  .card,
+  .kcard,
+  .scard,
+  .bcard,
+  .pin,
+  .quick-tile,
+  .menu-tile,
+  .menu-quick,
+  .bl-feature,
+  .bl-row,
+  .bl-topic,
+  .welcome-card,
+  .route,
+  .svc-card,
+  .lp-card,
+  .hs-figure {
+    transform: none !important;
+  }
+  a .arrow,
+  button .arrow,
+  .btn .arrow,
+  a > svg,
+  button > svg,
+  a img,
+  .ft3-ic,
+  .bl-go,
+  .bl-read,
+  .bcard-go,
+  .cta3-go,
+  .route-icon,
+  .welcome-icon,
+  .nav-enquire-dot,
+  .hs-link .arrow {
+    transform: none !important;
+    animation: none !important;
+  }
+}
+
+@media (max-width: 639px) {
+  /* ---- a guide (article page): "Talk to our team" as a small box: a short
+     heading, one line, Send an enquiry across, Call and WhatsApp side by side */
+  .side-box {
+    padding: 16px;
+    border-radius: 14px;
+  }
+  .side-box > p.label:first-child {
+    font-size: 0.7rem;
+  }
+  .side-box > p.display-tight {
+    margin-top: 6px;
+    font-size: 1.1rem;
+  }
+  .side-box > p.text-mute {
+    margin-top: 6px;
+    font-size: 0.84rem;
+    line-height: 1.45;
+  }
+  .side-box > .grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 8px;
+    margin-top: 12px;
+  }
+  .side-box > .grid > .btn {
+    min-height: 42px;
+    padding-inline: 8px;
+    border-radius: 12px;
+    font-size: 0.76rem;
+    white-space: nowrap;
+  }
+  .side-box > .grid > .btn:first-child {
+    grid-column: 1 / -1;
+    box-shadow: none;
+  }
+  .side-box > .grid > .btn svg {
+    width: 14px;
+    height: 14px;
+  }
+  .side-box > div:last-child {
+    margin-top: 14px;
+    padding-top: 12px;
+  }
+  .side-box > div:last-child > .label {
+    font-size: 0.7rem;
+  }
+  .side-box > div:last-child > a {
+    margin-top: 6px;
+    font-size: 0.95rem;
+  }
+
+  /* ---- a guide: "From the blog", two guides side by side (picture, reading
+     time, title) */
+  section[aria-labelledby="more-title"] .m-swipe {
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+    gap: 12px !important;
+    margin-top: 20px;
+  }
+  section[aria-labelledby="more-title"] .m-swipe > li:nth-child(n + 3) {
+    display: none;
+  }
+  section[aria-labelledby="more-title"] .card {
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    border: 1px solid rgb(15 23 42 / 0.08);
+    border-radius: 14px;
+    background: #fff;
+  }
+  section[aria-labelledby="more-title"] .card-media {
+    border-radius: 0;
+    aspect-ratio: 4 / 3;
+  }
+  section[aria-labelledby="more-title"] .card-badge {
+    top: 8px;
+    left: 8px;
+    padding: 0.25rem 0.55rem;
+    font-size: 0.58rem;
+  }
+  section[aria-labelledby="more-title"] .card-body {
+    padding: 10px 12px 12px;
+  }
+  section[aria-labelledby="more-title"] .card-meta {
+    margin-top: 0;
+    font-size: 0.62rem;
+  }
+  section[aria-labelledby="more-title"] .card-title {
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 3;
+    overflow: hidden;
+    margin-top: 6px;
+    font-family: var(--font-display);
+    font-size: 0.9rem !important;
+    font-weight: 700;
+    line-height: 1.3 !important;
+    letter-spacing: 0 !important;
+    text-transform: none !important;
+  }
+  section[aria-labelledby="more-title"] .card-body > p.text-mute,
+  section[aria-labelledby="more-title"] .card-body > p.label:last-child {
+    display: none;
+  }
+}
+
+@media (max-width: 639px) {
+  /* ---- a guide (article page), on a phone: a calm reading page. A short
+     header (topic, title in normal case, reading time, summary), the guide's
+     photo with round corners, then easy-to-read text: smaller headings,
+     comfortable lines, gold markers on the lists, a soft Tip box. */
+  article[aria-labelledby="page-title"] > .page-head {
+    padding-top: calc(var(--nav-h, 72px) + 14px);
+    padding-bottom: 18px;
+  }
+  article[aria-labelledby="page-title"] > .page-head .grid {
+    gap: 18px;
+    margin-top: 16px;
+  }
+  article[aria-labelledby="page-title"] > .page-head p.label.text-amber {
+    font-size: 0.72rem;
+  }
+  .article-title,
+  article[aria-labelledby="page-title"] h1.page-title {
+    margin-top: 8px !important;
+    font-size: 1.6rem !important;
+    line-height: 1.18 !important;
+    letter-spacing: -0.01em !important;
+    text-transform: none !important;
+    font-weight: 800 !important;
+  }
+  /* the meta line: reading time and author (the date waits until it is set) */
+  article[aria-labelledby="page-title"] > .page-head p.label.text-mute {
+    margin-top: 12px;
+    gap: 6px 14px;
+    font-size: 0.7rem;
+  }
+  article[aria-labelledby="page-title"] > .page-head p.label.text-mute .placeholder {
+    display: none;
+  }
+  article[aria-labelledby="page-title"] > .page-head .max-w-measure {
+    margin-top: 12px;
+    font-size: 0.98rem;
+    line-height: 1.6;
+  }
+  article[aria-labelledby="page-title"] .article-photo {
+    overflow: hidden;
+    border-radius: 16px;
+    aspect-ratio: 16 / 10;
+  }
+  article[aria-labelledby="page-title"] > .frame {
+    gap: 28px;
+    padding-bottom: 36px;
+  }
+  article .prose {
+    font-size: 1rem;
+  }
+  article .prose p,
+  article .prose li {
+    font-size: 1rem;
+    line-height: 1.7;
+  }
+  article .prose > * + * {
+    margin-top: 14px;
+  }
+  article .prose h2 {
+    margin-top: 30px !important;
+    font-size: 1.22rem !important;
+    line-height: 1.3 !important;
+    letter-spacing: 0 !important;
+    text-transform: none !important;
+    font-weight: 800 !important;
+    color: var(--slate);
+    max-width: none !important;
+    text-wrap: pretty;
+  }
+  article .prose h2 + * {
+    margin-top: 8px;
+  }
+  article .prose ul,
+  article .prose ol {
+    display: grid;
+    gap: 8px;
+  }
+  article .prose li {
+    padding-left: 24px;
+  }
+  article .prose .tip {
+    margin-top: 22px;
+    padding: 14px 16px;
+    border-radius: 12px;
+    border-left-width: 3px;
+  }
+  article .prose .tip p {
+    font-size: 0.94rem;
+    line-height: 1.6;
+  }
+  article .article-note {
+    margin-top: 22px;
+    padding-top: 14px;
+    font-size: 0.8rem;
+    line-height: 1.55;
+    color: #64748b;
+  }
+  section[aria-labelledby="more-title"] {
+    padding-block: 32px;
+  }
+  section[aria-labelledby="more-title"] h2 {
+    font-size: 1.4rem !important;
+  }
+}
+
+/* ---- Running text justified (both edges straight), on every screen: Home,
+   About, Blog, the guides and Products (cards and product pages included),
+   with words hyphenated where needed so the gaps stay even. Headings,
+   buttons, labels and anything centred keep their own alignment; a
+   paragraph's last line stays at the left. */
+/* (list items only when they are plain text, so a card in a list keeps its title as it is) */
+:where(main) :where(p, li:not(:has(> *)), blockquote, .bl-feature-sum, .bl-row-sum),
+:where(.pv) :where(p, li:not(:has(> *))) {
+  text-align: justify;
+  text-align-last: start;
+  -webkit-hyphens: auto;
+  hyphens: auto;
+}
+:where(main, .pv) :where(.label, [class*="kicker"], [class*="-k"], [class*="-type"], .bl-count, .pshop-count, .crumbs, .crumbs *, .pv-assure li, .pv-tags li, .pv-price b, .about-lead, .story-quote, .story-quote *, p:has(.placeholder), .sh p, .sh li),
+:where(.pshop-empty, .bl-empty, #details .visit-place) :where(p, li) {
+  text-align: inherit;
+  text-align-last: inherit;
+  -webkit-hyphens: manual;
+  hyphens: manual;
+}
+
+@media (max-width: 639px) {
+  /* ---- Products, on a phone: a short header, the three ordering steps as one
+     neat row, a search bar that stays just under the top bar (the cart button
+     inside it), the product lines as a 2 × 2 set of buttons, then the products
+     two to a row: a small picture, what it is, its name, a line about it, the
+     grade to pick, and Add to cart. The View cart button sits at the foot. */
+  .pshop-title {
+    font-size: 1.7rem;
+    line-height: 1.1;
+  }
+  .pshop-sub {
+    margin-top: 8px;
+    font-size: 0.9rem;
+    line-height: 1.55;
+  }
+  .pshop-steps {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 6px;
+    margin-top: 14px;
+  }
+  .pshop-steps li {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 6px;
+    min-width: 0;
+    padding: 10px 6px;
+    border-radius: 12px;
+    font-size: 0.68rem;
+    line-height: 1.3;
+    text-align: center;
+    white-space: normal;
+  }
+  .pshop-steps li b {
+    margin: 0;
+  }
+
+  .pshop-bar {
+    top: calc(var(--nav-h, 72px) + 6px);
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    gap: 6px;
+    margin-top: 16px;
+    padding: 6px;
+    border-radius: 16px;
+  }
+  .pshop-search {
+    min-width: 0;
+    min-height: 44px;
+    padding: 0 12px;
+    border-radius: 11px;
+  }
+  .pshop-search input {
+    font-size: 0.86rem;
+  }
+  .pshop-cartbtn {
+    min-height: 44px;
+    padding: 0 12px;
+    gap: 6px;
+    border-radius: 11px;
+  }
+  .pshop-cartbtn > span {
+    display: none;
+  }
+
+  .pshop-cats {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 6px;
+    margin-top: 12px;
+    padding: 0;
+  }
+  .pshop-cat {
+    justify-content: space-between;
+    min-width: 0;
+    min-height: 40px;
+    padding: 0 10px 0 12px;
+    border-radius: 12px;
+    font-size: 0.74rem;
+    line-height: 1.2;
+    text-align: left;
+    white-space: normal;
+  }
+  .pshop-cat span {
+    flex: none;
+    font-size: 0.66rem;
+  }
+  .pshop-count {
+    margin-top: 12px;
+    font-size: 0.74rem;
+  }
+
+  .pshop-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 10px;
+    margin-top: 10px;
+  }
+  .kcard {
+    border-radius: 14px;
+  }
+  .kcard-media .media-slot {
+    aspect-ratio: auto !important;
+    height: 92px;
+  }
+  .kcard-media .media-slot svg {
+    width: 22px;
+    height: 22px;
+  }
+  .kcard-media .media-slot-label,
+  .kcard-media .media-slot-size {
+    display: none;
+  }
+  .kcard-line {
+    left: 8px;
+    top: 8px;
+    padding: 3px 8px;
+    font-size: 0.58rem;
+  }
+  .kcard-body {
+    gap: 4px;
+    padding: 10px 10px 0;
+  }
+  .kcard-type {
+    overflow: hidden;
+    font-size: 0.6rem;
+    letter-spacing: 0.05em;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+  }
+  .kcard-name {
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+    overflow: hidden;
+    font-size: 0.92rem;
+    line-height: 1.22;
+  }
+  .kcard-text {
+    font-size: 0.74rem;
+    line-height: 1.4;
+  }
+  .kcard-grade {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 4px;
+    margin-top: 4px;
+    font-size: 0.62rem;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    color: #64748b;
+  }
+  .kcard-grade select {
+    flex: none;
+    width: 100%;
+    height: 34px;
+    padding: 0 8px;
+    border-width: 1px;
+    border-radius: 9px;
+    background: #f8f7f2;
+    font-size: 0.78rem;
+    text-transform: none;
+    letter-spacing: 0;
+  }
+  .kcard-foot {
+    margin-top: auto;
+    padding: 10px;
+  }
+  .kcard-add {
+    gap: 6px;
+    min-height: 38px;
+    border-radius: 10px;
+    font-size: 0.78rem;
+    box-shadow: inset 0 1px 0 rgb(255 250 230 / 0.6);
+  }
+  .kcard-add svg {
+    width: 15px;
+    height: 15px;
+  }
+  .kcard-step {
+    min-height: 38px;
+    padding: 0 4px;
+    border-radius: 10px;
+  }
+  .kcard-step button {
+    width: 30px;
+    height: 30px;
+    border-radius: 8px;
+    font-size: 17px;
+  }
+  .kcard-step span {
+    font-size: 0.72rem;
+  }
+  .kcard-step b {
+    font-size: 0.9rem;
+  }
+
+  .pshop-float {
+    right: 14px;
+    bottom: calc(14px + env(safe-area-inset-bottom, 0px));
+    padding: 11px 16px;
+    font-size: 0.84rem;
+  }
+}
+
+@media (max-width: 639px) {
+  /* ---- the cart on a phone: a shorter footer, so the list has more room */
+  .cart-foot {
+    gap: 8px;
+    padding: 12px 16px calc(12px + env(safe-area-inset-bottom, 0px));
+  }
+  .cart-notes {
+    gap: 4px;
+    font-size: 0.74rem;
+  }
+  .cart-notes textarea {
+    min-height: 0;
+    height: 48px;
+    padding: 8px 12px;
+    font-size: 0.84rem;
+  }
+  .cart-wa {
+    min-height: 46px;
+    font-size: 0.9rem;
+    box-shadow: none;
+  }
+  .cart-mail,
+  .cart-clear {
+    min-height: 40px;
+    font-size: 0.82rem;
+  }
+  .cart-fine {
+    font-size: 0.68rem;
+  }
+}
+
+/* ---- Products: a product's own page (ShopClient ProductView) ---------------
+   Tapping a product opens its page over the shop, like a store's product
+   page: a bar with back and the cart; the photo; what it is, its name, a line
+   about it, "Price on request", the grade as chips, the quantity; then its
+   details (about, highlights, uses, specifications, dilution, how to use,
+   packing and storage) and similar products, two to a row. Add to cart and
+   Order on WhatsApp stay at the foot. Full screen on a phone; a wide panel
+   on larger screens. */
+.kcard {
+  cursor: pointer;
+}
+.kcard-link {
+  display: inline;
+  padding: 0;
+  border: 0;
+  background: none;
+  font: inherit;
+  color: inherit;
+  text-align: left;
+  cursor: pointer;
+}
+.kcard-link:focus-visible {
+  outline: 2px solid var(--gold);
+  outline-offset: 2px;
+}
+.kphoto {
+  display: block;
+  width: 100%;
+  aspect-ratio: 4 / 3;
+  object-fit: cover;
+  background: #f5f2e8;
+}
+
+.pv {
+  position: fixed;
+  inset: 0;
+  z-index: 2147481000;
+  display: flex;
+  flex-direction: column;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  background: #f7f5ef;
+  color: var(--slate);
+  animation: pv-in 0.28s cubic-bezier(0.22, 1, 0.36, 1);
+}
+@keyframes pv-in {
+  from { opacity: 0; transform: translateY(16px); }
+  to { opacity: 1; transform: none; }
+}
+.pv-bar {
+  position: sticky;
+  top: 0;
+  z-index: 3;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  min-height: 58px;
+  padding: 8px 12px;
+  border-bottom: 1px solid rgb(15 23 42 / 0.07);
+  background: rgb(255 255 255 / 0.95);
+  -webkit-backdrop-filter: blur(12px);
+  backdrop-filter: blur(12px);
+}
+.pv-back,
+.pv-cartbtn {
+  position: relative;
+  display: grid;
+  place-items: center;
+  flex: none;
+  width: 42px;
+  height: 42px;
+  border: 1px solid rgb(15 23 42 / 0.1);
+  border-radius: 12px;
+  background: #fff;
+  color: var(--slate);
+  cursor: pointer;
+}
+.pv-cartbtn b {
+  position: absolute;
+  top: -6px;
+  right: -6px;
+  display: grid;
+  place-items: center;
+  min-width: 20px;
+  height: 20px;
+  padding: 0 5px;
+  border-radius: 999px;
+  background: var(--gold-grad);
+  font-size: 0.68rem;
+  color: var(--slate);
+}
+.pv-bar-t {
+  flex: 1;
+  min-width: 0;
+  overflow: hidden;
+  font: 700 0.95rem/1.2 var(--font-display);
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+.pv-top {
+  display: grid;
+  gap: 0;
+  background: #fff;
+}
+.pv-media {
+  position: relative;
+  overflow: hidden;
+  background: #f5f2e8;
+}
+.pv-media .kphoto,
+.pv-media .media-slot {
+  width: 100%;
+  aspect-ratio: 1 / 1 !important;
+  max-height: 62svh;
+  object-fit: contain;
+  border-radius: 0;
+}
+.pv-line {
+  position: absolute;
+  left: 14px;
+  top: 14px;
+  padding: 5px 11px;
+  border-radius: 999px;
+  background: rgb(255 255 255 / 0.95);
+  font-size: 0.68rem;
+  font-weight: 700;
+  color: var(--gold-deep);
+  box-shadow: 0 4px 12px -8px rgb(15 23 42 / 0.5);
+}
+.pv-info {
+  display: grid;
+  gap: 10px;
+  padding: 18px 16px 20px;
+}
+.pv-type {
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--gold-deep);
+}
+.pv-name {
+  font: 800 1.5rem/1.15 var(--font-display);
+  letter-spacing: -0.01em;
+  text-transform: none;
+  color: var(--slate);
+}
+.pv-text {
+  font-size: 0.95rem;
+  line-height: 1.55;
+  color: #475569;
+}
+.pv-price {
+  display: grid;
+  gap: 2px;
+  margin-top: 4px;
+  padding: 12px 14px;
+  border-radius: 12px;
+  background: #fbf6e6;
+  border: 1px solid #efe3bd;
+}
+.pv-price b {
+  font: 800 1.05rem/1.2 var(--font-display);
+  color: #14532d;
+}
+.pv-price span {
+  font-size: 0.8rem;
+  line-height: 1.45;
+  color: #64748b;
+}
+.pv-block {
+  display: grid;
+  gap: 8px;
+  margin-top: 4px;
+}
+.pv-k {
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: #64748b;
+}
+.pv-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+.pv-chip {
+  min-height: 36px;
+  padding: 0 14px;
+  border: 1px solid rgb(15 23 42 / 0.14);
+  border-radius: 10px;
+  background: #fff;
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: var(--slate);
+  cursor: pointer;
+}
+.pv-chip[aria-pressed="true"] {
+  border-color: var(--slate);
+  background: var(--slate);
+  color: #fff;
+}
+.pv-qtyrow {
+  grid-template-columns: 1fr auto;
+  align-items: center;
+}
+.pv-qty {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 3px;
+  border: 1px solid rgb(15 23 42 / 0.14);
+  border-radius: 12px;
+  background: #fff;
+}
+.pv-qty button {
+  width: 34px;
+  height: 34px;
+  border: 0;
+  border-radius: 9px;
+  background: #f1eee5;
+  font-size: 18px;
+  line-height: 1;
+  color: var(--slate);
+  cursor: pointer;
+}
+.pv-qty b {
+  min-width: 30px;
+  text-align: center;
+  font: 800 1rem/1 var(--font-display);
+}
+.pv-assure {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 6px;
+  margin-top: 6px;
+}
+.pv-assure li {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 44px;
+  padding: 6px;
+  border-radius: 10px;
+  background: #f7f5ef;
+  font-size: 0.66rem;
+  font-weight: 600;
+  line-height: 1.3;
+  text-align: center;
+  color: #475569;
+}
+.pv-details {
+  display: grid;
+  gap: 10px;
+  padding: 10px 0 96px;
+}
+.pv-sec {
+  padding: 16px;
+  background: #fff;
+}
+.pv-sec h3 {
+  margin-bottom: 10px;
+  font: 800 1.02rem/1.25 var(--font-display);
+  letter-spacing: 0;
+  text-transform: none;
+  color: var(--slate);
+}
+.pv-sec p {
+  font-size: 0.92rem;
+  line-height: 1.65;
+  color: #475569;
+}
+.pv-list {
+  display: grid;
+  gap: 8px;
+}
+.pv-list li {
+  position: relative;
+  padding-left: 22px;
+  font-size: 0.9rem;
+  line-height: 1.55;
+  color: #334155;
+}
+.pv-list li::before {
+  content: "";
+  position: absolute;
+  left: 2px;
+  top: 0.45em;
+  width: 12px;
+  height: 7px;
+  border-left: 2px solid #16a34a;
+  border-bottom: 2px solid #16a34a;
+  transform: rotate(-45deg);
+}
+.pv-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+.pv-tags li {
+  padding: 6px 11px;
+  border-radius: 999px;
+  background: #f1eee5;
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: #334155;
+}
+.pv-specs {
+  display: grid;
+  overflow: hidden;
+  border: 1px solid rgb(15 23 42 / 0.08);
+  border-radius: 12px;
+}
+.pv-specs > div {
+  display: grid;
+  grid-template-columns: 42% minmax(0, 1fr);
+  gap: 10px;
+  padding: 10px 12px;
+  font-size: 0.84rem;
+  line-height: 1.45;
+}
+.pv-specs > div:nth-child(odd) {
+  background: #faf9f5;
+}
+.pv-specs dt {
+  color: #64748b;
+}
+.pv-specs dd {
+  font-weight: 600;
+  color: var(--slate);
+}
+.pv-note {
+  padding: 0 16px;
+  font-size: 0.74rem !important;
+  color: #94a3b8 !important;
+}
+.pv-similar {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px;
+}
+.pv-mini {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  width: 100%;
+  height: 100%;
+  padding: 0 0 10px;
+  overflow: hidden;
+  border: 1px solid rgb(15 23 42 / 0.08);
+  border-radius: 12px;
+  background: #fff;
+  text-align: left;
+  cursor: pointer;
+}
+.pv-mini-media {
+  display: block;
+  margin-bottom: 4px;
+}
+.pv-mini-media .kphoto,
+.pv-mini-media .media-slot {
+  height: 96px;
+  aspect-ratio: auto !important;
+  border-radius: 0;
+}
+.pv-mini-media .media-slot-label,
+.pv-mini-media .media-slot-size {
+  display: none;
+}
+.pv-mini-type {
+  overflow: hidden;
+  padding: 0 10px;
+  font-size: 0.6rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  color: var(--gold-deep);
+}
+.pv-mini-name {
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  overflow: hidden;
+  padding: 0 10px;
+  font: 700 0.88rem/1.25 var(--font-display);
+  color: var(--slate);
+}
+.pv-mini-go {
+  margin-top: auto;
+  padding: 4px 10px 0;
+  font-size: 0.74rem;
+  font-weight: 700;
+  color: #a8841c;
+}
+.pv-buy {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 4;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+  padding: 10px 12px calc(10px + env(safe-area-inset-bottom, 0px));
+  border-top: 1px solid rgb(15 23 42 / 0.08);
+  background: rgb(255 255 255 / 0.97);
+  box-shadow: 0 -10px 24px -18px rgb(15 23 42 / 0.4);
+}
+.pv-add,
+.pv-wa {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  min-height: 50px;
+  border: 0;
+  border-radius: 12px;
+  font: 800 0.9rem/1.1 var(--font-display);
+  white-space: nowrap;
+  cursor: pointer;
+}
+.pv-add {
+  background: var(--gold-grad);
+  color: var(--slate);
+}
+.pv-add.is-in {
+  background: var(--slate);
+  color: #fff;
+}
+.pv-wa {
+  background: #25d366;
+  color: #fff;
+}
+/* larger screens: a wide panel in the middle, the photo beside the details */
+@media (min-width: 900px) {
+  .pv {
+    inset: 24px max(24px, calc((100vw - 1120px) / 2));
+    border-radius: 22px;
+    box-shadow: 0 40px 90px -30px rgb(15 23 42 / 0.6), 0 0 0 100vmax rgb(15 23 42 / 0.5);
+  }
+  .pv-top {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  }
+  .pv-media .kphoto,
+  .pv-media .media-slot {
+    max-height: none;
+    height: 100%;
+  }
+  .pv-info {
+    align-content: start;
+    padding: 28px;
+  }
+  .pv-name {
+    font-size: 2rem;
+  }
+  .pv-details {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    align-items: start;
+    padding: 12px 12px 100px;
+  }
+  .pv-sec {
+    border-radius: 16px;
+  }
+  .pv-more,
+  .pv-note {
+    grid-column: 1 / -1;
+  }
+  .pv-similar {
+    grid-template-columns: repeat(6, minmax(0, 1fr));
+  }
+  .pv-buy {
+    position: sticky;
+    margin-top: auto;
+    grid-template-columns: 240px 240px;
+    justify-content: end;
+    border-radius: 0 0 22px 22px;
+  }
+}
+/* phones: the cards' photos at the size of the cards' picture area */
+@media (max-width: 639px) {
+  .kcard-media .kphoto {
+    height: 92px;
+    aspect-ratio: auto;
+  }
+  .pv-name {
+    font-size: 1.4rem;
+  }
+  .pv-add,
+  .pv-wa {
+    gap: 6px;
+    font-size: 0.84rem;
+  }
+}
+
+@media (max-width: 639px) {
+  /* ---- Products: the three ordering steps as one connected step bar: gold
+     numbers joined by a thin line, each step's words centred under it */
+  .pshop-steps {
+    position: relative;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 0;
+    margin-top: 16px;
+    padding: 14px 6px 12px;
+    border: 1px solid rgb(15 23 42 / 0.07);
+    border-radius: 16px;
+    background: #fff;
+  }
+  .pshop-steps li {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    padding: 0 4px;
+    border: 0;
+    border-radius: 0;
+    background: none;
+    box-shadow: none;
+    font-size: 0.72rem;
+    font-weight: 600;
+    line-height: 1.35;
+    color: var(--slate);
+    text-align: center;
+    text-align-last: center;
+  }
+  .pshop-steps li + li::before {
+    content: "";
+    position: absolute;
+    top: 14px;
+    right: 50%;
+    width: 100%;
+    height: 2px;
+    background: linear-gradient(90deg, #e6c75f, #d4af37);
+    opacity: 0.55;
+  }
+  .pshop-steps li b {
+    position: relative;
+    z-index: 1;
+    display: grid;
+    place-items: center;
+    width: 30px;
+    height: 30px;
+    margin: 0;
+    border-radius: 50%;
+    background: var(--gold-grad);
+    font-size: 0.8rem;
+    color: var(--slate);
+    box-shadow: 0 0 0 4px #fff;
+  }
+}
+
+@media (max-width: 639px) {
+  /* ---- the cart's "What happens next": a small timeline. Each number at the
+     top of its step, joined to the next by a thin gold line; the words beside
+     it, lined up even when a step takes two lines. */
+  .cart-next {
+    margin-top: 12px;
+    padding: 14px 14px 4px;
+    border-radius: 14px;
+  }
+  .cart-next-k {
+    font-size: 0.66rem;
+  }
+  .cart-next ol {
+    gap: 0;
+    margin-top: 12px;
+  }
+  .cart-next li {
+    position: relative;
+    display: grid;
+    grid-template-columns: 24px minmax(0, 1fr);
+    align-items: start;
+    gap: 12px;
+    padding-bottom: 14px;
+    font-size: 0.84rem;
+    line-height: 1.45;
+    color: #334155;
+    text-align: left;
+  }
+  .cart-next li:not(:last-child)::after {
+    content: "";
+    position: absolute;
+    left: 11px;
+    top: 26px;
+    bottom: 2px;
+    width: 2px;
+    border-radius: 2px;
+    background: linear-gradient(180deg, #e6c75f, rgb(212 175 55 / 0.25));
+  }
+  .cart-next b {
+    width: 24px;
+    height: 24px;
+    margin-top: -1px;
+    background: var(--gold-grad);
+    color: var(--slate);
+    font-size: 0.72rem;
+  }
+}
+
+/* ---- the cart: orders go on WhatsApp only; Clear cart a small quiet link under the button */
+.cart-clear.cart-clear-solo {
+  justify-self: center;
+  align-self: center;
+  min-height: 32px;
+  padding: 0 10px;
+  border: 0;
+  background: none;
+  font-size: 0.8rem;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+/* ---- even justified text: lines balanced so no line is left with one short word */
+:where(main) :where(p, li, dd) {
+  text-wrap: pretty;
+}
+
+@media (max-width: 639px) {
+  /* ---- About, on a phone: every section shorter and neater ---------------- */
+  /* header: the name, the line under it, the two buttons side by side, the four
+     figures as one compact 2 × 2 card; the photo frame rests until there is a photo */
+  .about-head {
+    padding-top: calc(var(--nav-h, 72px) + 14px);
+    padding-bottom: 24px;
+  }
+  .about-head .grid {
+    gap: 18px;
+    margin-top: 16px;
+  }
+  .about-title {
+    margin-top: 10px !important;
+    font-size: 2.3rem !important;
+    line-height: 1 !important;
+  }
+  .about-lead {
+    margin-top: 12px !important;
+    font-size: 1.02rem !important;
+    line-height: 1.5;
+  }
+  .about-head .flex.flex-wrap {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 8px;
+    margin-top: 18px;
+  }
+  .about-head .flex.flex-wrap > .btn {
+    justify-content: center;
+    min-height: 46px;
+    padding-inline: 10px;
+    font-size: 0.8rem;
+    white-space: nowrap;
+  }
+  .about-figure:has(.media-slot) {
+    display: none;
+  }
+  .about-head .facts {
+    gap: 0;
+    margin-top: 22px !important;
+    overflow: hidden;
+    border: 1px solid rgb(15 23 42 / 0.08);
+    border-radius: 16px;
+    background: #fff;
+  }
+  .about-head .facts-item {
+    gap: 4px;
+    min-height: 0;
+    padding: 14px;
+    border: 0;
+  }
+  .about-head .facts-item:nth-child(odd) {
+    border-right: 1px solid rgb(15 23 42 / 0.08);
+  }
+  .about-head .facts-item:nth-child(-n + 2) {
+    border-bottom: 1px solid rgb(15 23 42 / 0.08);
+  }
+  .about-head .facts-item dt {
+    font-size: 0.66rem;
+  }
+  .about-head .facts-value {
+    font-size: 1.5rem;
+  }
+
+  /* section rhythm and headings */
+  .about-page > .section {
+    padding-block: 36px;
+  }
+  .about-page .section h2.display,
+  .about-page .section h2.text-display-sm,
+  .about-page #rd-title {
+    font-size: 1.6rem !important;
+    line-height: 1.1 !important;
+  }
+  .about-page .section .mt-12,
+  .about-page .section .mt-16 {
+    margin-top: 18px;
+  }
+
+  /* our story: a short pull quote, the text at reading size, the chips small */
+  .story-quote {
+    margin-top: 14px;
+    font-size: 1.02rem;
+    line-height: 1.5;
+  }
+  .story-body {
+    gap: 14px;
+  }
+  .story-body p {
+    font-size: 0.97rem;
+    line-height: 1.7;
+  }
+  .story-body .dropcap::first-letter {
+    font-size: 3.1em;
+  }
+  #story .chip {
+    padding: 6px 12px;
+    font-size: 0.78rem;
+  }
+  #story .label.mt-12,
+  #story .label.mt-8 {
+    margin-top: 18px;
+  }
+
+  /* vision and mission: the vision a size down; each aim a compact row */
+  .vm-vision {
+    margin-top: 10px;
+    font-size: 1.7rem !important;
+    line-height: 1.1 !important;
+  }
+  #vision .mt-20 {
+    margin-top: 22px;
+  }
+  .vm-mission {
+    gap: 10px;
+  }
+  .vm-item {
+    grid-template-columns: 34px minmax(0, 1fr);
+    gap: 10px;
+    padding: 12px 0;
+  }
+  .vm-n {
+    font-size: 1.4rem;
+  }
+  .vm-item h3 {
+    font-size: 1.02rem !important;
+  }
+  .vm-item p {
+    margin-top: 4px;
+    font-size: 0.88rem;
+    line-height: 1.5;
+  }
+
+  /* research & development: the message box and the three ways we formulate, compact */
+  .letter {
+    margin-top: 14px !important;
+    padding: 16px;
+  }
+  .letter-head {
+    font-size: 0.7rem;
+    padding-bottom: 10px;
+  }
+  .letter p.text-xl {
+    font-size: 0.98rem;
+    line-height: 1.6;
+  }
+  .routes {
+    gap: 10px;
+    margin-top: 14px !important;
+  }
+  .route {
+    grid-template-columns: 38px minmax(0, 1fr);
+    column-gap: 12px;
+    row-gap: 2px;
+    padding: 14px;
+    border-radius: 14px;
+  }
+  .route-icon {
+    width: 38px;
+    height: 38px;
+  }
+  .route-title {
+    font-size: 1rem;
+  }
+  .route-short {
+    font-size: 0.78rem;
+  }
+  .route-body {
+    margin-top: 4px;
+    font-size: 0.86rem;
+    line-height: 1.5;
+  }
+
+  /* six things every client gets: a neat list, the code beside each title */
+  #values .spec {
+    margin-top: 18px;
+  }
+  .spec-row {
+    grid-template-columns: 48px minmax(0, 1fr);
+    column-gap: 10px;
+    row-gap: 4px;
+    padding: 14px 0;
+  }
+  .spec-row > .spec-code {
+    grid-row: span 2;
+    padding-top: 3px;
+    font-size: 0.7rem;
+  }
+  .spec-row > h3 {
+    font-size: 1rem !important;
+    line-height: 1.25 !important;
+  }
+  .spec-row > p {
+    font-size: 0.86rem;
+    line-height: 1.5;
+  }
+
+  /* the figures: two to a row */
+  .figures-band .frame > div {
+    margin-top: 18px;
+  }
+
+  /* where we are: the two addresses compact, Get directions full width */
+  .place-grid {
+    gap: 10px;
+    margin-top: 18px;
+  }
+  .place-box {
+    gap: 8px;
+    padding: 16px;
+    border-radius: 14px;
+  }
+  .place-address {
+    font-size: 0.9rem;
+    line-height: 1.55;
+  }
+  .place-dir {
+    justify-content: center;
+    min-height: 42px;
+    font-size: 0.8rem;
+  }
+
+  /* ---- the enquiry band at the foot of the pages: compact on a phone ------ */
+  .cta-band.cta3 {
+    padding-block: 28px 32px;
+  }
+  .cta3-dark,
+  .cta3-light {
+    padding: 20px;
+  }
+  .cta3-title {
+    font-size: 1.55rem !important;
+    line-height: 1.1 !important;
+  }
+  .cta3-body {
+    margin-top: 8px;
+    font-size: 0.9rem;
+    line-height: 1.55;
+  }
+  .cta3-chips {
+    gap: 6px;
+    margin-top: 12px;
+  }
+  .cta3-chips li {
+    padding: 5px 10px;
+    font-size: 0.72rem;
+  }
+  .cta3-reach {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    gap: 8px;
+    padding-top: 14px;
+  }
+  .cta3-reach a,
+  .cta3-reach > * {
+    min-width: 0;
+    font-size: 0.82rem;
+    overflow-wrap: anywhere;
+  }
+  .cta3-enquire {
+    min-height: 48px;
+  }
+  .cta3-row {
+    gap: 8px;
+  }
+  .cta3-send {
+    padding-top: 14px;
+  }
+  .cta3-steps {
+    gap: 8px;
+  }
+  .cta3-steps li,
+  .cta3-places > a {
+    padding: 10px 12px;
+  }
+}
+
+@media (max-width: 639px) {
+  /* ---- the figures band on a phone: numbers and words at one calm size */
+  .figures-band dl > div {
+    gap: 10px;
+    padding-block: 18px;
+  }
+  .figures-band dd .text-h {
+    font-size: 2rem;
+  }
+  .figures-band dd .text-sub {
+    font-size: 1.02rem;
+    line-height: 1.25;
+  }
+  .figures-band dt {
+    font-size: 0.7rem;
+  }
+
+  /* ---- where we are: addresses compact */
+  .place-box {
+    padding: 14px 16px;
+  }
+  .place-address {
+    font-size: 0.86rem;
+  }
+
+  /* ---- the enquiry band: "What to send us" as short rows */
+  .cta3-steps li {
+    padding: 8px 10px;
+    gap: 10px;
+  }
+  .cta3-steps .cta3-place {
+    font-size: 0.82rem;
+    line-height: 1.4;
+  }
+}
+
+@media (max-width: 639px) {
+  /* ---- "Need a price or a sample?" (the enquiry band) on a phone: one neat
+     card. The dark top: the label, the question, one line under it, the hours
+     and ISO as two small tags on one row. The light bottom: Enquire now, Call
+     and WhatsApp side by side, and "What to send us" as a short numbered
+     list. (Call and email were also in the dark top: Call is in the buttons,
+     the email in the footer.) */
+  .cta-band.cta3 {
+    padding-block: 20px 28px;
+  }
+  .cta3-panel {
+    border-radius: 20px;
+    overflow: hidden;
+  }
+  .cta3-dark {
+    gap: 0;
+    padding: 20px 18px 18px;
+  }
+  .cta3-k {
+    font-size: 0.68rem;
+  }
+  .cta3-title {
+    margin-top: 8px;
+    font-size: 1.45rem !important;
+  }
+  .cta3-body {
+    margin-top: 8px;
+    font-size: 0.88rem;
+    line-height: 1.55;
+    text-align: left;
+  }
+  .cta3-chips {
+    flex-wrap: nowrap;
+    gap: 6px;
+    margin-top: 14px;
+  }
+  .cta3-chips li {
+    min-width: 0;
+    gap: 5px;
+    padding: 5px 9px;
+    font-size: 0.66rem;
+    white-space: nowrap;
+  }
+  .cta3-chips svg {
+    width: 13px;
+    height: 13px;
+    flex: none;
+  }
+  .cta3-reach {
+    display: none !important;
+  }
+  .cta3-light {
+    gap: 10px;
+    padding: 18px;
+  }
+  .cta3-light-k {
+    display: none;
+  }
+  .cta3-enquire {
+    min-height: 50px;
+    border-radius: 14px;
+    box-shadow: none;
+  }
+  .cta3-row {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 8px;
+  }
+  .cta3-row .cta3-btn {
+    min-height: 46px;
+    border-radius: 14px;
+  }
+  .cta3-send {
+    gap: 8px;
+    margin-top: 6px;
+    padding-top: 14px;
+    border-top: 1px solid rgb(15 23 42 / 0.08);
+  }
+  .cta3-send-k {
+    font-size: 0.68rem;
+  }
+  .cta3-places.cta3-steps {
+    gap: 10px;
+  }
+  .cta3-steps li,
+  .cta3-steps li:last-child {
+    display: grid;
+    grid-template-columns: 26px minmax(0, 1fr);
+    align-items: start;
+    gap: 10px;
+    padding: 0;
+    border: 0;
+    background: none;
+  }
+  .cta3-steps .cta3-pin {
+    width: 26px;
+    height: 26px;
+    font-size: 0.74rem;
+    font-weight: 800;
+    background: var(--gold-grad);
+    color: var(--slate);
+  }
+  .cta3-steps .cta3-place {
+    gap: 1px;
+    font-size: 0.8rem;
+    line-height: 1.4;
+    text-align: left;
+  }
+  .cta3-steps .cta3-place strong {
+    font-size: 0.86rem;
+  }
+  .cta3-steps .cta3-place span {
+    color: #64748b;
+  }
+}
+
+@media (max-width: 639px) {
+  /* ---- About, the Director (until the photo and name come): a neat card. A
+     round dark badge with the gold K, then "Director's name" as a small chip
+     and the role under it. */
+  .director {
+    gap: 14px;
+    padding: 14px 16px;
+    border-radius: 16px;
+  }
+  .director .portrait-slot,
+  .director .portrait-slot.is-empty {
+    flex: 0 0 58px;
+    width: 58px !important;
+    min-width: 58px;
+    height: 58px;
+    max-width: none;
+    aspect-ratio: 1 / 1;
+    border: 2px solid rgb(212 175 55 / 0.7);
+    border-radius: 50%;
+    box-shadow: 0 8px 18px -10px rgb(0 0 0 / 0.6);
+  }
+  .director .portrait-slot.is-empty::before {
+    display: none;
+  }
+  .director .portrait-slot .placeholder {
+    display: none !important;
+  }
+  .director .portrait-mono {
+    font-size: 1.7rem;
+    transform: none;
+    animation: none;
+    -webkit-text-stroke: 1px #ffd700;
+  }
+  .director-id {
+    gap: 6px;
+  }
+  .director-id .placeholder {
+    padding: 4px 10px;
+    font-size: 0.74rem;
+    letter-spacing: 0.04em;
+  }
+  .director-id .label {
+    font-size: 0.8rem;
+    letter-spacing: 0.02em;
+  }
+
+  /* ---- About, six things every client gets: each a soft card. The code as a
+     small gold tag on top, the title, then the line about it (left-aligned:
+     short lines justified leave gaps); the TBC note a small chip. */
+  #values .spec {
+    display: grid;
+    gap: 10px;
+  }
+  .spec-row {
+    display: block;
+    padding: 14px 16px;
+    border: 1px solid rgb(15 23 42 / 0.07);
+    border-radius: 14px;
+    background: #fff;
+  }
+  .spec-row::before {
+    display: none;
+  }
+  .spec-row > .spec-code {
+    display: inline-flex;
+    align-items: center;
+    padding: 3px 9px;
+    border-radius: 999px;
+    background: rgb(212 175 55 / 0.14);
+    font-size: 0.64rem;
+    letter-spacing: 0.08em;
+    color: #8a6a10;
+  }
+  .spec-row > h3 {
+    margin-top: 8px;
+    font-size: 1rem !important;
+    line-height: 1.25 !important;
+  }
+  .spec-row > p {
+    margin-top: 4px;
+    font-size: 0.86rem;
+    line-height: 1.55;
+    text-align: left !important;
+  }
+  .spec-row .placeholder {
+    display: inline-flex;
+    margin-top: 6px;
+    padding: 4px 9px;
+    font-size: 0.7rem;
+    letter-spacing: 0.04em;
+  }
+  .spec-row p > span.ml-3 {
+    display: block;
+    margin-left: 0;
+  }
+
+  /* ---- Questions: each one a soft rounded card, the number as a small gold
+     tag, the question beside it, a round + that turns into − when open */
+  .faq {
+    display: grid;
+    gap: 8px;
+  }
+  .faq-item {
+    overflow: hidden;
+    border: 1px solid rgb(15 23 42 / 0.08);
+    border-radius: 14px;
+    background: #fff;
+  }
+  .faq-item[open] {
+    border-color: rgb(212 175 55 / 0.5);
+    box-shadow: 0 10px 24px -20px rgb(15 23 42 / 0.5);
+  }
+  .faq-q {
+    grid-template-columns: 30px minmax(0, 1fr) 28px;
+    align-items: center;
+    gap: 10px;
+    padding: 14px 14px 14px 12px;
+    font-size: 0.95rem;
+    line-height: 1.35;
+  }
+  .faq-n {
+    display: grid;
+    place-items: center;
+    width: 30px;
+    height: 30px;
+    border-radius: 9px;
+    background: rgb(212 175 55 / 0.14);
+    font-size: 0.7rem;
+    color: #8a6a10;
+  }
+  .faq-icon {
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    background: #f5f2e8;
+  }
+  .faq-icon::before,
+  .faq-icon::after {
+    left: 8px;
+    right: 8px;
+    height: 1.6px;
+  }
+  .faq-item[open] .faq-icon {
+    background: var(--gold-grad);
+  }
+  .faq-item[open] .faq-icon::before,
+  .faq-item[open] .faq-icon::after {
+    background: var(--slate);
+  }
+  .faq-a {
+    padding: 0 16px 16px 52px;
+    font-size: 0.9rem;
+    line-height: 1.6;
+  }
+  #faq h2,
+  section[id$="faq"] h2 {
+    font-size: 1.6rem !important;
+  }
+  section:has(> .frame > .grid > .faq) .mt-12 {
+    margin-top: 16px;
+  }
+}
+
+@media (max-width: 639px) {
+  /* ---- About on a phone: "In figures" repeats the header's figures (70+,
+     1000+, ISO, Chennai), so it rests here */
+  .about-page #figures {
+    display: none;
+  }
+
+  /* ---- Where we are: each address a compact card. The label with its icon
+     in a small gold circle, the address as one flowing paragraph (not a line
+     per part), and Get directions as a slim full-width button. */
+  #places .place-grid {
+    gap: 10px;
+  }
+  #places .place-box {
+    display: grid;
+    gap: 8px;
+    padding: 14px 16px 16px;
+    border-top-width: 1px;
+    border-color: rgb(15 23 42 / 0.08);
+    border-radius: 16px;
+    background: #fff;
+    box-shadow: 0 10px 24px -22px rgb(15 23 42 / 0.5);
+  }
+  #places .place-label {
+    gap: 10px;
+    font-size: 0.86rem;
+    font-weight: 700;
+    letter-spacing: 0.02em;
+    text-transform: none;
+    color: var(--slate);
+  }
+  #places .place-label svg {
+    box-sizing: content-box;
+    width: 15px;
+    height: 15px;
+    padding: 7px;
+    border-radius: 50%;
+    background: rgb(212 175 55 / 0.16);
+    color: #a8841c;
+  }
+  #places .place-address {
+    margin-top: 0;
+    padding-left: 39px;
+    font-size: 0.88rem;
+    line-height: 1.55;
+    color: #475569;
+  }
+  #places .place-address .block {
+    display: inline;
+  }
+  #places .place-address .block::after {
+    content: " ";
+  }
+  #places .place-dir {
+    justify-content: center;
+    width: 100%;
+    min-height: 42px;
+    margin-top: 4px;
+    border-color: rgb(212 175 55 / 0.55);
+    border-radius: 12px;
+    font-size: 0.8rem;
+  }
+}
+
+@media (max-width: 639px) {
+  /* ---- Home, "What we make", on a phone: a short heading, then each line as
+     a neat card: its number and name, the series, one line about it, and its
+     products as rows (the name on the left, the grades as small chips on the
+     right), then the link. The empty photo frame rests until there is a photo. */
+  #range .range-head {
+    gap: 10px !important;
+  }
+  #range h2 {
+    font-size: 1.6rem !important;
+    line-height: 1.1 !important;
+  }
+  .range-lead {
+    font-size: 0.92rem;
+    line-height: 1.6;
+  }
+  .range-grid {
+    gap: 12px !important;
+  }
+  .range-card {
+    overflow: hidden;
+    border-radius: 16px;
+  }
+  .range-media:has(.media-slot) {
+    display: none;
+  }
+  .range-body {
+    gap: 4px;
+    padding: 16px !important;
+  }
+  .range-index {
+    font-size: 0.68rem;
+  }
+  .range-name {
+    margin-top: 4px;
+    font-size: 1.35rem !important;
+    line-height: 1.1 !important;
+  }
+  .range-series {
+    overflow: hidden;
+    font-size: 0.68rem;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+  }
+  .range-line {
+    margin-top: 6px;
+    font-size: 0.86rem;
+    line-height: 1.5;
+    text-align: left !important;
+  }
+  .range-spec {
+    margin-top: 10px !important;
+    overflow: hidden;
+    border: 1px solid rgb(15 23 42 / 0.08);
+    border-radius: 12px;
+  }
+  .range-spec > :nth-child(n + 2) {
+    display: grid;
+  }
+  .range-row {
+    grid-template-columns: 38% minmax(0, 1fr) !important;
+    align-items: center;
+    gap: 8px !important;
+    padding: 9px 10px;
+    border-top: 1px solid rgb(15 23 42 / 0.06);
+  }
+  .range-row:first-child {
+    border-top: 0;
+  }
+  .range-row:nth-child(odd) {
+    background: #faf9f5;
+  }
+  .range-row dt {
+    font-size: 0.72rem;
+    letter-spacing: 0.02em;
+  }
+  .range-row dd {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 4px;
+  }
+  .range-row .grade {
+    min-height: 0;
+    padding: 2px 7px;
+    font-size: 0.68rem;
+  }
+  .range-link {
+    margin-top: 12px !important;
+    padding-top: 0 !important;
+    font-size: 0.78rem;
+  }
+
+  /* ---- Home, "Welcome to Krini Crude": the text at reading size; the empty
+     photo frame rests until there is a photo */
+  .welcome-fig:has(.media-slot) {
+    display: none;
+  }
+  #about h2 {
+    font-size: 1.6rem !important;
+    line-height: 1.1 !important;
+  }
+  .welcome-lead {
+    margin-top: 12px !important;
+    font-size: 0.97rem;
+    line-height: 1.7;
+  }
+  #about .mt-10 {
+    margin-top: 16px;
+  }
+
+  /* ---- the Home enquiry band: the office and factory as two short rows */
+  .cta3-places:not(.cta3-steps) {
+    gap: 8px;
+  }
+  .cta3-places:not(.cta3-steps) > a {
+    grid-template-columns: 28px minmax(0, 1fr) auto;
+    align-items: start;
+    gap: 10px;
+    padding: 10px 12px;
+    border-radius: 12px;
+  }
+  .cta3-places:not(.cta3-steps) .cta3-pin {
+    width: 28px;
+    height: 28px;
+  }
+  .cta3-places:not(.cta3-steps) .cta3-place {
+    font-size: 0.78rem;
+    line-height: 1.45;
+    text-align: left;
+  }
+  .cta3-places:not(.cta3-steps) .cta3-place strong {
+    font-size: 0.84rem;
+  }
+  .cta3-places:not(.cta3-steps) .cta3-go {
+    margin-top: 6px;
+  }
+}
+
+@media (max-width: 639px) {
+  /* ---- Home hero, first screen on a phone: the "Scroll to see what we do"
+     hint sat on top of the three pills; the pills and the film say enough */
+  .sh-scroll {
+    display: none !important;
+  }
+}
+
+@media (max-width: 639px) {
+  /* ---- Home on a phone: while the bar is over the dark film (interactions.ts
+     sets .is-over), it matches it: dark see-through glass, the logo on a small
+     white plate so its navy words still read, and the Menu button outlined in
+     gold. Past the film it is the white bar again. */
+  .nav.is-over .nav-main,
+  .nav.is-over.is-solid .nav-main {
+    border-color: rgb(255 255 255 / 0.12);
+    background: rgb(10 11 14 / 0.42);
+    -webkit-backdrop-filter: blur(14px) saturate(1.2);
+    backdrop-filter: blur(14px) saturate(1.2);
+    box-shadow: 0 14px 30px -18px rgb(0 0 0 / 0.7);
+  }
+  .nav.is-over .nav-split .nav-logo-c {
+    padding: 4px 9px !important;
+    border-radius: 11px;
+    background: rgb(255 255 255 / 0.94) !important;
+    box-shadow: 0 6px 16px -10px rgb(0 0 0 / 0.6) !important;
+  }
+  .nav.is-over .nav-split .nav-logo-c .nav-logo-dark {
+    height: 32px !important;
+  }
+  .nav.is-over .nav-split .menu-toggle {
+    border: 1px solid rgb(212 175 55 / 0.7);
+    background: rgb(255 255 255 / 0.06);
+    color: #fff;
+  }
+  .nav .nav-main {
+    transition: background 0.35s ease, border-color 0.35s ease, box-shadow 0.35s ease;
+  }
+}
+
+@media (max-width: 639px) {
+  /* ---- Home hero, last screen on a phone ("Engineered for performance"): the
+     heading a size down, the line under it at reading size and left-aligned,
+     and the two buttons side by side, the same size */
+  .sh-end .sh-big {
+    font-size: 1.85rem !important;
+    line-height: 1.02 !important;
+    max-width: none;
+  }
+  .sh-end .sh-body {
+    margin-top: 10px;
+    max-width: 22rem;
+    font-size: 0.95rem;
+    line-height: 1.55;
+    text-align: left !important;
+    text-align-last: auto !important;
+  }
+  .sh-end .sh-ctas {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 8px;
+    margin-top: 16px;
+  }
+  .sh-end .sh-ctas .btn {
+    justify-content: center;
+    min-height: 46px;
+    padding-inline: 10px;
+    border-radius: 12px;
+    font-size: 0.8rem;
+    white-space: nowrap;
+    box-shadow: none;
+  }
+}
+
+/* ---- Home hero on an upright phone: the whole wide film (scrollhero.ts draws
+   it as a band under the top bar and sets .is-band, --sh-band-top and
+   --sh-band-bottom); the words sit under the band, on the dark stage */
+@media (max-width: 639px) {
+  .sh.is-band .sh-stage {
+    background:
+      radial-gradient(120% 60% at 50% 30%, rgb(212 175 55 / 0.1), transparent 70%),
+      #0b0a08;
+  }
+  .sh.is-band .sh-scrim {
+    background: linear-gradient(180deg, transparent calc(var(--sh-band-bottom) - 40px), rgb(11 10 8 / 0.0) var(--sh-band-bottom));
+  }
+  .sh.is-band .sh-step {
+    top: calc(var(--sh-band-bottom) + 22px);
+    bottom: auto;
+  }
+  .sh.is-band.at-end .sh-still {
+    visibility: hidden;
+  }
+  .sh.is-band.at-end .sh-canvas,
+  .sh.is-band .sh-canvas {
+    opacity: 1;
+  }
+  /* a fine gold line under the film */
+  .sh.is-band .sh-stage::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: var(--sh-band-bottom);
+    z-index: 3;
+    height: 2px;
+    background: linear-gradient(90deg, transparent, rgb(212 175 55 / 0.7), transparent);
+    pointer-events: none;
+  }
+}
+
+
+/* ---- Home hero on an upright phone, played like a video (scrollhero.ts):
+   one screen, the whole film in a rounded frame playing by itself on a loop,
+   a thin gold progress line along its foot, and under it the name, the motto,
+   the three lines and the two buttons. No scrolling through steps. */
+.sh-open-ctas {
+  display: none;
+}
+@media (max-width: 639px) {
+  .sh.is-live.is-band {
+    height: 100svh;
+    min-height: 600px;
+  }
+  .sh.is-band .sh-stage {
+    height: 100svh;
+    min-height: 600px;
+  }
+  .sh.is-band .sh-lines,
+  .sh.is-band .sh-spray,
+  .sh.is-band .sh-end,
+  .sh.is-band .sh-rail,
+  .sh.is-band .sh-scroll,
+  .sh.is-band .sh-mark {
+    display: none !important;
+  }
+  .sh.is-band .sh-open {
+    opacity: 1 !important;
+    visibility: visible !important;
+    transform: none !important;
+    pointer-events: auto;
+  }
+  /* the frame round the film: a soft gold edge and a shadow */
+  .sh.is-band .sh-stage::before {
+    content: "";
+    position: absolute;
+    left: 11px;
+    right: 11px;
+    top: calc(var(--sh-band-top) - 1px);
+    height: calc(var(--sh-band-bottom) - var(--sh-band-top) + 2px);
+    z-index: 1;
+    border: 1px solid rgb(212 175 55 / 0.35);
+    border-radius: 17px;
+    box-shadow: 0 24px 50px -24px rgb(0 0 0 / 0.9), 0 0 0 6px rgb(255 255 255 / 0.02);
+    pointer-events: none;
+  }
+  .sh.is-band .sh-canvas {
+    z-index: 2;
+  }
+  .sh.is-band .sh-stage::after {
+    display: none;
+  }
+  /* the progress line, like a video player's, inside the foot of the frame */
+  .sh.is-band .sh-bar {
+    display: block;
+    left: 28px;
+    right: 28px;
+    bottom: auto;
+    top: calc(var(--sh-band-bottom) - 12px);
+    height: 3px;
+    border-radius: 3px;
+    overflow: hidden;
+    background: rgb(255 255 255 / 0.22);
+  }
+  .sh.is-band .sh-bar span {
+    border-radius: 3px;
+    background: rgb(212 175 55);
+  }
+  .sh.is-band .sh-step.sh-open {
+    top: calc(var(--sh-band-bottom) + 20px);
+  }
+  .sh.is-band .sh-open .sh-motto {
+    margin-top: 8px;
+  }
+  .sh.is-band .sh-open-ctas {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 8px;
+    margin-top: 16px;
+  }
+  .sh.is-band .sh-open-ctas .btn {
+    justify-content: center;
+    min-height: 46px;
+    padding-inline: 10px;
+    border-radius: 12px;
+    font-size: 0.8rem;
+    white-space: nowrap;
+  }
+}
+
+
+/* ---- Phone video hero, ambient light: scrollhero.ts paints the playing frame,
+   tiny, into .sh-glow; blown up and blurred it fills the screen round the film
+   with the film's own colours, a darker wash under the words */
+.sh-glow {
+  display: none;
+}
+@media (max-width: 639px) {
+  .sh.is-band .sh-stage {
+    overflow: hidden;
+  }
+  .sh.is-band .sh-glow {
+    display: block;
+    position: absolute;
+    left: -15%;
+    top: -10%;
+    width: 130%;
+    height: 120%;
+    z-index: 0;
+    filter: blur(26px) saturate(1.5) brightness(0.62);
+    opacity: 0.95;
+    pointer-events: none;
+  }
+  .sh.is-band .sh-scrim {
+    background:
+      linear-gradient(
+        180deg,
+        rgb(11 10 8 / 0.45) 0%,
+        rgb(11 10 8 / 0.05) var(--sh-band-top),
+        rgb(11 10 8 / 0.05) var(--sh-band-bottom),
+        rgb(11 10 8 / 0.62) calc(var(--sh-band-bottom) + 90px),
+        rgb(11 10 8 / 0.86) 100%
+      );
+  }
+  .sh.is-band .sh-stage::before {
+    border-color: rgb(212 175 55 / 0.5);
+    box-shadow:
+      0 30px 60px -20px rgb(0 0 0 / 0.85),
+      0 0 40px -6px rgb(212 175 55 / 0.25);
+  }
+  .sh.is-band .sh-canvas {
+    z-index: 2;
+  }
+}
+
+
+/* ---- The logo over the dark home film on a phone: no white plate; the same
+   logo with white words (logo-lubecon-light.webp) straight on the dark glass,
+   a size up. On the white bar, and on laptops, the logo as supplied. */
+.nav-split .nav-logo-c .nav-logo-lite {
+  display: none;
+}
+@media (max-width: 639px) {
+  .nav.is-over .nav-split .nav-logo-c {
+    padding: 0 !important;
+    border-radius: 0;
+    background: none !important;
+    box-shadow: none !important;
+  }
+  .nav.is-over .nav-split .nav-logo-c .nav-logo-dark {
+    display: none !important;
+  }
+  .nav.is-over .nav-split .nav-logo-c .nav-logo-lite {
+    display: block;
+    width: auto;
+    height: 40px;
+    filter: drop-shadow(0 2px 6px rgb(0 0 0 / 0.5));
+  }
+}
+
+
+/* ---- Phone video hero, laid out as one composed screen: the film, then the
+   words centred under it (the name a size up), the pills, the two buttons, and
+   three figures on a glass strip; the whole group centred between the top bar
+   and the foot of the screen (scrollhero.ts measures it) */
+.sh-open-stats {
+  display: none;
+}
+@media (max-width: 639px) {
+  .sh.is-band .sh-step.sh-open {
+    top: calc(var(--sh-band-bottom) + 26px);
+    left: 0;
+    right: 0;
+    padding-inline: 16px;
+    text-align: center;
+  }
+  .sh.is-band .sh-open .sh-title {
+    gap: 0.55rem;
+    justify-items: center;
+  }
+  .sh.is-band .sh-open .sh-kicker {
+    justify-content: center;
+    gap: 10px;
+    font-size: 0.68rem;
+    letter-spacing: 0.16em;
+    color: rgb(255 255 255 / 0.72);
+  }
+  .sh.is-band .sh-open .sh-kicker::before,
+  .sh.is-band .sh-open .sh-kicker::after {
+    content: "";
+    display: block;
+    flex: 0 0 22px;
+    width: 22px;
+    height: 1px;
+    background: rgb(212 175 55 / 0.8);
+  }
+  .sh.is-band .sh-open .sh-name {
+    font-size: min(10.4vw, 2.75rem) !important;
+    line-height: 0.95;
+    letter-spacing: 0.005em;
+    text-shadow: 0 6px 30px rgb(0 0 0 / 0.55);
+  }
+  .sh.is-band .sh-open .sh-tagline {
+    font-size: 1.02rem !important;
+    color: rgb(255 255 255 / 0.86);
+  }
+  .sh.is-band .sh-open .sh-motto {
+    margin-top: 6px;
+    font-size: 0.86rem;
+    letter-spacing: 0.02em;
+  }
+  .sh.is-band .sh-open .sh-jumps {
+    justify-content: center;
+    gap: 7px;
+    margin-top: 18px;
+  }
+  .sh.is-band .sh-open .sh-jump {
+    padding: 7px 14px;
+    font-size: 0.78rem;
+    border-color: rgb(212 175 55 / 0.45);
+    background: rgb(255 255 255 / 0.05);
+    -webkit-backdrop-filter: blur(6px);
+    backdrop-filter: blur(6px);
+  }
+  .sh.is-band .sh-open-ctas {
+    margin-top: 18px;
+  }
+  .sh.is-band .sh-open-ctas .btn-primary {
+    box-shadow: 0 12px 26px -12px rgb(212 175 55 / 0.75);
+  }
+  .sh.is-band .sh-open-stats {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    margin: 18px 0 0;
+    padding: 11px 4px;
+    border: 1px solid rgb(255 255 255 / 0.1);
+    border-radius: 14px;
+    background: rgb(255 255 255 / 0.045);
+    -webkit-backdrop-filter: blur(10px);
+    backdrop-filter: blur(10px);
+  }
+  .sh.is-band .sh-open-stats > div {
+    display: flex;
+    flex-direction: column-reverse;
+    align-items: center;
+    gap: 2px;
+  }
+  .sh.is-band .sh-open-stats > div + div {
+    border-left: 1px solid rgb(212 175 55 / 0.28);
+  }
+  .sh.is-band .sh-open-stats dd {
+    margin: 0;
+    font-family: var(--font-display, inherit);
+    font-size: 1.2rem;
+    font-weight: 700;
+    line-height: 1.1;
+    color: rgb(212 175 55);
+  }
+  .sh.is-band .sh-open-stats dt {
+    font-size: 0.66rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: rgb(255 255 255 / 0.66);
+  }
+}
+@media (max-width: 639px) and (max-height: 700px) {
+  .sh.is-band .sh-open-stats {
+    display: none;
+  }
+}
+
+
+/* ---- Phone video hero: "Scroll" at the foot of the screen, gently bobbing */
+.sh-down {
+  display: none;
+}
+@media (max-width: 639px) {
+  .sh.is-band .sh-down {
+    position: absolute;
+    left: 50%;
+    bottom: max(14px, env(safe-area-inset-bottom));
+    z-index: 5;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+    transform: translateX(-50%);
+    font-size: 0.62rem;
+    font-weight: 600;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: rgb(255 255 255 / 0.55);
+    pointer-events: none;
+  }
+  .sh.is-band .sh-down svg {
+    color: rgb(212 175 55);
+    animation: sh-down-bob 1.8s ease-in-out infinite;
+  }
+  @keyframes sh-down-bob {
+    0%, 100% { transform: translateY(0); opacity: 0.6; }
+    50% { transform: translateY(4px); opacity: 1; }
+  }
+}
+@media (max-width: 639px) and (max-height: 700px) {
+  .sh.is-band .sh-down {
+    display: none;
+  }
+}
+
+/* ---- Phone video hero, full-bleed (replaces the framed band above): the film
+   plays across the top of the screen from the very top, behind the glass bar,
+   cut to fill and following the action (scrollhero.ts sets --sh-film-h); it
+   fades into the dark, and the words, pills, buttons and figures sit at the
+   foot of the screen over the end of the fade. A thin gold line along the very
+   bottom shows the film playing. */
+@media (max-width: 639px) {
+  .sh.is-band .sh-stage {
+    background:
+      radial-gradient(90% 40% at 50% 100%, rgb(212 175 55 / 0.12), transparent 70%),
+      #0b0a08;
+  }
+  .sh.is-band .sh-stage::before {
+    display: none;
+  }
+  .sh.is-band .sh-scrim {
+    background: linear-gradient(
+      180deg,
+      rgb(11 10 8 / 0.55) 0px,
+      rgb(11 10 8 / 0) 120px,
+      rgb(11 10 8 / 0) calc(var(--sh-film-h) - 230px),
+      rgb(11 10 8 / 0.78) calc(var(--sh-film-h) - 90px),
+      #0b0a08 var(--sh-film-h),
+      #0b0a08 100%
+    );
+  }
+  .sh.is-band .sh-step.sh-open {
+    top: auto;
+    bottom: calc(48px + env(safe-area-inset-bottom, 0px));
+  }
+  .sh.is-band .sh-bar {
+    top: auto;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 2px;
+    border-radius: 0;
+    background: rgb(255 255 255 / 0.1);
+  }
+  .sh.is-band .sh-bar span {
+    border-radius: 0;
+  }
+  .sh.is-live.is-band .sh-mark {
+    display: block !important;
+    top: calc(var(--sh-film-h) - 128px);
+    right: 14px;
+    bottom: auto;
+    width: 28px;
+    z-index: 4;
+  }
+  .sh.is-band .sh-down {
+    bottom: calc(12px + env(safe-area-inset-bottom, 0px));
+  }
+}
+@media (max-width: 639px) and (max-height: 700px) {
+  .sh.is-band .sh-step.sh-open {
+    bottom: calc(20px + env(safe-area-inset-bottom, 0px));
+  }
+}
+
+
+/* ---- The hero film (kirni_header) has no watermark in its corner, so the
+   stand-in copy of one (data-sh-mark) never shows, on any screen */
+.sh .sh-mark,
+.sh.is-live.is-band .sh-mark {
+  display: none !important;
+}
+
+
+/* ---- Phone video hero: the film itself, a muted looping <video> made by
+   scrollhero.ts (.sh-video), across the top --sh-film-h of the screen; the
+   canvas (the scrolled film on bigger screens) is not used there */
+.sh-video {
+  display: none;
+}
+@media (max-width: 639px) {
+  .sh.is-band .sh-video {
+    display: block;
+    position: absolute;
+    left: 0;
+    top: 0;
+    z-index: 1;
+    width: 100%;
+    height: var(--sh-film-h);
+    object-fit: cover;
+    object-position: 50% 50%;
+    pointer-events: none;
+  }
+  .sh.is-band .sh-canvas {
+    display: none !important;
+  }
+}
+
+/* ---- Phone: the glass bar over the video a shade darker, so the white logo
+   and Menu still read over the bright metal at the top of the film */
+@media (max-width: 639px) {
+  .nav.is-over .nav-main,
+  .nav.is-over.is-solid .nav-main {
+    background: rgb(10 11 14 / 0.68);
+  }
 }

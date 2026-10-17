@@ -61,6 +61,7 @@ export const site = {
     pages: [
       { id: "home", label: "Home", href: routes.home },
       { id: "about", label: "About Us", href: routes.about },
+      { id: "products", label: "Products", href: routes.products },
       { id: "blog", label: "Blog", href: routes.blog },
     ] as { id: PageId; label: string; href: string }[],
     lines: [

@@ -3,13 +3,44 @@ import { lines, type Line } from "../content/catalogue";
 import type { ReactNode } from "react";
 import { ShopClient, type ShopItem } from "./ShopClient";
 
-/** One card per item a buyer can order: each named product in a range, or the product type itself where it has no named range. */
+/**
+ * One card per item a buyer can order: each named product in a range, or the
+ * product type itself where it has no named range. Each carries what its
+ * product page shows (ShopClient's ProductView): the photo, the full
+ * description, the benefits, uses, technical properties, dilution, packing,
+ * storage and shelf life, where the catalogue has them.
+ */
 function itemsOf(line: Line): ShopItem[] {
   const base = { line: line.id, lineTitle: line.title, lineShort: line.short };
   return line.products.flatMap((p) =>
     p.range?.length
-      ? p.range.map((r) => ({ key: `${p.id}-${r.name}`, name: r.name, type: p.name, text: r.text, grades: [], ...base }))
-      : [{ key: p.id, name: p.name, type: line.short, text: p.about, grades: p.variants ?? [], ...base }],
+      ? p.range.map((r) => {
+          const d = r.details ?? {};
+          return {
+            key: `${p.id}-${r.name}`,
+            name: r.name,
+            type: p.name,
+            text: r.text,
+            grades: [],
+            ...base,
+            image: d.image,
+            imageAlt: d.imageAlt,
+            description: d.description ?? r.text,
+            benefits: d.benefits,
+            uses: d.purpose ?? p.uses,
+            usesTitle: d.purposeTitle,
+            properties: d.properties,
+            dilution: d.dilution,
+            dilutionRatios: d.dilutionRatios,
+            howTo: d.application,
+            howToTitle: d.applicationTitle,
+            packing: d.packing,
+            storage: d.storage,
+            shelfLife: d.shelfLife,
+            note: d.note,
+          };
+        })
+      : [{ key: p.id, name: p.name, type: line.short, text: p.about, grades: p.variants ?? [], ...base, description: p.about, uses: p.uses, benefits: p.claims }],
   );
 }
 
@@ -31,7 +62,7 @@ export function WhatsAppIcon() {
 /**
  * The Products page's shop: every product, from the catalogue, handed to
  * ShopClient (search, the lines as chips, Add to cart, and the cart that sends
- * the order on WhatsApp or by email).
+ * the order on WhatsApp).
  */
 export function ProductShop({ top }: { top?: ReactNode }) {
   return (

@@ -12,7 +12,7 @@ import { CtaBand } from "../components/CtaBand";
  * Products, kept simple: the page opens on the shop (ProductShop), under the
  * breadcrumbs, with its heading as the page's h1: search,
  * the three lines as chips, every product as a card with Add to cart, and the
- * cart that sends the order on WhatsApp or by email. Then the questions buyers
+ * cart that sends the order on WhatsApp. Then the questions buyers
  * ask and a way to get in touch.
  */
 export function ProductsPage() {
