@@ -1,52 +1,23 @@
-import { routes, site } from "../content/site";
-import { lines, type Line, type Product } from "../content/catalogue";
-import { Arrow, Glyph, MediaSlot } from "./ui";
-
-type Item = {
-  key: string;
-  name: string;
-  /** The product type it belongs to (Soluble Cutting Oil, Shuttering Oil…). */
-  type: string;
-  text: string;
-  grades: string[];
-  line: Line;
-  href: string;
-};
+import { site } from "../content/site";
+import { lines, type Line } from "../content/catalogue";
+import type { ReactNode } from "react";
+import { ShopClient, type ShopItem } from "./ShopClient";
 
 /** One card per item a buyer can order: each named product in a range, or the product type itself where it has no named range. */
-function itemsOf(line: Line): Item[] {
-  const href = (p: Product) => `${routes.line(line.slug)}#${p.id}`;
+function itemsOf(line: Line): ShopItem[] {
+  const base = { line: line.id, lineTitle: line.title, lineShort: line.short };
   return line.products.flatMap((p) =>
     p.range?.length
-      ? p.range.map((r) => ({
-          key: `${p.id}-${r.name}`,
-          name: r.name,
-          type: p.name,
-          text: r.text,
-          grades: [],
-          line,
-          href: href(p),
-        }))
-      : [
-          {
-            key: p.id,
-            name: p.name,
-            type: line.short,
-            text: p.about,
-            grades: p.variants ?? [],
-            line,
-            href: href(p),
-          },
-        ],
+      ? p.range.map((r) => ({ key: `${p.id}-${r.name}`, name: r.name, type: p.name, text: r.text, grades: [], ...base }))
+      : [{ key: p.id, name: p.name, type: line.short, text: p.about, grades: p.variants ?? [], ...base }],
   );
 }
 
-/** A WhatsApp chat to the sales number with the order already written (also used by the line pages' cards). */
+/** A WhatsApp chat to the sales number with the order already written. */
 export const orderHref = (name: string, line: string) =>
   `${site.contact.whatsapp.split("?")[0]}?text=${encodeURIComponent(
     `Hi Krini Crude, I would like to order:\n• ${name} (${line})\nQuantity: \nDelivery location: `,
   )}`;
-const whatsapp = (item: Item) => orderHref(item.name, item.line.short);
 
 /** The WhatsApp mark for the Order now buttons. */
 export function WhatsAppIcon() {
@@ -58,90 +29,18 @@ export function WhatsAppIcon() {
 }
 
 /**
- * Products as a shop: the three lines down the side as categories (with how
- * many products each holds), and every product as a card: a frame for its
- * photo with its type, its name, two lines about it, up to three of its grades
- * (and how many more), and two ways on:
- * Order on WhatsApp (a chat with the order written out) and its details on the
- * line's page. The categories filter the cards (src/motion/interactions.ts,
- * initFilters); without scripts every card shows.
+ * The Products page's shop: every product, from the catalogue, handed to
+ * ShopClient (search, the lines as chips, Add to cart, and the cart that sends
+ * the order on WhatsApp or by email).
  */
-export function ProductShop() {
-  const all = lines.flatMap(itemsOf);
+export function ProductShop({ top }: { top?: ReactNode }) {
   return (
-    <section id="all-products" className="shop" aria-labelledby="shop-title">
-      <div className="frame">
-        <div className="shop-head">
-          <h2 id="shop-title" className="shop-title">
-            All products
-          </h2>
-          <p className="shop-note">
-            {all.length} products · tap <strong>Order now</strong> to send us a WhatsApp with the product, quantity and place.
-          </p>
-        </div>
-        <div className="shop-grid">
-          <aside className="shop-side" aria-label="Categories">
-            <p className="shop-side-k">Categories</p>
-            <div className="shop-cats filters" role="group" aria-label="Filter by category" data-filters data-noun="product">
-              <button type="button" className="filter shop-cat" aria-pressed="true" data-filter="all">
-                All products <span className="filter-n">{all.length}</span>
-              </button>
-              {lines.map((l) => (
-                <button key={l.id} type="button" className="filter shop-cat" aria-pressed="false" data-filter={l.id}>
-                  {l.title} <span className="filter-n">{all.filter((i) => i.line.id === l.id).length}</span>
-                </button>
-              ))}
-            </div>
-            <a href={site.contact.whatsapp} className="shop-help" target="_blank" rel="noopener noreferrer">
-              <Glyph name="chat" size={18} />
-              <span>
-                <strong>Not sure what to order?</strong>
-                <span>Tell us the job on WhatsApp</span>
-              </span>
-            </a>
-          </aside>
-          <ul className="shop-cards" data-filter-list>
-            {all.map((it) => (
-              <li key={it.key} data-category={it.line.id}>
-                <article className="scard">
-                  <div className="scard-media">
-                    <MediaSlot label="Product photo" w={800} h={600} />
-                    <span className="scard-tag">{it.type}</span>
-                  </div>
-                  <div className="scard-body">
-                    <h3 className="scard-name">
-                      <a href={it.href}>{it.name}</a>
-                    </h3>
-                    <p className="scard-text">{it.text}</p>
-                    {it.grades.length ? (
-                      <ul className="scard-grades" aria-label="Grades and variants">
-                        {it.grades.slice(0, 3).map((g) => (
-                          <li key={g}>{g}</li>
-                        ))}
-                        {it.grades.length > 3 ? (
-                          <li className="scard-more-n" title={it.grades.slice(3).join(", ")}>
-                            +{it.grades.length - 3}
-                          </li>
-                        ) : null}
-                      </ul>
-                    ) : null}
-                  </div>
-                  <div className="scard-actions">
-                    <a href={whatsapp(it)} className="scard-wa" target="_blank" rel="noopener noreferrer" aria-label={`Order ${it.name} on WhatsApp`}>
-                      <WhatsAppIcon />
-                      Order now
-                    </a>
-                    <a href={it.href} className="scard-more" aria-label={`${it.name}: details`} title="Details">
-                      <Arrow />
-                    </a>
-                  </div>
-                </article>
-              </li>
-            ))}
-          </ul>
-        </div>
-        <p className="sr-only" role="status" aria-live="polite" data-filter-status />
-      </div>
-    </section>
+    <ShopClient
+      top={top}
+      items={lines.flatMap(itemsOf)}
+      lines={lines.map((l) => ({ id: l.id, title: l.title }))}
+      whatsapp={site.contact.whatsapp}
+      email={site.contact.email}
+    />
   );
 }

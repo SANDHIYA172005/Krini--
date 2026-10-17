@@ -1,19 +1,19 @@
-import { enquireHref, site } from "../content/site";
+import { site } from "../content/site";
 import { lines } from "../content/catalogue";
 import { seo, trail } from "../content/pages";
 import { abs, breadcrumbs, faqPage, lineList, webPage } from "../content/schema";
 import { Shell } from "../components/Shell";
-import { PageHeader } from "../components/PageHeader";
+import { Breadcrumbs } from "../components/PageHeader";
 import { ProductShop } from "../components/ProductShop";
-import { LineThumbs } from "../components/Blocks";
 import { Faq } from "../components/Faq";
 import { CtaBand } from "../components/CtaBand";
-import { Arrow } from "../components/ui";
 
 /**
- * Products: the three lines (each linking to its own page), then every product
- * as a shop card with Order on WhatsApp (ProductShop), a guide for each line,
- * questions.
+ * Products, kept simple: the page opens on the shop (ProductShop), under the
+ * breadcrumbs, with its heading as the page's h1: search,
+ * the three lines as chips, every product as a card with Add to cart, and the
+ * cart that sends the order on WhatsApp or by email. Then the questions buyers
+ * ask and a way to get in touch.
  */
 export function ProductsPage() {
   const p = site.pages.products;
@@ -29,25 +29,7 @@ export function ProductsPage() {
         faqPage(seo.products.path, p.faq),
       ]}
     >
-      <PageHeader
-        trail={t}
-        label={p.label}
-        title={p.heading}
-        lead={p.lead}
-        facts={p.facts}
-        actions={
-          <>
-            <a href={enquireHref("Request a quote")} className="btn btn-primary" data-enquire="Request a quote" data-magnetic>
-              Request a quote <Arrow />
-            </a>
-            <a href="#all-products" className="btn btn-ghost" data-magnetic>
-              All products <Arrow />
-            </a>
-          </>
-        }
-        aside={<LineThumbs />}
-      />
-      <ProductShop />
+      <ProductShop top={<Breadcrumbs trail={t} />} />
       <Faq items={p.faq} />
       <CtaBand heading={p.cta.heading} body={p.cta.body} type="Request a quote" />
     </Shell>

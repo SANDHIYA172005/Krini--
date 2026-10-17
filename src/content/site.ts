@@ -26,7 +26,8 @@ export const routes = {
   process: "/how-its-made",
   privacy: "/privacy-policy",
   terms: "/terms-and-conditions",
-  line: (slug: string) => `/products/${slug}`,
+  /** The product lines have no pages of their own: a line's links go to all products on the Products page. */
+  line: (slug: string) => `/products#all-products`,
   article: (slug: string) => `/blog/${slug}`,
 } as const;
 

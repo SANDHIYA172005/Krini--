@@ -16,12 +16,10 @@ function Chevron({ dir = "down" }: { dir?: "down" | "right" }) {
 /**
  * The top of every page, in two levels. A thin dark strip (ISO, the factory,
  * phone, email, WhatsApp) folds away once the page moves; under it the white
- * bar: Home and About Us on the left, the logo in the centre, Products, Blog
- * and the gold Enquire now button on the right. Products opens a
- * full-width panel with the three lines side by side, each with its products,
- * and a private-label card (hover, or the arrow button for keyboard and touch:
- * src/motion/interactions.ts, initDrops). Below 1024px the same menu opens as
- * a sheet from the bar (unchanged).
+ * bar: the logo on the left; Home, About Us, Products and Blog in one box and
+ * the gold Enquire now button on the right. Each is a plain link (Products
+ * goes to the Products page; no panel opens under it). Below 1024px the menu
+ * opens as a sheet from the bar, with the lines and their products.
  */
 export function Nav({ current, line: currentLine }: { current?: PageId; line?: Line["id"] }) {
   const { contact, menu } = site;
@@ -77,67 +75,13 @@ export function Nav({ current, line: currentLine }: { current?: PageId; line?: L
             </a>
             <nav aria-label="Primary" className="nav-box hidden lg:block">
               <ul className="nav-list">
-                {links.map((item) =>
-                    item.id === "products" ? (
-                      <li key={item.id} className="nav-drop nav-drop-mega" data-drop>
-                        <a className={`nav-link${item.on ? " is-current" : ""}`} href={item.href} aria-current={item.on ? "page" : undefined}>
-                          {item.label}
-                        </a>
-                        <button
-                          type="button"
-                          className="nav-caret"
-                          aria-expanded="false"
-                          aria-controls="drop-products"
-                          aria-label="Products: all lines"
-                          data-drop-toggle
-                        >
-                          <Chevron />
-                        </button>
-                        <div className="nav-panel nav-mega" id="drop-products">
-                          <div className="frame nav-mega-in">
-                            {menu.lines.map((m) => {
-                              const l = lineById(m.line);
-                              return (
-                                <div key={m.line} className={`nav-mega-col${m.line === currentLine ? " is-current" : ""}`}>
-                                  <a href={href(m.line)} className="nav-mega-head nav-item">
-                                    <span className="nav-mega-idx">{l.index}</span>
-                                    <span className="nav-mega-title">{l.title}</span>
-                                  </a>
-                                  <p className="nav-mega-desc">{l.series}</p>
-                                  <ul className="nav-mega-list">
-                                    {m.items.map((it) => (
-                                      <li key={it.product}>
-                                        <a href={href(m.line, it.product)} className="nav-mega-link">
-                                          {it.label}
-                                        </a>
-                                      </li>
-                                    ))}
-                                  </ul>
-                                  <a href={href(m.line)} className="nav-mega-all">
-                                    View all<span className="sr-only"> {m.label.toLowerCase()}</span> <Arrow />
-                                  </a>
-                                </div>
-                              );
-                            })}
-                            <div className="nav-mega-card">
-                              <p className="nav-mega-card-k">Private label</p>
-                              <p className="nav-mega-card-t">Your brand. Our formulation floor.</p>
-                              <p className="nav-mega-card-b">Lubricants, greases and sprays made and packed under your name.</p>
-                              <a href={enquireHref("Private label")} className="btn btn-primary" data-enquire="Private label">
-                                Discuss private label <Arrow />
-                              </a>
-                            </div>
-                          </div>
-                        </div>
-                      </li>
-                    ) : (
-                      <li key={item.id}>
-                        <a className={`nav-link${item.on ? " is-current" : ""}`} href={item.href} aria-current={item.on ? "page" : undefined}>
-                          {item.label}
-                        </a>
-                      </li>
-                    ),
-                  )}
+                {links.map((item) => (
+                  <li key={item.id}>
+                    <a className={`nav-link${item.on ? " is-current" : ""}`} href={item.href} aria-current={item.on ? "page" : undefined}>
+                      {item.label}
+                    </a>
+                  </li>
+                ))}
               </ul>
             </nav>
             <div className="nav-side nav-side-r flex items-center gap-3">

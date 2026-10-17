@@ -134,26 +134,21 @@ export function Guides({
   );
 }
 
-/** Products page header: the three lines as tall thumbnails, each opening its page. */
+/** Products page header: the three lines as tall thumbnails (pictures and names only; the lines have no pages of their own). */
 export function LineThumbs() {
   return (
-    <nav aria-label="Product lines" data-reveal>
+    <div aria-label="Product lines" data-reveal>
       <ul className="grid grid-cols-3 gap-3 sm:gap-4">
         {allLines.map((l) => (
           <li key={l.id}>
-            <a href={routes.line(l.slug)} className="group block">
-              <div className="media aspect-[4/5] rounded-sm" data-shutter>
-                <MediaSlot label="Product line photo" w={1200} h={1500} />
-              </div>
-              <span className="label mt-3 block text-amber">{l.index}</span>
-              <span className="mt-1.5 flex items-start justify-between gap-2 text-sm leading-snug text-bone transition-colors group-hover:text-amber">
-                {l.title}
-                <Arrow className="mt-1 hidden shrink-0 sm:block" />
-              </span>
-            </a>
+            <div className="media aspect-[4/5] rounded-sm" data-shutter>
+              <MediaSlot label="Product line photo" w={1200} h={1500} />
+            </div>
+            <span className="label mt-3 block text-amber">{l.index}</span>
+            <span className="mt-1.5 block text-sm leading-snug text-bone">{l.title}</span>
           </li>
         ))}
       </ul>
-    </nav>
+    </div>
   );
 }
