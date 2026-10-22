@@ -9,14 +9,14 @@ export type PreloaderOptions = {
   minMs: number;
   /** Longest time on screen, however slow the page is. */
   maxMs: number;
-  /** The LUBECON logo, which rises out of the oil. */
+  /** The Krini Crude logo, which rises out of the oil. */
   logo: string;
 };
 
 /**
  * The loading screen, shown when the page is refreshed: on white, a single
  * drop of gold oil falls onto a still surface, ripples spread out from where it
- * lands, and the LUBECON logo rises out of the surface. Then the screen fades
+ * lands, and the Krini Crude logo rises out of the surface. Then the screen fades
  * away. The motion is all CSS (preloader.css); this script only puts the
  * screen up, holds the page still, and takes the screen down when the page
  * has loaded (never sooner than minMs, never later than maxMs).
@@ -76,7 +76,7 @@ export function bootPreloader(o: PreloaderOptions): void {
     rings +
     `<path class="kc-drop-fall" d="M0 -16C5 -7 10 -1 10 5A10 10 0 0 1 -10 5C-10 -1 -5 -7 0 -16Z" fill="url(#kc-pre-oil)"/>` +
     `</svg>` +
-    `<div class="kc-pre__rise"><img src="${o.logo}" alt="" width="476" height="220" decoding="async" fetchpriority="high"></div>` +
+    `<div class="kc-pre__rise"><img src="${o.logo}" alt="" width="739" height="220" decoding="async" fetchpriority="high"></div>` +
     `</div>`;
   d.body.appendChild(el);
 

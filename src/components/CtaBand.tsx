@@ -82,7 +82,7 @@ export function CtaBand({
                 <Glyph name="call" size={18} /> Call
               </a>
               <a href={c.whatsapp} className="cta3-btn cta3-wa" target="_blank" rel="noopener noreferrer">
-                <Glyph name="chat" size={18} /> WhatsApp
+                WhatsApp
               </a>
             </div>
             {places ? (

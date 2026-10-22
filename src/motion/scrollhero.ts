@@ -294,6 +294,10 @@ export function initScrollHero(d: Disposer, scroller: Scroller) {
       return;
     }
     const v = ensureVideo();
+    if (arrived) {
+      holdEnd(v);
+      return;
+    }
     placeVideo();
     if (inView && !document.hidden) {
       v.play().catch(() => {
@@ -316,9 +320,31 @@ export function initScrollHero(d: Disposer, scroller: Scroller) {
   });
   startPlay();
 
-  // arriving from a link to Home (FastNav): open on the last screen, not the start of the film
+  /** Coming back to Home on a phone: the video stays on its last frame, still (no loop). */
+  function holdEnd(v: HTMLVideoElement) {
+    v.autoplay = false;
+    v.loop = false;
+    v.poster = heroSeq.end;
+    const set = () => {
+      v.pause();
+      if (v.duration && v.currentTime < v.duration - 0.1) v.currentTime = Math.max(0, v.duration - 0.05);
+      placeVideo();
+    };
+    if (v.readyState >= 1) set();
+    else v.addEventListener("loadedmetadata", set, { once: true });
+    v.pause();
+  }
+
+  // arriving at Home from another page (FastNav, or the back button): open on the film's last
+  // frame, not its start. Bigger screens: the last screen of the hero (its promise and buttons)
+  // with the film's last frame; an upright phone: the video held still on its last frame.
   const toEnd = () => {
     arrived = true;
+    if (band) {
+      holdEnd(ensureVideo());
+      scroller.scrollTo(0, { immediate: true, offset: 0 });
+      return;
+    }
     root.classList.add("at-end");
     measure();
     const y = root.getBoundingClientRect().top + window.scrollY + root.offsetHeight - window.innerHeight;

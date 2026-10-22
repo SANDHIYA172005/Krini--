@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 import { usePathname, useRouter } from "next/navigation";
 
 /**
@@ -12,10 +12,13 @@ import { usePathname, useRouter } from "next/navigation";
  * reaches them or they get focus. The page fades out and the new one fades in
  * (theme.css, html[data-route]).
  *
- * Every page opens at its top: after a click (Home included, which starts the
- * film from its first screen), after a refresh, and with the back button. A
- * link with a #place in it (/products#all-products) still goes to that place.
- * On Home itself, a link to Home glides back up to the top.
+ * Every page opens at its top: after a click, after a refresh, and with the
+ * back button. Home is the exception when you come to it from another page:
+ * it opens on the hero film's last frame (window.__kcHeroEnd, read by
+ * scrollhero.ts), not at the start of the film; a refresh or a first visit
+ * starts the film from the beginning, after the loading screen. A link with a
+ * #place in it (/products#all-products) still goes to that place. On Home
+ * itself, a link to Home glides back up to the top.
  *
  * It listens on window, after everything else has seen the click, so the
  * enquiry buttons, in-page anchors and the menus keep their own behaviour
@@ -57,6 +60,7 @@ export function FastNav() {
       e.preventDefault();
       root.dataset.route = "leaving";
       root.dataset.routeHash = url.hash ? "1" : "";
+      if (url.pathname === "/" && location.pathname !== "/") (window as unknown as { __kcHeroEnd?: boolean }).__kcHeroEnd = true;
       router.push(url.pathname + url.search + url.hash);
     };
     const seen = new Set<string>();
@@ -81,9 +85,26 @@ export function FastNav() {
     if ("scrollRestoration" in history) history.scrollRestoration = "manual";
   }, []);
 
-  // the new page is in: put it at its top (unless the link went to a #place), and fade it up
+  // the new page is in: put it at its top (unless the link went to a #place, or it is Home reached
+  // from another page: the hero puts that at its film's last frame), and fade it up
+  const prev = useRef<string | null>(null);
   useEffect(() => {
     const root = document.documentElement;
+    const from = prev.current;
+    prev.current = pathname;
+    if (pathname === "/" && from !== null && from !== "/") {
+      // the back button to Home: the same as a link to it
+      const w = window as unknown as { __kcHeroEnd?: boolean };
+      w.__kcHeroEnd = true;
+      window.dispatchEvent(new Event("hero:end"));
+      delete root.dataset.routeHash;
+      if (root.dataset.route === "leaving") {
+        root.dataset.route = "arriving";
+        const t = window.setTimeout(() => delete root.dataset.route, 450);
+        return () => window.clearTimeout(t);
+      }
+      return;
+    }
     const toTop = () => {
       const w = window as unknown as { __scroller?: { scrollTo: (y: number, o?: object) => void } };
       w.__scroller?.scrollTo(0, { immediate: true, force: true });

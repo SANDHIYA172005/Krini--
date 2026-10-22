@@ -10,7 +10,7 @@ const vars = (v: Record<string, string | number>) => v as CSSProperties;
  * Every page but Contact ends here, and it moves (theme.css "Footer,
  * animated"; FooterMotion.tsx):
  *  - three fine gold lines flow along its top edge, like oil;
- *  - the four columns (the LUBECON logo with a line about us and Enquire now;
+ *  - the four columns (the Krini Crude logo with a line about us and Enquire now;
  *    the pages; the product lines; how to reach us) rise in one after another
  *    when the footer scrolls into view;
  *  - the back to top button carries a ring showing how far down the page you are.
@@ -52,7 +52,7 @@ export function Footer({ current }: { current?: PageId }) {
           <div className="ft3-brand" data-ft style={vars({ "--i": 0 })}>
             <a href={routes.home} className="ft3-logo" aria-label="Krini Crude, home">
               {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img src="/images/logo-lubecon.webp" alt="" width={476} height={220} />
+              <img src="/images/logo-krini-h.webp" alt="" width={739} height={220} />
             </a>
             <p className="ft3-about">
               Lubricants, greases, construction chemicals and aerosols, made at our ISO certified factory in Chennai.

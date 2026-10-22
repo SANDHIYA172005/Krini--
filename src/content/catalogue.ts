@@ -73,6 +73,8 @@ export type Product = {
 
 export type Line = {
   id: "lubricants" | "construction" | "aerosols";
+  /** The brand this line is sold under (shown on its products' cards and pages); a logo where we have one. */
+  brand: { name: string; logo?: string; logoFull?: string };
   slug: string;
   index: string;
   title: string;
@@ -98,9 +100,10 @@ const TDS = placeholder("Technical data sheet");
 export const lines: Line[] = [
   {
     id: "lubricants",
+    brand: { name: "1-COOL", logo: "/images/logo-1cool-mark.webp", logoFull: "/images/logo-1cool.webp" },
     slug: "lubricants",
     index: "01",
-    title: "Lubricants & Greases",
+    title: "Lubricants",
     short: "Lubricants",
     description:
       "Premium quality lubricants and greases for automotive, industrial, and specialty applications. Our lubricants ensure optimal performance and longevity.",
@@ -135,8 +138,6 @@ export const lines: Line[] = [
             details: {
               status: "verified",
               pdsRevision: "PDS 2024",
-              image: "/images/1-cool-aquacut-150.webp",
-              imageAlt: "1-COOL Aquacut 150 mineral coolant container and sample emulsion",
               description:
                 "1-COOL AQUACUT 150 is a premium mineral coolant cutting fluid developed for use in light to heavy duty machining of ferrous and non-ferrous metal alloys, as well as general purpose grinding. Formulated with special lubricity and E.P. additives and rust inhibitors, it delivers extended sump life and improved tool longevity.",
               metaLine:
@@ -194,8 +195,6 @@ export const lines: Line[] = [
             details: {
               status: "verified",
               pdsRevision: "PDS 2026",
-              image: "/images/1-cool-al-5000.webp",
-              imageAlt: "1-COOL AL 5000 semi-synthetic coolant container during CNC milling",
               description:
                 "1-COOL AL 5000 is a semi-synthetic, environment friendly cutting fluid developed for use in light to heavy duty machining of ferrous and non-ferrous metal alloys. It is also suitable for general purpose grinding. Formulated with special lubricity and E.P. additives and rust inhibitors, it delivers extended sump life, reduced downtime, and improved tool longevity.",
               metaLine:
@@ -321,6 +320,7 @@ export const lines: Line[] = [
   },
   {
     id: "construction",
+    brand: { name: "Lubecon", logo: "/images/logo-lubecon.webp" },
     slug: "construction-chemicals",
     index: "02",
     title: "Construction Chemicals",
@@ -342,14 +342,17 @@ export const lines: Line[] = [
         id: "shuttering-oil",
         name: "Shuttering Oil",
         range: [
+          /* listed first on krinicrude.com/construction (October 2026), without a page of its own yet */
+          {
+            name: "Repel Shuttering Oil",
+            text: "Premium Shuttering Oil Suitable for Aluminium & All Formworks",
+          },
           {
             name: "Silease 360 Shuttering Oil",
             text: "Precast shuttering oil and mould release agent for precast concrete production.",
             details: {
               status: "verified",
               pdsRevision: "Rev. 09/2026",
-              image: "/images/silease-360.webp",
-              imageAlt: "Silease 360 Precast Shuttering Oil product sample",
               description:
                 "SILEASE 360 is a ready-to-use mould release oil developed for precast concrete production. It forms a uniform release film on the formwork, supports clean demoulding and helps reduce surface pinholes and honeycombing when applied correctly.",
               purpose: [
@@ -395,8 +398,6 @@ export const lines: Line[] = [
             details: {
               status: "verified",
               pdsRevision: "Rev. 09/2026",
-              image: "/images/magic-shuttering-oil.webp",
-              imageAlt: "Magic Shuttering Oil laboratory sample in hydrometer cylinder",
               description:
                 "Magic Shuttering Oil is a ready-to-use release oil developed for Mivan aluminium formwork. It forms a thin, uniform release film that supports clean demoulding, smooth concrete finishes and efficient reuse of formwork when applied correctly.",
               purpose: [
@@ -440,6 +441,15 @@ export const lines: Line[] = [
           {
             name: "Nikri 30 Shuttering Oil",
             text: "Cost Effective MS, Plywood & Road Projects Shuttering Oil",
+            /* krinicrude.com/product/nikri30, read October 2026: its key features and coverage, word for word */
+            details: {
+              status: "verified",
+              description: "Road Project Shuttering Oil. Cost Effective MS, Plywood & Road Projects Shuttering Oil.",
+              purposeTitle: "Suitable formwork & projects",
+              purpose: ["MS (mild steel) formwork", "Plywood formwork", "Road projects"],
+              benefits: ["Easy mold release", "No stains on concrete after demolding", "Used for MS, plywood"],
+              coverage: "20–25 m²/L",
+            },
           },
           {
             name: "Nikri AL Shuttering Oil",
@@ -447,8 +457,6 @@ export const lines: Line[] = [
             details: {
               status: "verified",
               pdsRevision: "NIKRI AL / 2026",
-              image: "/images/nikri-al.webp",
-              imageAlt: "Nikri AL Emulsion Based Shuttering Oil product sample and barrel",
               description:
                 "NIKRI AL is an emulsion-based shuttering oil that forms a uniform release film between concrete and formwork, supporting cleaner stripping and a smoother concrete finish.",
               purpose: [
@@ -499,8 +507,6 @@ export const lines: Line[] = [
             details: {
               status: "verified",
               pdsRevision: "PDS - Calcium Based",
-              image: "/images/krini-shuttering-grease.webp",
-              imageAlt: "Krini Shuttering Grease product container and sample tub",
               description:
                 "KRINI SHUTTERING GREASE is a calcium and oil-based release grease formulated for easy application and smooth demoulding. Ideal for wall ties, sleeves, and critical corner structures where oil runoff occurs.",
               purpose: [
@@ -546,8 +552,6 @@ export const lines: Line[] = [
             details: {
               status: "verified",
               pdsRevision: "PDS - Calcium Based",
-              image: "/images/repel-shuttering-grease.webp",
-              imageAlt: "Repel Shuttering Grease product container and sample tub",
               description:
                 "REPEL SHUTTERING GREASE is a high-performance calcium and oil-based release grease formulated for easy application and smooth demoulding. Ideal for wall ties, sleeves, and critical corner structures where oil runoff occurs.",
               purpose: [
@@ -627,6 +631,7 @@ export const lines: Line[] = [
   },
   {
     id: "aerosols",
+    brand: { name: "Vibrant" },
     slug: "aerosols",
     index: "03",
     title: "Aerosols",
@@ -657,8 +662,6 @@ export const lines: Line[] = [
             details: {
               status: "verified",
               pdsRevision: "Vibrant Series",
-              image: "/images/vibrant-black-spray-paint.webp",
-              imageAlt: "Vibrant Glossy Black spray paint aerosol can",
               description:
                 "VIBRANT BLACK SPRAY PAINT is a premium acrylic-based aerosol spray paint formulated for indoor and outdoor applications. Engineered with fast-drying resins and deep pigment technology, it delivers a smooth, uniform, and durable coating available in deep glossy and sleek matt black finishes.",
               metaLine:
@@ -707,8 +710,6 @@ export const lines: Line[] = [
             details: {
               status: "verified",
               pdsRevision: "Vibrant Series",
-              image: "/images/vibrant-any-ral-shades.webp",
-              imageAlt: "Vibrant Custom Shade spray paint aerosol can available in any RAL colour",
               description:
                 "VIBRANT CUSTOM SHADE AEROSOL SPRAY PAINT is a professional-grade custom color-matched spray paint prepared to any requested RAL shade code. Specially formulated with quick-drying industrial resins, it provides precise color matching to powder coatings, painted equipment, and architectural standards with exceptional finish uniformity and weather durability.",
               metaLine:
@@ -758,8 +759,6 @@ export const lines: Line[] = [
             details: {
               status: "verified",
               pdsRevision: "300 GMS",
-              image: "/images/vibrant-galva-zinc-spray.webp",
-              imageAlt: "Vibrant Bright Galva Coating Zinc Spray 300 Gms aerosol can",
               description:
                 "VIBRANT BRIGHT GALVA COATING is a high-performance zinc-rich cold galvanizing aerosol spray formulated with boosted zinc protection. It provides cathodic rust and corrosion defense for all ferrous metal surfaces, fabricated structural steelwork, weld seams, and cut edges, delivering a clean, bright metallic zinc finish.",
               metaLine:
@@ -817,8 +816,6 @@ export const lines: Line[] = [
             details: {
               status: "verified",
               pdsRevision: "400 ML",
-              image: "/images/lock-bond-adhesive-spray-400ml.webp",
-              imageAlt: "Lock-Bond Multi Purpose Adhesive Spray 400ml aerosol can",
               description:
                 "LOCK-BOND ADHESIVE SPRAY is a premium multi-purpose industrial aerosol adhesive formulated for fast tack, high bonding strength, and long-lasting durability across a wide spectrum of materials. It is non-toxic, ozone-friendly, CFC and lead-free, ensuring safe handling in manufacturing, workshop assembly, and industrial maintenance.",
               metaLine:
@@ -878,8 +875,6 @@ export const lines: Line[] = [
             details: {
               status: "verified",
               pdsRevision: "550 ML",
-              image: "/images/relese-anti-spatter-spray.webp",
-              imageAlt: "Relese Anti-Spatter Spray 550ml aerosol can",
               description:
                 "RELESE ANTI-SPATTER SPRAY is a premium industrial aerosol welding anti-spatter agent. Specially formulated without silicone, it forms a thin, protective barrier on workpieces, welding nozzles, contact tips, and jigs to prevent welding spatter from adhering. It eliminates laborious post-weld chiselling and grinding, and allows direct subsequent painting, powder coating, or galvanizing without fish-eye defects.",
               metaLine:

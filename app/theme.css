@@ -9619,3 +9619,1052 @@ main section.cta3 {
     background: rgb(10 11 14 / 0.68);
   }
 }
+
+/* ===========================================================================
+   Products: brands, full-page product view, photo views (October 2026)
+   - every product shows the brand it is sold under: Lubecon (construction,
+     its logo), 1-COOL (lubricants) and Vibrant (aerosols), as wordmarks
+   - a product without a photo yet shows a plate with its brand and name
+   - a product opens as a full page on every screen (no floating panel)
+   - its photos: front, back, left and right, scroll across or tap a view
+   =========================================================================== */
+.kbrand {
+  display: inline-flex;
+  align-items: center;
+  height: 26px;
+  padding: 0 10px;
+  border-radius: 8px;
+  background: #fff;
+  font: 900 0.74rem/1 var(--font-display);
+  letter-spacing: 0.04em;
+  white-space: nowrap;
+  box-shadow: 0 4px 12px -8px rgb(15 23 42 / 0.55), 0 0 0 1px rgb(15 23 42 / 0.06);
+}
+.kbrand.has-logo {
+  padding: 3px 7px;
+}
+.kbrand img {
+  display: block;
+  width: auto;
+  height: 100%;
+}
+.kbrand-1cool {
+  color: #0b5cad;
+}
+.kbrand-vibrant {
+  background: linear-gradient(90deg, #e11d48, #f59e0b 50%, #2563eb);
+  color: #fff;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+}
+.kcard-media > .kbrand {
+  position: absolute;
+  left: 10px;
+  top: 10px;
+  z-index: 1;
+}
+
+/* no photo yet: the brand and the product's name on a soft plate */
+.kplate {
+  display: grid;
+  place-content: center;
+  justify-items: center;
+  gap: 10px;
+  width: 100%;
+  aspect-ratio: 4 / 3;
+  padding: 14px;
+  background:
+    radial-gradient(120% 90% at 50% 0%, #fff 0%, #f3efe4 70%),
+    #f3efe4;
+  text-align: center;
+}
+.kplate-logo {
+  width: auto;
+  max-width: 70%;
+  height: 54px;
+  object-fit: contain;
+}
+.kplate-word {
+  font: 900 1.5rem/1 var(--font-display);
+  letter-spacing: 0.04em;
+}
+.kplate-word.kbrand-vibrant {
+  background: linear-gradient(90deg, #e11d48, #f59e0b 50%, #2563eb);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+}
+.kplate-name {
+  max-width: 16rem;
+  font: 700 0.82rem/1.3 var(--font-display);
+  color: #64748b;
+}
+.kcard-media > .kplate {
+  padding-top: 40px;
+}
+
+/* ---- the product page: a full page on every screen */
+.pv {
+  background: #f4f2ec;
+}
+.pv-wrap {
+  width: 100%;
+}
+.pv-crumbs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--gold-deep);
+}
+.pv-crumbs span[aria-hidden] {
+  color: #cbd5e1;
+}
+.pv-by {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 0.8rem;
+  color: #64748b;
+}
+.pv-by .kbrand {
+  box-shadow: 0 0 0 1px rgb(15 23 42 / 0.1);
+}
+.pv-cta {
+  display: none;
+}
+.pv-ask {
+  padding: 12px 14px;
+  border: 1px dashed rgb(15 23 42 / 0.16);
+  border-radius: 12px;
+  background: #faf9f5;
+  font-size: 0.86rem !important;
+}
+.pv-small {
+  margin-top: 8px;
+  font-size: 0.76rem !important;
+  color: #94a3b8 !important;
+}
+.pv-specs dd small {
+  display: block;
+  margin-top: 2px;
+  font-size: 0.72rem;
+  font-weight: 500;
+  color: #94a3b8;
+}
+.pv-spec-grid {
+  display: grid;
+  gap: 14px;
+}
+.pv-spec-k {
+  margin-bottom: 8px;
+  font-size: 0.7rem !important;
+  font-weight: 800;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--gold-deep) !important;
+}
+
+/* ---- photos: front, back, left, right */
+.pg {
+  display: grid;
+  gap: 10px;
+}
+.pg-stage {
+  position: relative;
+  overflow: hidden;
+  background: #fff;
+}
+.pg-track {
+  display: flex;
+  overflow-x: auto;
+  overflow-y: hidden;
+  scroll-snap-type: x mandatory;
+  scrollbar-width: none;
+  overscroll-behavior-x: contain;
+  outline: none;
+}
+.pg-track::-webkit-scrollbar {
+  display: none;
+}
+.pg-slide {
+  flex: 0 0 100%;
+  display: grid;
+  place-items: center;
+  aspect-ratio: 1 / 1;
+  max-height: 60svh;
+  margin: 0;
+  scroll-snap-align: center;
+  background: #fff;
+}
+.pg-slide > img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+.pg-slide > .kplate {
+  height: 100%;
+  aspect-ratio: auto;
+}
+.pg-slide .kplate-logo {
+  height: 84px;
+}
+.pg-empty {
+  display: grid;
+  justify-items: center;
+  gap: 6px;
+  width: 100%;
+  height: 100%;
+  place-content: center;
+  background:
+    repeating-linear-gradient(135deg, rgb(15 23 42 / 0.025) 0 12px, transparent 12px 24px),
+    #faf9f5;
+  color: #94a3b8;
+}
+.pg-empty b {
+  font: 800 1rem/1.2 var(--font-display);
+  color: #475569;
+}
+.pg-empty span {
+  font-size: 0.8rem;
+}
+.pg-brand {
+  position: absolute;
+  left: 12px;
+  top: 12px;
+  z-index: 2;
+}
+.pg-count {
+  position: absolute;
+  right: 12px;
+  top: 12px;
+  z-index: 2;
+  padding: 5px 10px;
+  border-radius: 999px;
+  background: rgb(15 23 42 / 0.72);
+  font-size: 0.7rem;
+  font-weight: 700;
+  color: #fff;
+}
+.pg-arrow {
+  position: absolute;
+  top: 50%;
+  z-index: 2;
+  display: grid;
+  place-items: center;
+  width: 40px;
+  height: 40px;
+  margin-top: -20px;
+  border: 1px solid rgb(15 23 42 / 0.1);
+  border-radius: 999px;
+  background: rgb(255 255 255 / 0.95);
+  color: var(--slate);
+  box-shadow: 0 8px 20px -12px rgb(15 23 42 / 0.6);
+  cursor: pointer;
+  transition: opacity 0.2s ease;
+}
+.pg-arrow:disabled {
+  opacity: 0;
+  pointer-events: none;
+}
+.pg-prev {
+  left: 10px;
+}
+.pg-next {
+  right: 10px;
+}
+.pg-thumbs {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 8px;
+  padding: 0 12px 4px;
+}
+.pg-thumb {
+  display: grid;
+  gap: 4px;
+  justify-items: center;
+  padding: 0;
+  border: 0;
+  background: none;
+  cursor: pointer;
+}
+.pg-thumb-img {
+  display: grid;
+  place-items: center;
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  overflow: hidden;
+  border: 2px solid transparent;
+  border-radius: 12px;
+  background: #fff;
+  color: #94a3b8;
+  box-shadow: 0 0 0 1px rgb(15 23 42 / 0.08);
+  transition: border-color 0.2s ease;
+}
+.pg-thumb-img img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+.pg-thumb[aria-pressed="true"] .pg-thumb-img {
+  border-color: #d4af37;
+}
+.pg-thumb-t {
+  font-size: 0.7rem;
+  font-weight: 700;
+  color: #64748b;
+}
+.pg-thumb[aria-pressed="true"] .pg-thumb-t {
+  color: var(--slate);
+}
+.pv-media .pg {
+  padding-bottom: 12px;
+  background: #fff;
+}
+
+/* phones and tablets: one column, the buy bar at the foot */
+@media (max-width: 899px) {
+  .pv-details {
+    padding-bottom: 100px;
+  }
+}
+
+/* larger screens: still a full page (not a panel); the photos on the left
+   stay in view while the details scroll, the buttons beside them */
+@media (min-width: 900px) {
+  .pv,
+  .pv:where(*) {
+    inset: 0 !important;
+    border-radius: 0 !important;
+    box-shadow: none !important;
+  }
+  .pv-bar {
+    padding: 10px max(24px, calc((100vw - 1200px) / 2));
+  }
+  .pv-wrap {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 24px 24px 60px;
+  }
+  .pv-top {
+    grid-template-columns: minmax(0, 1.05fr) minmax(0, 1fr);
+    gap: 32px;
+    align-items: start;
+    padding: 24px;
+    border-radius: 22px;
+    box-shadow: 0 0 0 1px rgb(15 23 42 / 0.05);
+  }
+  .pv-media {
+    position: sticky;
+    top: 84px;
+    background: none;
+  }
+  .pv-media .pg {
+    padding: 0;
+  }
+  .pg-stage {
+    border-radius: 16px;
+    box-shadow: 0 0 0 1px rgb(15 23 42 / 0.06);
+  }
+  .pg-slide {
+    max-height: none;
+  }
+  .pg-thumbs {
+    padding: 0;
+  }
+  .pv-info {
+    padding: 4px 0 0;
+    gap: 14px;
+  }
+  .pv-name {
+    font-size: 2.1rem;
+  }
+  .pv-cta {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+    margin-top: 4px;
+  }
+  .pv-buy {
+    display: none !important;
+  }
+  .pv-details {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 16px;
+    margin-top: 16px;
+    padding: 0;
+  }
+  .pv-sec {
+    padding: 22px;
+    border-radius: 18px;
+    box-shadow: 0 0 0 1px rgb(15 23 42 / 0.05);
+  }
+  .pv-sec-wide,
+  .pv-more,
+  .pv-note {
+    grid-column: 1 / -1;
+  }
+  .pv-spec-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 20px;
+  }
+  .pv-similar {
+    grid-template-columns: repeat(6, minmax(0, 1fr));
+  }
+}
+
+/* phones: the brand on the cards a size down */
+@media (max-width: 639px) {
+  .kcard-media > .kbrand {
+    left: 7px;
+    top: 7px;
+    height: 20px;
+    padding: 0 7px;
+    border-radius: 6px;
+    font-size: 0.6rem;
+  }
+  .kcard-media > .kbrand.has-logo {
+    padding: 2px 5px;
+  }
+  .kcard-media > .kplate {
+    height: 92px;
+    aspect-ratio: auto;
+    gap: 4px;
+    padding: 26px 8px 8px;
+  }
+  .kcard-media .kplate-logo {
+    height: 30px;
+  }
+  .kcard-media .kplate-word {
+    font-size: 1.05rem;
+  }
+  .kcard-media .kplate-name {
+    display: none;
+  }
+  .pv-mini-media .kplate {
+    gap: 4px;
+  }
+  .pv-mini-media .kplate-logo {
+    height: 30px;
+  }
+  .pv-mini-media .kplate-word {
+    font-size: 1rem;
+  }
+  .pv-mini-media .kplate-name {
+    display: none;
+  }
+  .pg-arrow {
+    width: 34px;
+    height: 34px;
+    margin-top: -17px;
+  }
+}
+
+/* larger screens: the photo no taller than the screen leaves room for, so the four views show under it */
+@media (min-width: 900px) {
+  .pg-slide {
+    aspect-ratio: 1 / 1;
+    max-height: calc(100svh - 270px);
+  }
+  .pg-thumbs {
+    grid-template-columns: repeat(4, 88px);
+    justify-content: center;
+  }
+}
+
+/* ---- The Krini Crude logo (logo-krini-h): a touch smaller on larger screens
+   (it is wider than the old one), and over the dark home film on every screen
+   the copy with white "CRUDE" (logo-krini-h-light), so the words still read */
+@media (min-width: 640px) {
+  .nav .nav-split .nav-logo-c .nav-logo-dark {
+    height: 62px !important;
+    width: auto !important;
+  }
+  .nav.is-over .nav-split .nav-logo-c {
+    padding: 0 !important;
+    background: none !important;
+    box-shadow: none !important;
+  }
+  .nav.is-over .nav-split .nav-logo-c .nav-logo-dark {
+    display: none !important;
+  }
+  .nav.is-over .nav-split .nav-logo-c .nav-logo-lite {
+    display: block;
+    width: auto;
+    height: 62px;
+    filter: drop-shadow(0 2px 8px rgb(0 0 0 / 0.45));
+  }
+}
+
+/* ---- Product page, polished: a small gold mark by each heading, highlights
+   as ticked lines in green circles, long "Feature: what it does" lines as a
+   list with the feature in bold, and How to use as numbered steps */
+.pv-sec h3 {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 14px;
+}
+.pv-ic {
+  display: grid;
+  place-items: center;
+  flex: none;
+  width: 30px;
+  height: 30px;
+  border-radius: 9px;
+  background: rgb(212 175 55 / 0.14);
+  color: #a37f14;
+}
+.pv-list {
+  gap: 10px;
+}
+.pv-list li {
+  padding-left: 30px;
+}
+.pv-list li::before {
+  left: 0;
+  top: 0.1em;
+  width: 20px;
+  height: 20px;
+  border: 0;
+  border-radius: 999px;
+  background:
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%2316a34a' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 12.5 4 4 8-9'/%3E%3C/svg%3E") center / 12px no-repeat,
+    #dcfce7;
+  transform: none;
+}
+.pv-feats {
+  display: grid;
+  gap: 10px;
+}
+.pv-feats li {
+  display: grid;
+  gap: 3px;
+  padding: 12px 14px 12px 16px;
+  border-left: 3px solid #d4af37;
+  border-radius: 4px 12px 12px 4px;
+  background: #faf9f5;
+}
+.pv-feats b {
+  font: 800 0.9rem/1.3 var(--font-display);
+  color: var(--slate);
+}
+.pv-feats span {
+  font-size: 0.86rem;
+  line-height: 1.55;
+  color: #475569;
+  text-align: left !important;
+}
+.pv-steps {
+  display: grid;
+  gap: 10px;
+  counter-reset: none;
+}
+.pv-steps li {
+  display: grid;
+  grid-template-columns: 28px minmax(0, 1fr);
+  gap: 12px;
+  align-items: start;
+}
+.pv-steps li b {
+  display: grid;
+  place-items: center;
+  width: 28px;
+  height: 28px;
+  border-radius: 999px;
+  background: var(--slate);
+  font: 800 0.8rem/1 var(--font-display);
+  color: #f6dd8a;
+}
+.pv-steps li span {
+  padding-top: 4px;
+  font-size: 0.9rem;
+  line-height: 1.55;
+  color: #334155;
+  text-align: left !important;
+}
+.pv-sec > p:first-of-type {
+  font-size: 0.95rem;
+  line-height: 1.7;
+}
+@media (min-width: 900px) {
+  .pv-feats,
+  .pv-sec-wide .pv-steps {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+  .pv-feats {
+    grid-column: 1 / -1;
+  }
+}
+/* the Applications card spans the page when it holds the long list */
+.pv-sec:has(.pv-feats) {
+  grid-column: 1 / -1;
+}
+/* similar products: a product without a photo yet gets the same height of picture as the rest */
+.pv-mini-media .kplate {
+  height: 96px;
+  aspect-ratio: auto;
+  padding: 8px;
+}
+.pv-mini-media .kplate-logo {
+  height: 30px;
+}
+.pv-mini-media .kplate-name {
+  display: none;
+}
+
+/* ---- Product page: the data sheet and the AI-generated video, side by side */
+.pv-docs {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 8px;
+}
+.pv-doc {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-height: 58px;
+  padding: 10px 12px;
+  border: 1px solid rgb(15 23 42 / 0.12);
+  border-radius: 14px;
+  background: #fff;
+  color: var(--slate);
+  text-align: left;
+  cursor: pointer;
+  transition: border-color 0.2s ease, background 0.2s ease;
+}
+.pv-doc:hover {
+  border-color: #d4af37;
+  background: #fffbeb;
+}
+.pv-doc > svg {
+  flex: none;
+  width: 34px;
+  height: 34px;
+  padding: 7px;
+  border-radius: 10px;
+  background: rgb(212 175 55 / 0.15);
+  color: #a37f14;
+}
+.pv-doc-vid > svg {
+  background: rgb(15 23 42 / 0.9);
+  color: #f6dd8a;
+}
+.pv-doc span {
+  display: grid;
+  gap: 2px;
+  min-width: 0;
+}
+.pv-doc b {
+  font: 800 0.84rem/1.2 var(--font-display);
+}
+.pv-doc small {
+  font-size: 0.7rem;
+  color: #64748b;
+}
+.pv-doc:disabled {
+  cursor: default;
+  opacity: 0.6;
+}
+.pv-doc:disabled:hover {
+  border-color: rgb(15 23 42 / 0.12);
+  background: #fff;
+}
+/* the video, over the product page */
+.pv-vid {
+  position: fixed;
+  inset: 0;
+  z-index: 10;
+  display: grid;
+  place-items: center;
+  padding: 16px;
+  background: rgb(8 10 16 / 0.82);
+  -webkit-backdrop-filter: blur(6px);
+  backdrop-filter: blur(6px);
+  animation: pv-in 0.25s ease;
+}
+.pv-vid-box {
+  width: min(960px, 100%);
+  overflow: hidden;
+  border-radius: 18px;
+  background: #0b0d12;
+  box-shadow: 0 40px 80px -30px rgb(0 0 0 / 0.8);
+}
+.pv-vid-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 12px 14px;
+  color: #fff;
+}
+.pv-vid-head p {
+  display: grid;
+  gap: 2px;
+  min-width: 0;
+}
+.pv-vid-head b {
+  font: 800 0.95rem/1.2 var(--font-display);
+}
+.pv-vid-head span {
+  font-size: 0.72rem;
+  color: rgb(255 255 255 / 0.6);
+}
+.pv-vid-head button {
+  display: grid;
+  place-items: center;
+  flex: none;
+  width: 36px;
+  height: 36px;
+  border: 0;
+  border-radius: 999px;
+  background: rgb(255 255 255 / 0.12);
+  font-size: 1.3rem;
+  color: #fff;
+  cursor: pointer;
+}
+.pv-vid-box video {
+  display: block;
+  width: 100%;
+  max-height: 75svh;
+  background: #000;
+}
+/* a product with no photo (and no brand logo): its name on the plate */
+.kplate-name.is-solo {
+  max-width: 14rem;
+  font: 800 1.05rem/1.25 var(--font-display);
+  color: var(--slate);
+}
+.pv-by b {
+  font: 800 0.85rem/1 var(--font-display);
+  color: var(--slate);
+}
+@media (max-width: 639px) {
+  .kcard-media .kplate-name.is-solo {
+    display: block;
+    font-size: 0.78rem;
+  }
+  .kcard-media > .kplate:has(.is-solo) {
+    padding-top: 8px;
+  }
+  .pv-mini-media .kplate-name.is-solo {
+    display: block;
+    font-size: 0.78rem;
+  }
+  .pv-doc {
+    gap: 8px;
+    padding: 8px 10px;
+  }
+  .pv-doc > svg {
+    width: 30px;
+    height: 30px;
+    padding: 6px;
+  }
+  .pv-doc b {
+    font-size: 0.78rem;
+  }
+  .pv-doc small {
+    font-size: 0.64rem;
+  }
+}
+.pv-mini-media .kplate-name.is-solo {
+  display: block;
+  font-size: 0.8rem;
+}
+/* phones: the data sheet and the video one under the other, each on one line */
+@media (max-width: 479px) {
+  .pv-docs {
+    grid-template-columns: 1fr;
+  }
+  .pv-doc {
+    min-height: 52px;
+  }
+  .pv-doc b {
+    font-size: 0.86rem;
+  }
+  .pv-doc small {
+    font-size: 0.7rem;
+  }
+}
+
+/* ---- Product page, no blank gaps: cards side by side are the same height,
+   short application lines sit three to a row, and the "on request" box fills
+   the Technical data column with a button to ask for the sheet */
+@media (min-width: 900px) {
+  .pv-details {
+    align-items: stretch;
+  }
+  .pv-feats {
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  }
+  .pv-spec-grid > div {
+    display: flex;
+    flex-direction: column;
+  }
+  .pv-spec-grid > div > .pv-specs,
+  .pv-spec-grid > div > .pv-ask-box {
+    flex: 1;
+  }
+}
+.pv-ask-box {
+  display: grid;
+  justify-items: center;
+  align-content: center;
+  gap: 10px;
+  padding: 18px 16px;
+  text-align: center;
+}
+.pv-ask-box > svg {
+  width: 40px;
+  height: 40px;
+  padding: 9px;
+  border-radius: 12px;
+  background: rgb(212 175 55 / 0.15);
+  color: #a37f14;
+}
+.pv-ask-box p {
+  max-width: 26rem;
+  font-size: 0.86rem !important;
+  text-align: center !important;
+  text-align-last: center !important;
+}
+.pv-ask-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  min-height: 40px;
+  padding: 0 16px;
+  border-radius: 999px;
+  background: #25d366;
+  font: 800 0.8rem/1 var(--font-display);
+  color: #fff;
+  white-space: nowrap;
+}
+/* a card whose "ask us" box is its only content: the box fills the card */
+@media (min-width: 900px) {
+  .pv-sec:has(> .pv-ask-box) {
+    display: flex;
+    flex-direction: column;
+  }
+  .pv-sec > .pv-ask-box {
+    flex: 1;
+  }
+}
+
+/* ---- Product page: a taller top bar (back, the product's name, the cart) */
+.pv-bar {
+  min-height: 66px;
+}
+.pv-back,
+.pv-cartbtn {
+  width: 46px;
+  height: 46px;
+}
+.pv-bar-t {
+  font-size: 1.05rem;
+}
+@media (min-width: 900px) {
+  .pv-bar {
+    min-height: 88px;
+    padding-top: 14px;
+    padding-bottom: 14px;
+    gap: 16px;
+  }
+  .pv-back,
+  .pv-cartbtn {
+    width: 54px;
+    height: 54px;
+    border-radius: 14px;
+  }
+  .pv-back svg {
+    width: 24px;
+    height: 24px;
+  }
+  .pv-cartbtn svg {
+    width: 22px;
+    height: 22px;
+  }
+  .pv-bar-t {
+    font-size: 1.35rem;
+  }
+  .pv-media {
+    top: 104px;
+  }
+}
+
+/* ---- The 1-COOL badge a size down (its wordmark is wide and heavy) */
+.kbrand-1cool.has-logo {
+  height: 18px;
+  padding: 3px 6px;
+  border-radius: 6px;
+}
+.pv-by .kbrand-1cool.has-logo {
+  height: 22px;
+}
+@media (max-width: 639px) {
+  .kcard-media > .kbrand-1cool.has-logo {
+    height: 16px;
+    padding: 2px 5px;
+    border-radius: 5px;
+  }
+}
+
+/* ---- Products: each line's chip has a drop-down arrow; the menu under it
+   lists the kinds of product in that line (Shuttering Oil, Shuttering
+   Grease…) to narrow the cards to one kind */
+.pshop-cats {
+  flex-wrap: wrap;
+  overflow: visible;
+}
+.pshop-catw {
+  position: relative;
+  min-width: 0;
+}
+.pshop-catw > .pshop-cat {
+  width: 100%;
+}
+.pshop-cat-t {
+  font-weight: inherit;
+}
+.pshop-cat-chev {
+  flex: none;
+  margin-left: -2px;
+  transition: transform 0.2s ease;
+}
+.pshop-catw.is-open .pshop-cat-chev {
+  transform: rotate(180deg);
+}
+.pshop-menu {
+  position: absolute;
+  top: calc(100% + 6px);
+  left: 0;
+  z-index: 30;
+  display: grid;
+  gap: 2px;
+  min-width: max(100%, 220px);
+  max-width: min(300px, calc(100vw - 32px));
+  padding: 6px;
+  border: 1px solid rgb(15 23 42 / 0.08);
+  border-radius: 14px;
+  background: #fff;
+  box-shadow: 0 20px 40px -18px rgb(15 23 42 / 0.45);
+  animation: pv-in 0.18s ease;
+}
+.pshop-menu button {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  width: 100%;
+  padding: 10px 12px;
+  border: 0;
+  border-radius: 10px;
+  background: none;
+  font-size: 0.86rem;
+  font-weight: 600;
+  color: var(--slate);
+  text-align: left;
+  cursor: pointer;
+}
+.pshop-menu button:hover {
+  background: #f6f4ee;
+}
+.pshop-menu button[aria-checked="true"] {
+  background: #fdf6dc;
+  color: #7a5d0e;
+}
+.pshop-menu button span {
+  flex: none;
+  padding: 2px 8px;
+  border-radius: 999px;
+  background: var(--mist);
+  font-size: 0.72rem;
+  color: #64748b;
+}
+.pshop-subx {
+  margin-left: 8px;
+  padding: 2px 10px;
+  border: 1px solid rgb(15 23 42 / 0.12);
+  border-radius: 999px;
+  background: #fff;
+  font-size: 0.72rem;
+  font-weight: 700;
+  color: #475569;
+  cursor: pointer;
+}
+@media (max-width: 639px) {
+  /* two chips to a row: a chip on the right opens its menu leftwards */
+  .pshop-catw:nth-child(even) .pshop-menu {
+    left: auto;
+    right: 0;
+  }
+  .pshop-cat-chev {
+    width: 12px;
+    height: 12px;
+  }
+  .pshop-cat {
+    gap: 6px;
+  }
+  .pshop-cat-t {
+    flex: 1;
+    min-width: 0;
+  }
+  .pshop-menu button {
+    padding: 10px;
+    font-size: 0.8rem;
+  }
+}
+
+/* ---- The lines' drop-down, smaller and neater: compact rows, a thin rule
+   under "All …", a small gold tick on the chosen one */
+.pshop-menu {
+  gap: 0;
+  min-width: max(100%, 200px);
+  max-width: min(260px, calc(100vw - 32px));
+  padding: 5px;
+  border-radius: 12px;
+  box-shadow: 0 16px 34px -16px rgb(15 23 42 / 0.4), 0 0 0 1px rgb(15 23 42 / 0.04);
+}
+.pshop-menu button {
+  gap: 10px;
+  min-height: 34px;
+  padding: 6px 10px;
+  border-radius: 8px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  line-height: 1.2;
+}
+.pshop-menu button:first-child {
+  margin-bottom: 4px;
+  padding-bottom: 8px;
+  border-bottom: 1px solid rgb(15 23 42 / 0.07);
+  border-radius: 8px 8px 0 0;
+  font-weight: 800;
+}
+.pshop-menu button span {
+  min-width: 22px;
+  padding: 1px 6px;
+  font-size: 0.66rem;
+  font-weight: 700;
+  text-align: center;
+}
+.pshop-menu button[aria-checked="true"] {
+  background: #fdf6dc;
+  color: #7a5d0e;
+}
+.pshop-menu button[aria-checked="true"] span {
+  background: #d4af37;
+  color: #fff;
+}
+@media (max-width: 639px) {
+  .pshop-menu button {
+    min-height: 32px;
+    padding: 6px 9px;
+    font-size: 0.76rem;
+  }
+}

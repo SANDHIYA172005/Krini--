@@ -51,7 +51,7 @@ export function Nav({ current, line: currentLine }: { current?: PageId; line?: L
               </li>
               <li>
                 <a href={contact.whatsapp} target="_blank" rel="noopener noreferrer">
-                  <Glyph name="chat" size={15} /> WhatsApp
+                  WhatsApp
                 </a>
               </li>
             </ul>
@@ -62,10 +62,10 @@ export function Nav({ current, line: currentLine }: { current?: PageId; line?: L
             {/* the logo, exactly as supplied (icon and words), on the left; the four pages in one box and Enquire now on the right */}
             <a href={routes.home} className="nav-logo nav-logo-c shrink-0" aria-label="Krini Crude, home">
               {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img src="/images/logo-lubecon.webp" alt="" width={476} height={220} className="nav-mark nav-logo-full nav-logo-dark" />
+              <img src="/images/logo-krini-h.webp" alt="" width={739} height={220} className="nav-mark nav-logo-full nav-logo-dark" />
               {/* the same logo with white words, for the dark home film on a phone */}
               {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img src="/images/logo-lubecon-light.webp" alt="" width={476} height={220} className="nav-logo-lite" />
+              <img src="/images/logo-krini-h-light.webp" alt="" width={739} height={220} className="nav-logo-lite" />
             </a>
             <nav aria-label="Primary" className="nav-box hidden lg:block">
               <ul className="nav-list">
@@ -146,7 +146,7 @@ export function Nav({ current, line: currentLine }: { current?: PageId; line?: L
               <Glyph name="call" /> Call
             </a>
             <a href={contact.whatsapp} className="menu-quick" target="_blank" rel="noopener noreferrer" data-menu-link tabIndex={-1}>
-              <Glyph name="chat" /> WhatsApp
+              WhatsApp
             </a>
             <a href={enquireHref("Enquiry")} className="btn btn-primary menu-enquire" data-menu-link data-enquire="Enquiry" tabIndex={-1}>
               Enquire now <Arrow />

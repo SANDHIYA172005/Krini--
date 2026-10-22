@@ -53,7 +53,13 @@ export function initSite() {
 
   // Deep link: honour an initial #hash after layout settles
   if (location.hash.length > 1) {
-    const target = document.querySelector<HTMLElement>(location.hash);
+    // by id, not as a CSS selector: a product link's #p=… is not a valid selector and would throw
+    let target: HTMLElement | null = null;
+    try {
+      target = document.getElementById(decodeURIComponent(location.hash.slice(1)));
+    } catch {
+      /* a malformed #hash: nothing to scroll to */
+    }
     if (target) window.setTimeout(() => scroller.scrollTo(target, { immediate: true }), 50);
   }
 
