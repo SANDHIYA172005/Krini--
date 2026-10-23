@@ -1,5 +1,5 @@
 import { enquireHref, site } from "../content/site";
-import { Arrow, CgNote, Fact, Icon, SectionHead, type IconName } from "./ui";
+import { Arrow, Fact, Icon, SectionHead, type IconName, MediaSlot } from "./ui";
 
 /**
  * The Services page's sections: the production hall, what we do, private
@@ -15,22 +15,10 @@ export function ServicesHall() {
   return (
     <figure className="pb-4">
       <div className="media relative mx-auto aspect-[4/3] w-full max-w-[1600px] sm:aspect-[16/9] lg:aspect-[21/9]" data-shutter data-zoom-frame>
-        <picture className="media-pic" data-zoom="1.1">
-          <source media="(min-width: 1024px)" srcSet="/images/manufacturing.webp" width={2100} height={900} />
-          <source media="(min-width: 640px)" srcSet="/images/manufacturing-169.webp" width={1600} height={900} />
-          {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img
-            src="/images/manufacturing-43.webp"
-            alt="Production hall with stainless-steel process tanks, valves and yellow safety lines"
-            width={1200}
-            height={900}
-            decoding="async"
-          />
-        </picture>
+        <MediaSlot label="Production hall photo" w={2100} h={900} />
       </div>
       <figcaption className="frame mt-4 flex items-center justify-between">
         <span className="label text-mute">Production hall</span>
-        <CgNote />
       </figcaption>
     </figure>
   );
@@ -62,8 +50,7 @@ export function ServicesList({ label, heading }: { label: string; heading: strin
           {s.items.map((c, i) => (
             <li key={c.title} className="svc-card group" data-reveal>
               <div className="svc-media media">
-                {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img src={c.image} alt={c.imageAlt} width={1200} height={900} loading="lazy" decoding="async" />
+                <MediaSlot label="Service photo" w={1200} h={900} />
                 <span className="svc-num label">{String(i + 1).padStart(2, "0")}</span>
               </div>
               <div className="svc-body">
@@ -98,9 +85,6 @@ export function ServicesList({ label, heading }: { label: string; heading: strin
             </a>
           </li>
         </ol>
-        <p className="mt-5 text-right">
-          <CgNote>Pictures: AI-generated visualisations</CgNote>
-        </p>
       </div>
     </section>
   );
@@ -132,19 +116,18 @@ export function ServicesStrip() {
   );
 }
 
-/** Private label, step by step, with the oil line running through the steps. */
+/** Private label: what it is, a way to discuss it, and the sectors we make for. */
 export function PrivateLabel({ label, heading }: { label: string; heading: readonly string[] }) {
   const pl = site.services.privateLabel;
-  const n = pl.steps.length;
   return (
     <section id="private-label" className="section theme-navy" aria-labelledby="pl-title">
-      <div className="frame" data-pipeline>
+      <div className="frame">
         <div className="grid gap-8 lg:grid-cols-12">
           <div className="lg:col-span-7">
             <p className="label text-amber" data-reveal>
               {label}
             </p>
-            <h2 id="pl-title" className="display mt-6 text-display-sm lg:text-[min(5.4vw,4.5rem)]" data-split>
+            <h2 id="pl-title" className="display mt-6 text-display-sm lg:text-h" data-split>
               {heading[0]}{" "}
               <br />
               {heading[1]}
@@ -156,34 +139,6 @@ export function PrivateLabel({ label, heading }: { label: string; heading: reado
               Discuss private label <Arrow />
             </a>
           </div>
-        </div>
-
-        <div className="relative mt-16 lg:mt-20">
-          {/* track: horizontal on large screens, vertical below */}
-          <div
-            className="pipe absolute bottom-3 left-[10px] top-3 w-[3px] lg:bottom-auto lg:left-0 lg:right-0 lg:top-[10px] lg:h-[3px] lg:w-auto"
-            aria-hidden="true"
-          >
-            <div className="pipe-fill-v absolute inset-0 lg:hidden" />
-            <div className="pipe-fill absolute inset-0 hidden lg:block" />
-            {/* the head of the oil, running ahead of the fill */}
-            <span className="pipe-bead" />
-          </div>
-          <ol className="relative grid gap-10 lg:grid-cols-6 lg:gap-6">
-            {pl.steps.map((st, i) => (
-              <li key={st.title} className="step relative pl-12 lg:pl-0" data-step={i} data-step-at={(i / (n - 1)).toFixed(3)}>
-                <span
-                  className="step-node absolute left-0 top-0 grid h-[23px] w-[23px] place-items-center rounded-full border border-bone/40 bg-ink lg:relative"
-                  aria-hidden="true"
-                >
-                  <span className="h-[5px] w-[5px] rounded-full bg-bone" />
-                </span>
-                <p className="step-index label mt-0 tabular-nums text-mute lg:mt-6">{String(i + 1).padStart(2, "0")}</p>
-                <h3 className="display-tight mt-2 text-lg leading-tight lg:text-[0.8rem] xl:text-base 2xl:text-lg">{st.title}</h3>
-                <p className="mt-2 text-sm leading-relaxed text-mute">{st.body}</p>
-              </li>
-            ))}
-          </ol>
         </div>
 
         <div className="mt-14 lg:mt-20">

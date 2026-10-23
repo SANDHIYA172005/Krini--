@@ -1,18 +1,14 @@
 import { site } from "../content/site";
 import type { Crumb } from "../content/pages";
-import { Breadcrumbs } from "./PageHeader";
 import { EnquiryForm } from "./Enquiry";
-import { Arrow, CgNote, Fact, Glyph } from "./ui";
+import { Arrow, Fact, Glyph } from "./ui";
 
 /**
- * Top of the Contact page, kept short: the plant at dusk behind the h1, one
- * line, and four ways to reach the team. The picture is cut to the frame's
- * shape (4:5 on phones, 16:9 from 768px, 21:9 from 1024px), fades into the
- * page at its edges but not at the watermark in its corner, and eases back as
- * the page scrolls (cinema.ts). The four ways start below the picture, so the
- * mark is never covered.
+ * Top of the Contact page: just the four ways to reach the team (call,
+ * WhatsApp, email, visit) in one row, with the page's h1 kept for search
+ * engines and screen readers only. The form and the addresses follow.
  */
-export function ContactHero({ trail }: { trail: Crumb[] }) {
+export function ContactHero(_: { trail: Crumb[] }) {
   const p = site.pages.contact;
   const c = site.contact;
   const quick = [
@@ -23,27 +19,11 @@ export function ContactHero({ trail }: { trail: Crumb[] }) {
   ];
   return (
     <section className="contact-hero relative isolate overflow-hidden" aria-labelledby="page-title">
-      <div className="contact-bg" aria-hidden="true" data-zoom-frame>
-        <picture className="media-pic" data-zoom="1.14">
-          <source media="(min-width: 1024px)" srcSet="/images/contact-219.webp" width={2100} height={900} />
-          <source media="(min-width: 768px)" srcSet="/images/contact.webp" width={1920} height={1080} />
-          {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img src="/images/contact-m.webp" alt="" width={960} height={1200} decoding="async" />
-        </picture>
-      </div>
       <div className="frame">
-        <div className="contact-hero-text">
-          <Breadcrumbs trail={trail} />
-          <p className="label mt-10 text-amber lg:mt-14" data-reveal>
-            {p.label}
-          </p>
-          <h1 id="page-title" className="display mt-6 text-[clamp(min(2.05rem,8.6vw),7.4vw,8rem)] leading-[0.86]" data-split>
-            {p.heading}
-          </h1>
-          <p className="mt-8 max-w-[34rem] text-lg leading-relaxed text-bone md:text-xl" data-reveal>
-            {p.lead}
-          </p>
-        </div>
+        {/* the page's heading, for search engines and screen readers; the page itself opens on the four ways to reach us */}
+        <h1 id="page-title" className="sr-only">
+          {p.heading}
+        </h1>
         <ul className="quick" data-reveal>
           {quick.map((q) => (
             <li key={q.label}>
@@ -57,9 +37,6 @@ export function ContactHero({ trail }: { trail: Crumb[] }) {
             </li>
           ))}
         </ul>
-        <p className="mt-5 text-right">
-          <CgNote>Background: AI-generated visualisation</CgNote>
-        </p>
       </div>
     </section>
   );
@@ -82,30 +59,141 @@ export function ContactMain({ endpoint = "" }: { endpoint?: string }) {
           <EnquiryForm id="enquiry" endpoint={endpoint} wide />
         </div>
 
-        <aside className="visit lg:col-span-4 lg:col-start-9" aria-labelledby="visit-title" data-reveal>
-          <h2 id="visit-title" className="label text-amber">
+        <aside className="visit lg:col-span-5 lg:col-start-8" aria-labelledby="visit-title" data-reveal>
+          <p className="visit-k">Find us</p>
+          <h2 id="visit-title" className="visit-title">
             {v.label}
           </h2>
           {[
-            { label: "Office address", lines: c.office, map: c.officeMap },
-            { label: "Factory address", lines: c.factory, map: c.factoryMap },
+            { label: "Office", lines: c.office, map: c.officeMap },
+            { label: "Factory", lines: c.factory, map: c.factoryMap },
           ].map((pl) => (
             <div key={pl.label} className="visit-place">
-              <p className="label text-mute">{pl.label}</p>
-              <address className="mt-2 not-italic leading-relaxed text-bone/90">{pl.lines.join(" ")}</address>
-              <a href={pl.map} className="label mt-3 inline-flex items-center gap-2 text-amber hover:text-bone" target="_blank" rel="noopener noreferrer">
-                Directions <Arrow />
-              </a>
+              <span className="visit-icon" aria-hidden="true">
+                <Glyph name="contact" size={20} />
+              </span>
+              <div>
+                <p className="visit-label">{pl.label}</p>
+                <address className="visit-addr">{pl.lines.join(" ")}</address>
+                <a href={pl.map} className="visit-dir" target="_blank" rel="noopener noreferrer">
+                  Get directions <Arrow />
+                </a>
+              </div>
             </div>
           ))}
           <div className="visit-place">
-            <p className="label text-mute">Hours</p>
-            <p className="mt-2">
-              <Fact value={c.hours} />
-            </p>
+            <span className="visit-icon" aria-hidden="true">
+              <Glyph name="clock" size={20} />
+            </span>
+            <div>
+              <p className="visit-label">Office hours</p>
+              <p className="visit-hours">
+                <Fact value={c.hours} />
+              </p>
+            </div>
           </div>
         </aside>
       </div>
     </section>
   );
 }
+
+/**
+ * Contact, laid out as one split screen. On the left a dark panel: the page's
+ * h1 and a line, the four ways to reach us as rows (call, WhatsApp, email,
+ * visit), then the office, the factory and the hours. On the right the enquiry
+ * form on white. Enquire buttons elsewhere arrive at #enquiry (the form).
+ */
+export function ContactSplit({ endpoint = "" }: { endpoint?: string }) {
+  const p = site.pages.contact;
+  const c = site.contact;
+  const ways = [
+    { glyph: "call" as const, label: "Call us", value: c.phone, href: c.phoneHref },
+    { glyph: "chat" as const, label: "WhatsApp", value: "Chat with the team", href: c.whatsapp, external: true },
+    { glyph: "mail" as const, label: "Email", value: c.email, href: `mailto:${c.email}` },
+  ];
+  const places = [
+    { label: "Office", lines: c.office, map: c.officeMap },
+    { label: "Factory", lines: c.factory, map: c.factoryMap },
+  ];
+  return (
+    <section className="cx" aria-labelledby="page-title">
+      <div className="frame cx-grid">
+        <div className="cx-side">
+          <p className="cx-k">{p.label}</p>
+          <h1 id="page-title" className="cx-title">
+            Let&rsquo;s talk.
+          </h1>
+          <p className="cx-lead">{p.lead}</p>
+
+          <ul className="cx-ways">
+            {ways.map((w) => (
+              <li key={w.label}>
+                <a href={w.href} className="cx-way" {...(w.external ? { target: "_blank", rel: "noopener noreferrer" } : {})}>
+                  <span className="cx-way-icon" aria-hidden="true">
+                    <Glyph name={w.glyph} size={20} />
+                  </span>
+                  <span className="cx-way-text">
+                    <span className="cx-way-label">{w.label}</span>
+                    <span className="cx-way-value">{w.value}</span>
+                  </span>
+                  <Arrow className="cx-way-arrow" />
+                </a>
+              </li>
+            ))}
+          </ul>
+
+          <div className="cx-places">
+            {places.map((pl) => (
+              <div key={pl.label} className="cx-place">
+                <p className="cx-place-k">{pl.label}</p>
+                <address className="cx-place-addr">{pl.lines.join(" ")}</address>
+                <a href={pl.map} className="cx-place-dir" target="_blank" rel="noopener noreferrer">
+                  Directions <Arrow />
+                </a>
+              </div>
+            ))}
+          </div>
+          <p className="cx-hours">
+            <Glyph name="clock" size={18} />
+            <span>
+              Office hours <strong>
+                <Fact value={c.hours} />
+              </strong>
+            </span>
+          </p>
+        </div>
+
+        <div className="cx-form" id="details">
+          <EnquiryForm id="enquiry" endpoint={endpoint} wide />
+        </div>
+      </div>
+    </section>
+  );
+}
+
+/** The factory on a map, full width under the split screen. */
+export function ContactMap() {
+  const c = site.contact;
+  const q = encodeURIComponent(`Krini Crude, ${c.factory.join(" ")}`);
+  return (
+    <section className="cx-map" aria-label="Map to our factory">
+      <div className="frame">
+        <div className="cx-map-frame">
+          <iframe
+            title="Krini Crude factory, Tiruverkadu, Chennai, on Google Maps"
+            src={`https://maps.google.com/maps?q=${q}&z=15&output=embed`}
+            loading="lazy"
+            referrerPolicy="no-referrer-when-downgrade"
+          />
+          <a href={c.factoryMap} className="cx-map-card" target="_blank" rel="noopener noreferrer">
+            <span className="cx-map-k">Factory · Tiruverkadu</span>
+            <span className="cx-map-v">Open in Google Maps</span>
+            <Arrow />
+          </a>
+        </div>
+      </div>
+    </section>
+  );
+}
+

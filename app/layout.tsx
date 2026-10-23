@@ -1,24 +1,18 @@
 import type { Metadata, Viewport } from "next";
-import { Archivo, IBM_Plex_Mono, IBM_Plex_Sans } from "next/font/google";
+import { Archivo } from "next/font/google";
 import { site } from "../src/content/site";
 import "./globals.css";
+// the white-and-gold design layer (type scale, buttons, nav, footer, blog board, photo frames), over globals.css
+import "./theme.css";
+// after the stylesheets, so the loading screen's styles come later in the cascade
+import { Preloader } from "../src/components/preloader/Preloader";
+import { FastNav } from "../src/components/FastNav";
 
+/** The one typeface for the whole site. theme.css points the old sans and mono names at it too. */
 const display = Archivo({
   subsets: ["latin"],
   axes: ["wdth"],
   variable: "--font-display",
-  display: "swap",
-});
-const sans = IBM_Plex_Sans({
-  subsets: ["latin"],
-  weight: ["400", "500", "600"],
-  variable: "--font-sans",
-  display: "swap",
-});
-const mono = IBM_Plex_Mono({
-  subsets: ["latin"],
-  weight: ["400", "500", "600"],
-  variable: "--font-mono",
   display: "swap",
 });
 
@@ -29,13 +23,14 @@ export const metadata: Metadata = {
   description: site.seo.description,
   applicationName: site.name,
   robots: { index: true, follow: true },
-  icons: { icon: "/icon.svg" },
+  // the LUBECON logo's icon (the oil drop over the formwork corner)
+  icons: { icon: [{ url: "/logo-icon.png", type: "image/png", sizes: "192x192" }], apple: "/apple-icon.png" },
   formatDetection: { telephone: false },
 };
 
 export const viewport: Viewport = {
-  themeColor: "#0C0B09",
-  colorScheme: "dark",
+  themeColor: "#FFFFFF",
+  colorScheme: "light",
   width: "device-width",
   initialScale: 1,
   viewportFit: "cover",
@@ -43,8 +38,13 @@ export const viewport: Viewport = {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en-IN" className={`${display.variable} ${sans.variable} ${mono.variable}`}>
-      <body>{children}</body>
+    <html lang="en-IN" className={display.variable}>
+      <body>
+        {/* first, so the loading screen is up before the rest of the page arrives */}
+        <Preloader />
+        {children}
+        <FastNav />
+      </body>
     </html>
   );
 }

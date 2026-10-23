@@ -105,8 +105,8 @@
   body {
     background: rgb(var(--c-ink));
     color: rgb(var(--c-bone));
-    font-family: var(--font-sans), "IBM Plex Sans", "Helvetica Neue", Arial, sans-serif;
-    font-size: 1rem;
+    font-family: var(--font-display), "Archivo", "Helvetica Neue", Arial, sans-serif;
+    font-size: var(--fs-p);
     line-height: 1.6;
     overflow-x: clip;
   }
@@ -163,8 +163,8 @@
     letter-spacing: -0.005em;
   }
   .label {
-    font-family: var(--font-mono), "IBM Plex Mono", ui-monospace, monospace;
-    font-size: 0.6875rem;
+    font-family: var(--font-display), "Archivo", "Helvetica Neue", Arial, sans-serif;
+    font-size: var(--fs-p);
     line-height: 1.2;
     letter-spacing: 0.16em;
     text-transform: uppercase;
@@ -322,8 +322,8 @@
     gap: 0.75rem;
     min-height: 48px;
     padding: 0 1.4rem;
-    font-family: var(--font-mono), "IBM Plex Mono", ui-monospace, monospace;
-    font-size: 0.75rem;
+    font-family: var(--font-display), "Archivo", "Helvetica Neue", Arial, sans-serif;
+    font-size: var(--fs-p);
     letter-spacing: 0.16em;
     text-transform: uppercase;
     font-weight: 500;
@@ -393,8 +393,8 @@
     border: 1px dashed rgba(180, 138, 30, 0.45);
     background: rgba(212, 175, 55, 0.07);
     color: #8a6d14;
-    font-family: var(--font-mono), "IBM Plex Mono", ui-monospace, monospace;
-    font-size: 0.6875rem;
+    font-family: var(--font-display), "Archivo", "Helvetica Neue", Arial, sans-serif;
+    font-size: var(--fs-p);
     letter-spacing: 0.08em;
     border-radius: 4px;
     line-height: 1.35;
@@ -516,7 +516,7 @@
   .hs-foot {
     grid-area: foot;
     color: rgb(var(--c-bone) / 0.42);
-    font-size: 0.625rem;
+    font-size: var(--fs-p);
     letter-spacing: 0.14em;
     line-height: 1.5;
   }
@@ -535,7 +535,7 @@
   }
   .hs-h1 {
     margin-top: clamp(12px, 1.9vh, 20px);
-    font-size: clamp(1.75rem, min(7.9vw, 11vh), 3.3rem);
+    font-size: var(--fs-h);
     line-height: 0.95;
     color: rgb(var(--c-bone) / 0.46);
   }
@@ -558,7 +558,7 @@
   .hs-lead {
     max-width: 30rem;
     color: rgb(var(--c-bone) / 0.7);
-    font-size: 0.95rem;
+    font-size: var(--fs-p);
     line-height: 1.55;
   }
   /* phones: two buttons side by side, before the short paragraph */
@@ -687,7 +687,7 @@
     align-items: baseline;
     gap: 0.7em;
     padding: var(--hs-pad) var(--hs-pad) 0;
-    font-size: clamp(1.2rem, 1.7vw, 1.5rem);
+    font-size: var(--fs-sub);
     line-height: 1.05;
     color: rgb(var(--c-bone));
   }
@@ -696,7 +696,7 @@
   }
   .hs-desc {
     padding: 0.7rem var(--hs-pad) 0;
-    font-size: 0.9rem;
+    font-size: var(--fs-p);
     line-height: 1.6;
     color: rgb(var(--c-bone) / 0.72);
   }
@@ -718,7 +718,7 @@
     width: 100%;
     padding-top: 1rem;
     border-top: 1px solid rgb(var(--c-bone) / 0.12);
-    font-size: 0.85rem;
+    font-size: var(--fs-p);
     line-height: 1.35;
   }
   .hs-list li {
@@ -872,7 +872,7 @@
       align-items: end;
     }
     .hs-h1 {
-      font-size: clamp(2rem, min(3.55vw, 6.5vh), 3.7rem);
+      font-size: var(--fs-h);
     }
     .hs-side {
       padding-bottom: 0.3rem;
@@ -1103,13 +1103,13 @@
     display: grid;
   }
   .wordmark {
-    font-size: clamp(1.02rem, 1.3vw, 1.22rem);
+    font-size: var(--fs-sub);
     letter-spacing: 0.06em;
     line-height: 1;
     white-space: nowrap;
   }
   .nav-logo .wordmark {
-    font-size: 0.875rem;
+    font-size: var(--fs-p);
     letter-spacing: 0.14em;
   }
   /* the bar carries the name alone (the tagline is on the pages themselves) */
@@ -1119,7 +1119,7 @@
   /* the smallest phones: everything a little tighter */
   @media (max-width: 359px) {
     .nav-logo .wordmark {
-      font-size: 0.8rem;
+      font-size: var(--fs-p);
       letter-spacing: 0.1em;
     }
     .nav .menu-toggle {
@@ -1154,8 +1154,8 @@
     min-height: 32px;
     padding: 0 clamp(9px, 0.85vw, 13px);
     border-radius: 999px;
-    font-family: var(--font-sans), "IBM Plex Sans", "Helvetica Neue", Arial, sans-serif;
-    font-size: 13.5px;
+    font-family: var(--font-display), "Archivo", "Helvetica Neue", Arial, sans-serif;
+    font-size: var(--fs-p);
     font-weight: 500;
     letter-spacing: 0.01em;
     line-height: 20px;
@@ -1186,7 +1186,7 @@
   @media (min-width: 1024px) and (max-width: 1279px) {
     .nav-list .nav-link {
       padding: 0 8px;
-      font-size: 13px;
+      font-size: var(--fs-p);
     }
     .nav-list::before {
       margin-right: 8px;
@@ -1205,7 +1205,7 @@
     min-height: 32px;
     padding: 0 4px 0 16px;
     border-radius: 999px;
-    font-size: 10.5px;
+    font-size: var(--fs-p);
     letter-spacing: 0.2em;
     background: linear-gradient(180deg, #e6c862 0%, #d4af37 55%, #c49e2d 100%);
     box-shadow: inset 0 1px 0 rgb(255 248 220 / 0.45), 0 8px 20px -10px rgb(212 175 55 / 0.75);
@@ -1328,8 +1328,8 @@
     min-height: 38px;
     padding: 0 12px;
     border-radius: 8px;
-    font-family: var(--font-sans), "IBM Plex Sans", "Helvetica Neue", Arial, sans-serif;
-    font-size: 13.5px;
+    font-family: var(--font-display), "Archivo", "Helvetica Neue", Arial, sans-serif;
+    font-size: var(--fs-p);
     font-weight: 500;
     letter-spacing: 0.01em;
     white-space: nowrap;
@@ -1437,7 +1437,7 @@
     color: rgb(var(--c-yellow));
   }
   .menu-toggle .menu-toggle-label {
-    font-size: 10.5px;
+    font-size: var(--fs-p);
   }
   .menu-toggle-icon {
     position: relative;
@@ -1595,7 +1595,7 @@
     transition: color 0.4s var(--ease-film);
   }
   .menu-tile-name {
-    font-size: clamp(1.02rem, 5vw, 1.45rem);
+    font-size: var(--fs-sub);
     line-height: 1;
   }
   /* the section in view: an amber edge, number and icon, and a warm glow */
@@ -1638,7 +1638,7 @@
     gap: 12px;
     min-height: clamp(54px, 8svh, 64px);
     padding: 0 16px;
-    font-size: clamp(1.02rem, 5vw, 1.35rem);
+    font-size: var(--fs-sub);
     line-height: 1;
   }
   .menu-line-idx {
@@ -1676,7 +1676,7 @@
     display: flex;
     align-items: center;
     min-height: 42px;
-    font-size: 0.98rem;
+    font-size: var(--fs-p);
     color: rgb(var(--c-bone) / 0.92);
   }
   .menu-range {
@@ -1689,7 +1689,7 @@
     display: flex;
     align-items: center;
     min-height: 36px;
-    font-size: 0.88rem;
+    font-size: var(--fs-p);
     color: rgb(var(--c-mute));
   }
   .menu-product:hover,
@@ -1711,8 +1711,8 @@
     min-height: 48px;
     border: 1px solid rgb(var(--c-bone) / 0.2);
     border-radius: 999px;
-    font-family: var(--font-mono), "IBM Plex Mono", ui-monospace, monospace;
-    font-size: 0.75rem;
+    font-family: var(--font-display), "Archivo", "Helvetica Neue", Arial, sans-serif;
+    font-size: var(--fs-p);
     font-weight: 500;
     letter-spacing: 0.16em;
     text-transform: uppercase;
@@ -1951,7 +1951,7 @@
     border-bottom: 1px solid rgb(var(--c-bone) / 0.22);
     color: rgb(var(--c-bone));
     padding: 0.6rem 0;
-    font-size: 1rem;
+    font-size: var(--fs-p);
     border-radius: 0;
     transition: border-color 0.4s var(--ease-film);
   }
@@ -2058,11 +2058,11 @@
     padding-bottom: clamp(56px, 8vw, 112px);
   }
   .page-title {
-    font-size: clamp(min(1.95rem, 8vw), 4.5vw, 4.6rem);
+    font-size: var(--fs-h);
     line-height: 0.95;
   }
   .article-title {
-    font-size: clamp(min(1.8rem, 7.4vw), 3.7vw, 3.8rem);
+    font-size: var(--fs-h);
   }
 
   /* breadcrumbs */
@@ -2118,7 +2118,7 @@
     border-top: 1px solid rgb(var(--c-bone) / 0.12);
   }
   .facts-value {
-    font-size: clamp(1.35rem, 2.6vw, 2.4rem);
+    font-size: var(--fs-h);
     line-height: 1;
     overflow-wrap: anywhere;
   }
@@ -2143,8 +2143,8 @@
   .chip {
     display: inline-flex;
     align-items: center;
-    font-family: var(--font-mono), "IBM Plex Mono", ui-monospace, monospace;
-    font-size: 0.6875rem;
+    font-family: var(--font-display), "Archivo", "Helvetica Neue", Arial, sans-serif;
+    font-size: var(--fs-p);
     line-height: 1.2;
     letter-spacing: 0.14em;
     text-transform: uppercase;
@@ -2203,7 +2203,7 @@
      the markets), each with a yellow rule along its top */
   .welcome-lead {
     max-width: 36rem;
-    font-size: clamp(1.05rem, 1.35vw, 1.2rem);
+    font-size: var(--fs-sub);
     line-height: 1.7;
     color: rgb(var(--c-bone) / 0.86);
   }
@@ -2260,12 +2260,12 @@
   }
   .welcome-card-title {
     margin-top: 1.1rem;
-    font-size: clamp(1.05rem, 1.5vw, 1.3rem);
+    font-size: var(--fs-sub);
     line-height: 1.1;
   }
   .welcome-card-body {
     margin-top: 0.75rem;
-    font-size: 0.94rem;
+    font-size: var(--fs-p);
     line-height: 1.65;
     color: rgb(var(--c-mute));
   }
@@ -2322,7 +2322,7 @@
   .svc-short,
   .route-short {
     margin-top: 0.45rem;
-    font-size: 0.8rem;
+    font-size: var(--fs-p);
     line-height: 1.45;
     color: rgb(var(--c-mute));
   }
@@ -2332,7 +2332,7 @@
   }
   .ind-body {
     margin-top: 0.45rem;
-    font-size: 0.8rem;
+    font-size: var(--fs-p);
     line-height: 1.45;
     color: rgb(var(--c-mute));
   }
@@ -2346,7 +2346,7 @@
     .route-body {
       display: block;
       margin-top: 0.85rem;
-      font-size: 0.9rem;
+      font-size: var(--fs-p);
       line-height: 1.6;
       color: rgb(var(--c-mute));
     }
@@ -2363,7 +2363,7 @@
   }
   .ind-title {
     margin-top: 1.1rem;
-    font-size: clamp(0.85rem, 3.9vw, 1.2rem);
+    font-size: var(--fs-sub);
     line-height: 1.1;
   }
   @media (min-width: 640px) {
@@ -2376,7 +2376,7 @@
     }
     .ind-title {
       margin-top: 1.6rem;
-      font-size: 1.35rem;
+      font-size: var(--fs-sub);
     }
   }
   @media (min-width: 1024px) {
@@ -2385,7 +2385,7 @@
       gap: 18px;
     }
     .ind-title {
-      font-size: clamp(1.05rem, 1.55vw, 1.45rem);
+      font-size: var(--fs-sub);
     }
   }
 
@@ -2406,7 +2406,7 @@
   }
   .svc-tile-title {
     margin-top: 1.1rem;
-    font-size: clamp(0.85rem, 3.8vw, 1.15rem);
+    font-size: var(--fs-sub);
     line-height: 1.1;
   }
   @media (min-width: 640px) and (max-width: 1023px) {
@@ -2428,7 +2428,7 @@
     }
     .svc-tile-title {
       margin-top: 1.5rem;
-      font-size: 1.25rem;
+      font-size: var(--fs-sub);
     }
   }
   @media (min-width: 1024px) {
@@ -2440,10 +2440,10 @@
       padding: 22px 18px;
     }
     .svc-tile-title {
-      font-size: clamp(0.9rem, 1.2vw, 1.2rem);
+      font-size: var(--fs-sub);
     }
     .svc-tile .svc-text {
-      font-size: 0.85rem;
+      font-size: var(--fs-p);
     }
   }
 
@@ -2487,7 +2487,7 @@
     display: none;
   }
   .svc-title {
-    font-size: clamp(0.85rem, 3.7vw, 1.15rem);
+    font-size: var(--fs-sub);
     line-height: 1.12;
   }
   .svc-more {
@@ -2532,7 +2532,7 @@
   }
   .svc-cta-title {
     margin-top: 0.7rem;
-    font-size: clamp(1rem, 4.6vw, 1.4rem);
+    font-size: var(--fs-sub);
     line-height: 1.02;
   }
   .svc-cta .svc-cta-text {
@@ -2563,17 +2563,17 @@
     }
     .svc-title {
       margin-top: 1rem;
-      font-size: clamp(1.2rem, 2.3vw, 1.6rem);
+      font-size: var(--fs-sub);
     }
     .svc-cta {
       padding: 28px;
     }
     .svc-cta-title {
-      font-size: clamp(1.6rem, 3vw, 2.5rem);
+      font-size: var(--fs-h);
     }
     .svc-cta .svc-cta-text {
       margin-top: 0.85rem;
-      font-size: 0.95rem;
+      font-size: var(--fs-p);
     }
     .svc-cta-btn {
       align-self: flex-start;
@@ -2587,7 +2587,7 @@
       display: grid;
       gap: 0.5rem;
       margin-top: 1rem;
-      font-size: 0.875rem;
+      font-size: var(--fs-p);
     }
   }
   @media (min-width: 1024px) {
@@ -2662,7 +2662,7 @@
   .lp-lead {
     max-width: 34rem;
     margin-top: 1.6rem;
-    font-size: clamp(1.05rem, 1.35vw, 1.2rem);
+    font-size: var(--fs-sub);
     line-height: 1.6;
     color: rgb(var(--c-bone) / 0.8);
   }
@@ -2738,7 +2738,7 @@
     padding: 0.5rem 1rem;
     border: 1px solid rgb(var(--c-bone) / 0.24);
     border-radius: 999px;
-    font-size: 0.875rem;
+    font-size: var(--fs-p);
     line-height: 1.25;
     color: rgb(var(--c-bone));
     transition: border-color 0.4s var(--ease-film), background-color 0.4s var(--ease-film);
@@ -2765,7 +2765,7 @@
       border: 0;
       border-top: 1px solid rgb(var(--c-bone) / 0.18);
       border-radius: 0;
-      font-size: 0.95rem;
+      font-size: var(--fs-p);
     }
     .lp-index-link:hover {
       background: none;
@@ -2808,7 +2808,7 @@
     max-width: 44rem;
     margin-top: 1.25rem;
     color: rgb(var(--c-mute));
-    font-size: clamp(0.95rem, 1.2vw, 1.05rem);
+    font-size: var(--fs-p);
     line-height: 1.6;
   }
   .lp-grid {
@@ -2850,7 +2850,7 @@
   }
   .lp-name {
     margin-top: 0.75rem;
-    font-size: clamp(1.45rem, 2.3vw, 2.1rem);
+    font-size: var(--fs-h);
     line-height: 1;
   }
   .lp-about {
@@ -2897,7 +2897,7 @@
     border-radius: 8px;
     background: rgb(var(--c-navy));
     color: #0c0b09;
-    font-size: 1.15rem;
+    font-size: var(--fs-sub);
   }
   .lp-variants {
     display: flex;
@@ -2908,7 +2908,7 @@
     padding: 0.45rem 0.85rem;
     border-radius: 999px;
     background: rgb(var(--c-navy) / 0.07);
-    font-size: 0.875rem;
+    font-size: var(--fs-p);
     line-height: 1.3;
   }
   /* the products available under it: name, then the live site's description */
@@ -2930,7 +2930,7 @@
     line-height: 1.3;
   }
   .lp-range-text {
-    font-size: 0.9rem;
+    font-size: var(--fs-p);
     line-height: 1.45;
     color: rgb(var(--c-mute));
   }
@@ -2945,7 +2945,7 @@
     border-bottom: 2px solid rgb(var(--c-amber));
   }
   .lp-range-lead-label {
-    font-size: 0.85rem;
+    font-size: var(--fs-p);
     font-weight: 600;
     letter-spacing: 0.05em;
     color: rgb(var(--c-amber));
@@ -3015,7 +3015,7 @@
     min-width: 0;
   }
   .lp-pitem-title {
-    font-size: clamp(1.15rem, 1.5vw, 1.35rem);
+    font-size: var(--fs-sub);
     font-weight: 700;
     color: rgb(var(--c-bone));
     line-height: 1.25;
@@ -3025,12 +3025,12 @@
     margin-right: 0.35rem;
   }
   .lp-pitem-sub {
-    font-size: 0.92rem;
+    font-size: var(--fs-p);
     color: rgb(var(--c-bone) / 0.85);
     line-height: 1.45;
   }
   .lp-pitem-meta {
-    font-size: 0.82rem;
+    font-size: var(--fs-p);
     color: rgb(var(--c-mute));
     line-height: 1.4;
   }
@@ -3045,7 +3045,7 @@
     align-items: center;
     padding: 0.2rem 0.65rem;
     border-radius: 999px;
-    font-size: 0.72rem;
+    font-size: var(--fs-p);
     font-weight: 600;
     letter-spacing: 0.04em;
     text-transform: uppercase;
@@ -3173,21 +3173,21 @@
     min-width: 0;
   }
   .pds-modal-tag {
-    font-size: 0.72rem;
+    font-size: var(--fs-p);
     font-weight: 700;
     letter-spacing: 0.08em;
     color: rgb(var(--c-amber));
     text-transform: uppercase;
   }
   .pds-modal-title {
-    font-size: clamp(1.45rem, 2.4vw, 2.1rem);
+    font-size: var(--fs-h);
     font-weight: 700;
     line-height: 1.15;
     color: rgb(var(--c-bone));
     margin: 0;
   }
   .pds-modal-sub {
-    font-size: 0.92rem;
+    font-size: var(--fs-p);
     color: rgb(var(--c-bone) / 0.85);
     line-height: 1.45;
     margin: 0;
@@ -3202,7 +3202,7 @@
   .pds-header-chip {
     white-space: nowrap !important;
     padding: 0.32rem 0.8rem;
-    font-size: 0.74rem;
+    font-size: var(--fs-p);
     font-weight: 700;
     letter-spacing: 0.05em;
     line-height: 1.1;
@@ -3314,7 +3314,7 @@
     background: rgba(10, 11, 14, 0.9);
     border: 1px solid rgb(var(--c-amber) / 0.7);
     border-radius: 6px;
-    font-size: 0.65rem;
+    font-size: var(--fs-p);
     font-weight: 600;
     letter-spacing: 0.04em;
     color: rgb(var(--c-amber));
@@ -3437,13 +3437,13 @@
     gap: 4px;
   }
   .pds-lightbox-title {
-    font-size: 1.05rem;
+    font-size: var(--fs-p);
     font-weight: 700;
     letter-spacing: 0.02em;
     color: rgb(var(--c-bone));
   }
   .pds-lightbox-sub {
-    font-size: 0.85rem;
+    font-size: var(--fs-p);
     color: rgb(var(--c-bone) / 0.7);
   }
   .pds-modal-top-info {
@@ -3453,7 +3453,7 @@
     flex: 1;
   }
   .pds-modal-desc {
-    font-size: 0.95rem;
+    font-size: var(--fs-p);
     line-height: 1.6;
     color: rgb(var(--c-bone) / 0.92);
     margin: 0;
@@ -3465,7 +3465,7 @@
     gap: 0.85rem;
   }
   .pds-modal-sec-title {
-    font-size: 0.82rem;
+    font-size: var(--fs-p);
     font-weight: 700;
     letter-spacing: 0.06em;
     text-transform: uppercase;
@@ -3497,7 +3497,7 @@
     color: rgb(var(--c-amber));
     background: rgb(var(--c-amber) / 0.12);
     border: 1px solid rgb(var(--c-amber) / 0.4);
-    font-size: 0.82rem;
+    font-size: var(--fs-p);
     font-weight: 600;
     padding: 0.55rem 1rem;
     border-radius: 6px;
@@ -3540,14 +3540,14 @@
     min-width: 180px;
   }
   .pds-report-card-kicker {
-    font-size: 0.7rem;
+    font-size: var(--fs-p);
     font-weight: 700;
     letter-spacing: 0.06em;
     color: rgb(var(--c-amber));
     text-transform: uppercase;
   }
   .pds-report-card-title {
-    font-size: 0.88rem;
+    font-size: var(--fs-p);
     font-weight: 600;
     color: rgb(var(--c-bone));
     line-height: 1.35;
@@ -3557,7 +3557,7 @@
     align-items: center;
     gap: 0.45rem;
     padding: 0.5rem 1rem;
-    font-size: 0.8rem;
+    font-size: var(--fs-p);
     border-radius: 6px;
     background: rgb(var(--c-amber) / 0.18);
     border: 1px solid rgb(var(--c-amber) / 0.5);
@@ -3591,7 +3591,7 @@
     border-bottom: 1px solid rgb(var(--c-navy) / 0.15);
   }
   .lp-range-card-kicker {
-    font-size: 0.75rem;
+    font-size: var(--fs-p);
     font-weight: 600;
     letter-spacing: 0.06em;
     text-transform: uppercase;
@@ -3602,7 +3602,7 @@
     align-items: center;
     padding: 0.2rem 0.6rem;
     border-radius: 4px;
-    font-size: 0.72rem;
+    font-size: var(--fs-p);
     font-weight: 600;
     letter-spacing: 0.04em;
     text-transform: uppercase;
@@ -3662,7 +3662,7 @@
     box-shadow: 0 4px 14px rgb(0 0 0 / 0.08);
   }
   .lp-range-caption {
-    font-size: 0.7rem;
+    font-size: var(--fs-p);
     color: rgb(var(--c-mute));
     line-height: 1.3;
   }
@@ -3676,13 +3676,13 @@
     border-left: 3px solid rgb(var(--c-amber));
   }
   .lp-coverage-val {
-    font-size: 1.25rem;
+    font-size: var(--fs-sub);
     font-weight: 700;
     color: rgb(var(--c-amber));
     line-height: 1.2;
   }
   .lp-coverage-note {
-    font-size: 0.78rem;
+    font-size: var(--fs-p);
     color: rgb(var(--c-mute));
     line-height: 1.4;
   }
@@ -3699,7 +3699,7 @@
     border-radius: 4px;
     background: rgb(var(--c-ink));
     border: 1px solid rgb(var(--c-navy) / 0.15);
-    font-size: 0.78rem;
+    font-size: var(--fs-p);
     color: rgb(var(--c-bone) / 0.88);
     line-height: 1.35;
   }
@@ -3709,7 +3709,7 @@
     padding: 0.85rem 1rem;
     border-radius: 6px;
     background: rgb(var(--c-ink) / 0.7);
-    font-size: 0.82rem;
+    font-size: var(--fs-p);
     border: 1px solid rgb(var(--c-navy) / 0.12);
   }
   .lp-range-meta-item {
@@ -3723,7 +3723,7 @@
     }
   }
   .lp-range-meta-label {
-    font-size: 0.72rem;
+    font-size: var(--fs-p);
     font-weight: 600;
     text-transform: uppercase;
     letter-spacing: 0.04em;
@@ -3739,14 +3739,14 @@
     gap: 0.5rem;
   }
   .lp-range-block-title {
-    font-size: 0.76rem;
+    font-size: var(--fs-p);
     font-weight: 600;
     letter-spacing: 0.05em;
     text-transform: uppercase;
     color: rgb(var(--c-amber));
   }
   .lp-range-desc {
-    font-size: 0.92rem;
+    font-size: var(--fs-p);
     line-height: 1.6;
     color: rgb(var(--c-bone) / 0.9);
   }
@@ -3758,7 +3758,7 @@
   .lp-props-table {
     width: 100%;
     border-collapse: collapse;
-    font-size: 0.85rem;
+    font-size: var(--fs-p);
     text-align: left;
   }
   .lp-props-table th,
@@ -3769,7 +3769,7 @@
   .lp-props-table th {
     background: rgb(var(--c-ink));
     color: rgb(var(--c-mute));
-    font-size: 0.72rem;
+    font-size: var(--fs-p);
     font-weight: 600;
     text-transform: uppercase;
     letter-spacing: 0.04em;
@@ -3788,7 +3788,7 @@
   }
   .lp-props-spec {
     color: rgb(var(--c-mute));
-    font-size: 0.8rem;
+    font-size: var(--fs-p);
   }
   .lp-pending-card {
     padding: 0.85rem 1rem;
@@ -3800,14 +3800,14 @@
     gap: 0.35rem;
   }
   .lp-pending-badge {
-    font-size: 0.72rem;
+    font-size: var(--fs-p);
     font-weight: 600;
     text-transform: uppercase;
     letter-spacing: 0.05em;
     color: rgb(var(--c-amber));
   }
   .lp-pending-desc {
-    font-size: 0.82rem;
+    font-size: var(--fs-p);
     line-height: 1.45;
     color: rgb(var(--c-mute));
     margin: 0;
@@ -3824,7 +3824,7 @@
     grid-template-columns: 1.4rem minmax(0, 1fr);
     gap: 0.6rem;
     align-items: baseline;
-    font-size: 0.86rem;
+    font-size: var(--fs-p);
     line-height: 1.5;
     color: rgb(var(--c-bone) / 0.88);
     padding: 0 !important;
@@ -3838,14 +3838,14 @@
     border-radius: 50%;
     background: rgb(var(--c-amber) / 0.18);
     color: rgb(var(--c-amber));
-    font-size: 0.72rem;
+    font-size: var(--fs-p);
     font-weight: 700;
   }
   .lp-step-text {
     color: rgb(var(--c-bone) / 0.88);
   }
   .lp-range-disclaimer {
-    font-size: 0.75rem;
+    font-size: var(--fs-p);
     color: rgb(var(--c-mute));
     line-height: 1.45;
     font-style: italic;
@@ -3857,7 +3857,7 @@
     gap: 0.45rem;
   }
   .lp-ticks li {
-    font-size: 0.95rem;
+    font-size: var(--fs-p);
   }
   /* the foot: Enquire, and what is still to be confirmed (beside it from 480px, on its right) */
   .lp-foot {
@@ -3900,7 +3900,7 @@
   }
   .lp-more-title {
     margin-top: 0.9rem;
-    font-size: clamp(1.45rem, 2.3vw, 2.1rem);
+    font-size: var(--fs-h);
     line-height: 1.02;
   }
   .lp-more-body {
@@ -3927,7 +3927,7 @@
     gap: clamp(32px, 4vw, 48px);
   }
   .lp-ind-title {
-    font-size: clamp(min(2rem, 8.4vw), 3.6vw, 3.5rem);
+    font-size: var(--fs-h);
     line-height: 0.95;
   }
   .lp-ind-list {
@@ -3960,7 +3960,7 @@
   }
   .lp-ind-name {
     grid-area: name;
-    font-size: clamp(1.15rem, 1.6vw, 1.4rem);
+    font-size: var(--fs-sub);
     line-height: 1.1;
   }
   .lp-ind-body {
@@ -4039,7 +4039,7 @@
     padding: 0.36rem 0.6rem;
     border: 1px solid rgb(var(--c-bone) / 0.12);
     border-radius: 999px;
-    font-size: 0.6rem;
+    font-size: var(--fs-p);
     color: rgb(var(--c-bone) / 0.8);
   }
   .pcard-badge::before {
@@ -4057,7 +4057,7 @@
   }
   .pcard-title {
     margin-top: 0.9rem;
-    font-size: 0.98rem;
+    font-size: var(--fs-p);
     font-weight: 600;
     line-height: 1.25;
     color: rgb(var(--c-bone));
@@ -4070,7 +4070,7 @@
   }
   .pcard-variants {
     margin-top: 0.45rem;
-    font-size: 0.82rem;
+    font-size: var(--fs-p);
     line-height: 1.5;
     color: rgb(var(--c-bone) / 0.78);
   }
@@ -4091,10 +4091,10 @@
   @media (min-width: 640px) {
     .pcard-title {
       margin-top: 1.2rem;
-      font-size: 1.1rem;
+      font-size: var(--fs-p);
     }
     .pcard-variants {
-      font-size: 0.875rem;
+      font-size: var(--fs-p);
     }
   }
 
@@ -4113,7 +4113,7 @@
     padding: 1.5rem 0;
     cursor: pointer;
     list-style: none;
-    font-size: clamp(1.05rem, 1.5vw, 1.25rem);
+    font-size: var(--fs-sub);
     font-weight: 500;
     line-height: 1.4;
   }
@@ -4204,7 +4204,7 @@
      (and fitted by fit.ts wherever it would not) */
   .cta-title {
     margin-top: clamp(2.5rem, 5vw, 4rem);
-    font-size: clamp(min(2rem, 8.4vw), 6.6vw, 6.75rem);
+    font-size: var(--fs-h);
     line-height: 0.9;
   }
   .cta-foot {
@@ -4224,7 +4224,7 @@
   .cta-body {
     max-width: 36rem;
     color: rgb(var(--c-mute));
-    font-size: 1.0625rem;
+    font-size: var(--fs-p);
     line-height: 1.6;
   }
   .cta-reach {
@@ -4247,7 +4247,7 @@
     margin-top: 1.4rem;
     max-width: 36rem;
     font-style: normal;
-    font-size: 0.9375rem;
+    font-size: var(--fs-p);
     line-height: 1.55;
     color: rgb(var(--c-mute));
   }
@@ -4386,7 +4386,7 @@
   }
   .quick-value {
     display: none;
-    font-size: 0.9rem;
+    font-size: var(--fs-p);
     color: rgb(var(--c-bone) / 0.7);
     overflow-wrap: anywhere;
   }
@@ -4459,7 +4459,7 @@
      Contact page (enq-form-wide: name and number side by side from 640px) ----------------------- */
   .enq-title {
     padding-right: 48px; /* clear of the close button */
-    font-size: clamp(1.55rem, 2.6vw, 2.1rem);
+    font-size: var(--fs-h);
     line-height: 1;
   }
   .enq-lead {
@@ -4498,7 +4498,7 @@
     gap: 0.5rem;
     min-height: 44px;
     color: rgb(var(--c-bone) / 0.82);
-    font-size: 0.9375rem;
+    font-size: var(--fs-p);
     text-decoration: underline;
     text-decoration-color: rgb(var(--c-bone) / 0.25);
     text-underline-offset: 0.3em;
@@ -4511,7 +4511,7 @@
   .enq-status {
     min-height: 1.5em;
     margin-top: 0.9rem;
-    font-size: 0.875rem;
+    font-size: var(--fs-p);
     line-height: 1.5;
     color: rgb(var(--c-mute));
   }
@@ -4651,8 +4651,8 @@
     padding: 0 1rem;
     border: 1px solid transparent;
     border-radius: 999px;
-    font-family: var(--font-mono), "IBM Plex Mono", ui-monospace, monospace;
-    font-size: 0.6875rem;
+    font-family: var(--font-display), "Archivo", "Helvetica Neue", Arial, sans-serif;
+    font-size: var(--fs-p);
     letter-spacing: 0.14em;
     text-transform: uppercase;
     font-weight: 500;
@@ -4687,7 +4687,7 @@
     border: 1px solid rgba(212, 175, 55, 0.45);
     box-shadow: 0 4px 16px rgba(0, 0, 0, 0.25);
     color: #f3d87f !important;
-    font-size: 0.68rem;
+    font-size: var(--fs-p);
     font-weight: 600;
     letter-spacing: 0.08em;
     text-transform: uppercase;
@@ -4700,7 +4700,7 @@
   }
   .card-title {
     margin-top: 0.9rem;
-    font-size: 1.25rem;
+    font-size: var(--fs-sub);
     line-height: 1.15;
   }
   /* the featured guide: larger, and from 900px its picture beside the text */
@@ -4708,7 +4708,7 @@
     display: grid;
   }
   .card-featured .card-title {
-    font-size: clamp(1.45rem, 3.2vw, 2.6rem);
+    font-size: var(--fs-h);
     line-height: 1.02;
   }
   @media (min-width: 900px) {
@@ -4747,11 +4747,11 @@
     padding-bottom: clamp(48px, 6vw, 88px);
   }
   .about-title {
-    font-size: clamp(min(2.5rem, 11.5vw), 5.6vw, 6.2rem);
+    font-size: var(--fs-h);
     line-height: 0.92;
   }
   .about-lead {
-    font-size: clamp(1.15rem, 1.55vw, 1.45rem);
+    font-size: var(--fs-sub);
     line-height: 1.5;
     color: rgb(var(--c-bone) / 0.9);
   }
@@ -4824,7 +4824,7 @@
     height: 100%;
   }
   .seal-text {
-    font-family: var(--font-mono), "IBM Plex Mono", ui-monospace, monospace;
+    font-family: var(--font-display), "Archivo", "Helvetica Neue", Arial, sans-serif;
     font-size: 7.4px;
     font-weight: 500;
     fill: rgb(var(--c-bone) / 0.85);
@@ -4854,7 +4854,7 @@
     margin-top: 2.5rem;
     padding-left: 1.25rem;
     border-left: 2px solid rgb(var(--c-amber));
-    font-size: clamp(1.2rem, 1.9vw, 1.55rem);
+    font-size: var(--fs-sub);
     line-height: 1.45;
     font-weight: 500;
     color: rgb(var(--c-bone));
@@ -4862,7 +4862,7 @@
   .story-body {
     display: grid;
     gap: 1.35rem;
-    font-size: clamp(1.05rem, 1.25vw, 1.2rem);
+    font-size: var(--fs-sub);
     line-height: 1.75;
     color: rgb(var(--c-bone) / 0.85);
   }
@@ -4873,7 +4873,7 @@
     font-variation-settings: "wdth" 125;
     font-stretch: 125%;
     font-weight: 800;
-    font-size: 3.9em;
+    font-size: inherit;
     line-height: 0.82;
     color: rgb(var(--c-amber));
   }
@@ -4884,7 +4884,7 @@
     position: relative;
     max-width: 16ch;
     margin-top: 1.25rem;
-    font-size: clamp(min(2.2rem, 7.2vw), 7vw, 7.4rem);
+    font-size: var(--fs-h);
     line-height: 0.9;
   }
   .fill-line {
@@ -4924,7 +4924,7 @@
     border-bottom: 1px solid rgb(var(--c-bone) / 0.14);
   }
   .vm-n {
-    font-size: clamp(2.4rem, 4vw, 3.6rem);
+    font-size: var(--fs-h);
     line-height: 0.8;
     color: transparent;
     -webkit-text-stroke: 1px rgb(var(--c-amber));
@@ -4974,13 +4974,13 @@
   /* on phones the titles are set in the text face, so a word such as "formulations" fits a third of the width */
   .route-title {
     margin-top: 0.75rem;
-    font-size: 0.86rem;
+    font-size: var(--fs-p);
     font-weight: 600;
     line-height: 1.2;
     color: rgb(var(--c-bone));
   }
   .route-short {
-    font-size: 0.74rem;
+    font-size: var(--fs-p);
     line-height: 1.4;
   }
   @media (min-width: 640px) {
@@ -5001,14 +5001,14 @@
       font-variation-settings: "wdth" 112;
       font-stretch: 112%;
       font-weight: 700;
-      font-size: clamp(0.95rem, 1.5vw, 1.15rem);
+      font-size: var(--fs-sub);
       line-height: 1.1;
       letter-spacing: -0.005em;
       text-transform: uppercase;
     }
     .route-body {
       margin-top: 0.6rem;
-      font-size: 0.875rem;
+      font-size: var(--fs-p);
     }
   }
 
@@ -5136,12 +5136,12 @@
   .prose {
     max-width: 44rem;
     color: rgb(var(--c-bone) / 0.88);
-    font-size: 1.0625rem;
+    font-size: var(--fs-p);
     line-height: 1.8;
   }
   @media (min-width: 768px) {
     .prose {
-      font-size: 1.125rem;
+      font-size: var(--fs-p);
     }
   }
   .prose > * + * {
@@ -5154,7 +5154,7 @@
     font-stretch: 112%;
     font-weight: 700;
     text-transform: uppercase;
-    font-size: clamp(1.3rem, 2.1vw, 1.7rem);
+    font-size: var(--fs-sub);
     line-height: 1.15;
     color: rgb(var(--c-bone));
   }
@@ -5192,7 +5192,7 @@
     position: absolute;
     left: 0;
     top: 0.2em;
-    font-family: var(--font-mono), "IBM Plex Mono", ui-monospace, monospace;
+    font-family: var(--font-display), "Archivo", "Helvetica Neue", Arial, sans-serif;
     font-size: 0.75em;
     letter-spacing: 0.1em;
     color: rgb(var(--c-amber));
@@ -5211,7 +5211,7 @@
     margin-top: 3rem !important;
     padding-top: 1.5rem;
     border-top: 1px solid rgb(var(--c-bone) / 0.12);
-    font-size: 0.9rem;
+    font-size: var(--fs-p);
     line-height: 1.6;
     color: rgb(var(--c-mute));
   }
@@ -5282,7 +5282,7 @@
   .portrait-mono {
     position: relative;
     z-index: 1;
-    font-size: clamp(7rem, 12vw, 11rem);
+    font-size: var(--fs-h);
     line-height: 1;
     background: linear-gradient(135deg, #FFF6B8 0%, #FFD700 30%, #D4AF37 60%, #FFF9D2 75%, #C29620 100%);
     -webkit-background-clip: text;
@@ -5349,7 +5349,7 @@
   }
   @media (max-width: 1023px) {
     .director .portrait-mono {
-      font-size: 2.6rem;
+      font-size: var(--fs-h);
       transform: translateY(-6px);
     }
     .director .portrait-slot.is-empty .placeholder {
@@ -5368,11 +5368,11 @@
     font-size: 0;
   }
   .director .portrait-slot .placeholder::before {
-    font-size: 0.66rem;
+    font-size: var(--fs-p);
   }
   .director .portrait-slot .placeholder::after {
     content: "Photo";
-    font-size: 0.6rem;
+    font-size: var(--fs-p);
     letter-spacing: 0.08em;
   }
   .director-id {
@@ -5404,7 +5404,7 @@
       padding: 0.35rem 0.85rem;
       border: 1px solid rgba(212, 175, 55, 0.6);
       border-radius: 999px;
-      font-size: 0.6875rem;
+      font-size: var(--fs-p);
       background: rgba(12, 14, 20, 0.85);
       color: #f3d87f;
     }
@@ -5465,13 +5465,13 @@
   .place-address {
     margin-top: 1rem;
     font-style: normal;
-    font-size: 1.05rem;
+    font-size: var(--fs-p);
     line-height: 1.6;
     color: rgb(var(--c-bone) / 0.92);
   }
   @media (min-width: 640px) {
     .place-address {
-      font-size: 1.2rem;
+      font-size: var(--fs-sub);
     }
   }
   .place-dir {
@@ -5541,7 +5541,7 @@
     position: absolute;
     top: 9%;
     right: 5%;
-    font-size: clamp(3.5rem, 11vw, 9rem);
+    font-size: var(--fs-h);
     line-height: 0.8;
     color: rgba(212, 175, 55, 0.06);
     -webkit-text-stroke: 1.5px rgba(18, 17, 15, 0.16);
@@ -5552,7 +5552,7 @@
   }
   .process-card-title {
     max-width: 16ch;
-    font-size: clamp(1.05rem, 2.6vw, 2rem);
+    font-size: var(--fs-h);
     line-height: 1;
   }
   .process-now {
@@ -5568,7 +5568,7 @@
     border: 1px solid rgba(212, 175, 55, 0.45);
     box-shadow: 0 4px 16px rgba(0, 0, 0, 0.25);
     color: #f3d87f !important;
-    font-size: 0.68rem;
+    font-size: var(--fs-p);
     font-weight: 600;
     letter-spacing: 0.08em;
   }
@@ -5588,7 +5588,7 @@
   }
   .process-group-label {
     overflow: hidden;
-    font-size: 0.56rem;
+    font-size: var(--fs-p);
     letter-spacing: 0.12em;
     white-space: nowrap;
     text-overflow: ellipsis;
@@ -5670,13 +5670,13 @@
   }
   .process-title {
     margin-top: 0.55rem;
-    font-size: clamp(1.35rem, 2.6vw, 2.2rem);
+    font-size: var(--fs-h);
     line-height: 1.02;
   }
   .process-body {
     max-width: 34rem;
     margin-top: 0.9rem;
-    font-size: 1.02rem;
+    font-size: var(--fs-p);
     line-height: 1.65;
     color: rgb(var(--c-bone) / 0.84);
   }
@@ -5694,7 +5694,7 @@
       display: none;
     }
     .process-group-label {
-      font-size: 0.6rem;
+      font-size: var(--fs-p);
     }
   }
   @media (min-width: 1024px) {
@@ -5721,7 +5721,7 @@
     .process-now {
       top: 16px;
       left: 16px;
-      font-size: 0.66rem;
+      font-size: var(--fs-p);
     }
     .process-bar {
       margin-top: 14px;
@@ -5765,12 +5765,12 @@
   }
   .mix-title {
     margin-top: 1rem;
-    font-size: clamp(1.05rem, 1.6vw, 1.35rem);
+    font-size: var(--fs-sub);
     line-height: 1.1;
   }
   .mix-body {
     margin-top: 0.7rem;
-    font-size: 0.92rem;
+    font-size: var(--fs-p);
     line-height: 1.6;
     color: rgb(var(--c-mute));
   }
@@ -5848,7 +5848,7 @@
     }
   }
   .footer-logo {
-    font-size: clamp(1.15rem, 1.6vw, 1.4rem);
+    font-size: var(--fs-sub);
     letter-spacing: 0.05em;
     line-height: 1;
   }
@@ -5898,7 +5898,7 @@
     margin-top: clamp(16px, 2.4vw, 26px);
     padding-top: 14px;
     border-top: 1px solid rgb(var(--c-bone) / 0.14);
-    font-size: 0.82rem;
+    font-size: var(--fs-p);
     color: rgb(var(--c-mute));
   }
   .footer-up {
@@ -6057,15 +6057,15 @@ html.motion [data-shutter] {
   }
   .m-swipe .ind-title {
     margin-top: 1.25rem;
-    font-size: 1.3rem;
+    font-size: var(--fs-sub);
   }
   .m-swipe .ind-body {
     margin-top: 0.7rem;
-    font-size: 0.94rem;
+    font-size: var(--fs-p);
     line-height: 1.6;
   }
   .m-swipe .welcome-card-body {
-    font-size: 0.93rem;
+    font-size: var(--fs-p);
   }
 
   /* About, "our three ways to formulate": one per row, the icon beside the words */
@@ -6093,16 +6093,16 @@ html.motion [data-shutter] {
   }
   .route-title {
     margin-top: 0.15rem;
-    font-size: 1rem;
+    font-size: var(--fs-p);
   }
   .route-short {
     margin-top: 0.15rem;
-    font-size: 0.82rem;
+    font-size: var(--fs-p);
   }
   .route-body {
     display: block;
     margin-top: 0.45rem;
-    font-size: 0.9rem;
+    font-size: var(--fs-p);
     line-height: 1.55;
     color: rgb(var(--c-mute));
   }
@@ -6148,8 +6148,8 @@ html.motion [data-shutter] {
     height: 52px;
     border-radius: 13px;
     color: rgb(245 239 225);
-    font-family: var(--font-sans), "IBM Plex Sans", "Helvetica Neue", Arial, sans-serif;
-    font-size: 11px;
+    font-family: var(--font-display), "Archivo", "Helvetica Neue", Arial, sans-serif;
+    font-size: var(--fs-p);
     font-weight: 600;
     line-height: 1;
     transition: background-color 0.25s var(--ease-film);
@@ -6170,8 +6170,8 @@ html.motion [data-shutter] {
     border-radius: 13px;
     background: rgb(var(--c-yellow));
     color: #0c0b09;
-    font-family: var(--font-mono), "IBM Plex Mono", ui-monospace, monospace;
-    font-size: 12px;
+    font-family: var(--font-display), "Archivo", "Helvetica Neue", Arial, sans-serif;
+    font-size: var(--fs-p);
     font-weight: 600;
     letter-spacing: 0.14em;
     text-transform: uppercase;
@@ -6353,12 +6353,12 @@ html.motion [data-shutter] {
     gap: 0.9rem;
   }
   .sh-name {
-    font-size: clamp(2.6rem, 8vw, 6.8rem);
+    font-size: var(--fs-h);
     line-height: 0.88;
     letter-spacing: -0.01em;
   }
   .sh-tagline {
-    font-size: clamp(1rem, 1.6vw, 1.35rem);
+    font-size: var(--fs-sub);
     color: rgb(var(--c-bone) / 0.85);
   }
   /* over the name, inside the h1: what Krini Crude is and where, with the same short gold rule
@@ -6383,12 +6383,12 @@ html.motion [data-shutter] {
   }
   .sh-motto {
     margin-top: 0.5rem;
-    font-size: clamp(0.95rem, 1.3vw, 1.1rem);
+    font-size: var(--fs-p);
     color: rgb(var(--c-amber));
   }
   .sh-big {
     margin-top: 0.8rem;
-    font-size: clamp(2.1rem, 4.6vw, 4.2rem);
+    font-size: var(--fs-h);
     line-height: 0.96;
     max-width: 15ch;
     text-wrap: balance;
@@ -6416,7 +6416,7 @@ html.motion [data-shutter] {
   .sh-body {
     margin-top: 1rem;
     max-width: 30rem;
-    font-size: clamp(1.05rem, 1.6vw, 1.3rem);
+    font-size: var(--fs-sub);
     line-height: 1.55;
     color: rgb(var(--c-bone) / 0.92);
   }
@@ -6473,7 +6473,7 @@ html.motion [data-shutter] {
   }
   .sh-figs dd {
     margin-top: 0.4rem;
-    font-size: clamp(1.4rem, 2.6vw, 2.3rem);
+    font-size: var(--fs-h);
     line-height: 1;
   }
   .sh-ctas {
@@ -6540,8 +6540,8 @@ html.motion [data-shutter] {
     border: 1px solid rgba(15, 23, 42, 0.1);
     border-radius: 4px;
     background: #f8fafc;
-    font-family: var(--font-mono), "IBM Plex Mono", ui-monospace, monospace;
-    font-size: 11px;
+    font-family: var(--font-display), "Archivo", "Helvetica Neue", Arial, sans-serif;
+    font-size: var(--fs-p);
     font-weight: 500;
     letter-spacing: 0.04em;
     line-height: 1;
@@ -6578,7 +6578,7 @@ html.motion [data-shutter] {
   }
   .range-lead {
     max-width: 40ch;
-    font-size: 1.05rem;
+    font-size: var(--fs-p);
     line-height: 1.6;
     color: rgb(var(--c-mute));
   }
@@ -6647,7 +6647,7 @@ html.motion [data-shutter] {
   }
   .range-name {
     margin-top: 0.9rem;
-    font-size: clamp(1.45rem, 2vw, 1.9rem);
+    font-size: var(--fs-h);
     line-height: 1;
   }
   .range-series {
@@ -6656,7 +6656,7 @@ html.motion [data-shutter] {
   }
   .range-line {
     margin-top: 0.9rem;
-    font-size: 0.95rem;
+    font-size: var(--fs-p);
     line-height: 1.6;
     color: rgb(var(--c-mute));
   }
@@ -6814,7 +6814,7 @@ html.motion [data-shutter] {
         linear-gradient(180deg, rgb(8 7 5 / 0.5) 0%, transparent 18%);
     }
     .sh-figs dd {
-      font-size: 1.25rem;
+      font-size: var(--fs-sub);
     }
   }
 
@@ -6856,7 +6856,7 @@ html.motion [data-shutter] {
     pointer-events: auto;
   }
   .sh:not(.is-live) .sh-name {
-    font-size: clamp(2.4rem, 6.4vw, 5.6rem);
+    font-size: var(--fs-h);
   }
   .sh:not(.is-live) .sh-still img {
     transform: scale(1.09);

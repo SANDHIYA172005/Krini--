@@ -366,18 +366,6 @@ export const articles: Article[] = [
         type: "p",
         text: "Krini Crude manufactures for well-recognised brands in the automotive aftermarket, construction, MRO and general industrial categories, and for independent marketing companies across the globe.",
       },
-      { type: "h2", text: "How it works" },
-      {
-        type: "ol",
-        items: [
-          "Brief and product selection: the applications, the markets and the standards the product must meet.",
-          "Formulation: an existing formulation from the manufacturer’s range, or one you specify, refined with their R&D team.",
-          "Testing: samples and batches checked against the agreed specification.",
-          "Manufacturing: blending and production at the manufacturer’s plant.",
-          "Packaging: filled and packed in your containers and livery.",
-          "Delivery and support: finished product delivered ready for market, with after-sales support.",
-        ],
-      },
       { type: "h2", text: "What to prepare" },
       {
         type: "ul",

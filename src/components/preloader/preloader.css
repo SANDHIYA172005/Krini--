@@ -1,0 +1,101 @@
+/* ==========================================================================
+   The loading screen: <kc-preloader>, built by boot.ts (Preloader.tsx).
+   On white, a drop of gold oil falls onto a still surface, ripples spread out
+   from where it lands, and the LUBECON logo rises out of the surface; then the
+   screen fades away. The drawing is a 320 × 200 grid (the SVG's viewBox): the
+   surface is at y = 124, which is 62% of the way down the stage.
+   Plain CSS (no @layer) so Tailwind never drops it.
+   ========================================================================== */
+
+kc-preloader {
+  position: fixed;
+  inset: 0;
+  z-index: 2147483000;
+  display: grid;
+  place-items: center;
+  overflow: hidden;
+  background: #fff;
+  cursor: progress;
+  transition: opacity 0.45s ease;
+  /* if its script ever stops, the screen still gets out of the way */
+  animation: kc-pre-failsafe 0s linear 5s forwards;
+}
+kc-preloader *,
+kc-preloader *::before,
+kc-preloader *::after { box-sizing: border-box; }
+
+@keyframes kc-pre-failsafe { to { opacity: 0; visibility: hidden; pointer-events: none; } }
+
+/* the stage: 16 by 10, as large as fits */
+.kc-pre__stage {
+  position: relative;
+  width: min(88vw, 900px, calc(82vh * 1.6));
+  aspect-ratio: 16 / 10;
+}
+.kc-pre__svg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+}
+
+/* the drop: falls from above the stage to the surface, stretching as it speeds up */
+.kc-drop-fall {
+  opacity: 0;
+  transform: translate(160px, -20px);
+  animation: kc-fall 0.48s cubic-bezier(0.55, 0, 1, 0.45) 0.05s forwards;
+}
+@keyframes kc-fall {
+  0% { opacity: 1; transform: translate(160px, -20px) scale(1, 1); }
+  94% { opacity: 1; }
+  100% { opacity: 0; transform: translate(160px, 120px) scale(0.85, 1.2); }
+}
+
+/* the ripples: four rings spread out from where the drop lands and fade */
+.kc-ring {
+  fill: none;
+  stroke: #d4af37;
+  stroke-width: 1.6;
+  opacity: 0;
+  transform-box: fill-box;
+  transform-origin: center;
+  transform: scale(0.04);
+  animation: kc-ripple 1.4s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+  animation-delay: calc(0.52s + var(--i) * 0.16s);
+}
+@keyframes kc-ripple {
+  0% { opacity: 0.9; transform: scale(0.04); }
+  100% { opacity: 0; transform: scale(1); }
+}
+
+/* the logo rises out of the surface: everything below the surface is hidden */
+.kc-pre__rise {
+  position: absolute;
+  left: 50%;
+  bottom: 38%;
+  width: 56%;
+  transform: translateX(-50%);
+  overflow: hidden;
+}
+.kc-pre__rise img {
+  display: block;
+  width: 100%;
+  height: auto;
+  transform: translateY(101%);
+  animation: kc-rise-up 1s cubic-bezier(0.22, 1, 0.36, 1) 0.62s forwards;
+}
+@keyframes kc-rise-up { to { transform: translateY(0); } }
+
+/* leaving: the whole screen fades */
+kc-preloader.is-lift {
+  opacity: 0;
+  pointer-events: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  kc-preloader { transition: opacity 0.3s ease; }
+  .kc-drop-fall,
+  .kc-ring { display: none; }
+  .kc-pre__rise img { animation: none; transform: none; }
+}

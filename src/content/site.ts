@@ -24,17 +24,20 @@ export const routes = {
   blog: "/blog",
   contact: "/contact",
   process: "/how-its-made",
-  line: (slug: string) => `/products/${slug}`,
+  privacy: "/privacy-policy",
+  terms: "/terms-and-conditions",
+  /** The product lines have no pages of their own: a line's links go to all products on the Products page. */
+  line: (slug: string) => `/products#all-products`,
   article: (slug: string) => `/blog/${slug}`,
 } as const;
 
 /**
- * Where an enquiry button leads: the form on the Contact page, with its type
- * chosen and, from a product, the product named in the message
- * (src/motion/interactions.ts, initEnquiry).
+ * Where an enquiry button leads: the Contact page (quick buttons, the form and
+ * Visit us), with the form's type chosen and, from a product, the product
+ * named in the message (src/motion/interactions.ts, initEnquiry).
  */
 export const enquireHref = (type = "Enquiry", product?: string) =>
-  `${routes.contact}?type=${encodeURIComponent(type)}${product ? `&product=${encodeURIComponent(product)}` : ""}#enquiry`;
+  `${routes.contact}?type=${encodeURIComponent(type)}${product ? `&product=${encodeURIComponent(product)}` : ""}`;
 
 export type PageId = "home" | "about" | "services" | "products" | "blog" | "contact";
 
@@ -58,6 +61,7 @@ export const site = {
     pages: [
       { id: "home", label: "Home", href: routes.home },
       { id: "about", label: "About Us", href: routes.about },
+      { id: "products", label: "Products", href: routes.products },
       { id: "blog", label: "Blog", href: routes.blog },
     ] as { id: PageId; label: string; href: string }[],
     lines: [
@@ -402,7 +406,6 @@ export const site = {
     links: [
       { label: "About Us", href: routes.about },
       { label: "Our Products", href: routes.products },
-      { label: "Contact Us", href: routes.contact },
     ],
   },
 
@@ -423,7 +426,7 @@ export const site = {
     /** Google Maps searches for the two addresses. */
     officeMap: "https://www.google.com/maps/search/?api=1&query=95%2F20B%20Gujji%20Main%20Road%2C%20Anna%20Nagar%20East%2C%20Chennai%20600102",
     factoryMap: "https://www.google.com/maps/search/?api=1&query=161A%20Chinakoladi%20Lakshmi%20Nagar%2C%20Tiruverkadu%2C%20Chennai%20600077",
-    hours: placeholder("Office hours"),
+    hours: "9:00 AM – 6:00 PM",
     enquiryTypes: ["Enquiry", "Request a quote", "Private label", "Custom formulation"],
   },
 

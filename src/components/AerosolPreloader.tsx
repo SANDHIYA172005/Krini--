@@ -88,7 +88,7 @@ export function AerosolPreloader() {
       growth: number;
       alpha: number;
       decay: number;
-      tint: "gold" | "core" | "vapor";
+      tint: "gold" | "bright" | "vapor";
       rotation: number;
       vRot: number;
     }
@@ -242,9 +242,8 @@ export function AerosolPreloader() {
         ctx.fill();
       }
 
-      if (phase !== "done") {
-        animFrameRef.current = requestAnimationFrame(loop);
-      }
+      // (this effect only runs while the phase isn't "done"; the cleanup stops the loop)
+      animFrameRef.current = requestAnimationFrame(loop);
     };
 
     animFrameRef.current = requestAnimationFrame(loop);

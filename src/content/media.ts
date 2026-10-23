@@ -53,7 +53,7 @@ export type StageId = keyof typeof heroMedia.stages;
  * frames are replaced, so browsers fetch the new film rather than showing the
  * old one from their cache (the frames are served as unchanging for a year).
  */
-const seqVersion = "rust";
+const seqVersion = "header2";
 
 /**
  * Home's hero (ScrollHero.tsx): one Google Flow film, a single take, played by
@@ -74,6 +74,9 @@ export const heroSeq = {
   /** The last frame: the hero without the motion, wide and (cut 4:5 around the gear, Flow's mark stamped in its corner) for phones. */
   end: `${base}/images/hero-seq/end.webp?v=${seqVersion}`,
   endTall: `${base}/images/hero-seq/end-tall.webp?v=${seqVersion}`,
+  /** Phones held upright play the film itself, as a video (muted, looping), with its first frame as the poster. */
+  video: `${base}/videos/kirni-header.mp4?v=${seqVersion}`,
+  first: `${base}/images/hero-seq/first.webp?v=${seqVersion}`,
   /**
    * Where the film's subject sits across the frame (0 left, 1 right) as it
    * plays, as [second, x]: the oil and the shaft, then the spray can on the
@@ -89,11 +92,19 @@ export const heroSeq = {
     [6.4, 0.46],
     [8, 0.5],
   ] as [number, number][],
-  /** Where each step of the words starts, in seconds of the film: the name; lubricants & oils (the oil pours); greases (the thick coat); aerosols & sprays (the can); the end (the pull-back). */
-  beats: [0, 0.5, 2.6, 4.3, 6.2],
+  /**
+   * Where each of the four steps of the words starts, in seconds of the film: the name; the three
+   * lines of products (the oil pours, the thick coat); aerosols (the can sprays: a scroll stops
+   * 60% of the way in, about 5.5 s, the can and its mist in full view); the end (the pull-back).
+   */
+  beats: [0, 0.5, 4.4, 6.2],
   /** The share of the scroll before the film starts (the name over its first frame), and the share at which it ends (its last frame stays for the rest). */
   lead: 0.08,
   hold: 0.92,
-  /** Flow's watermark as it sits in the footage: size and margins from the bottom-right corner, as fractions of the frame. */
-  mark: { src: `${base}/images/veo-mark.png`, width: 35 / 1920, height: 17 / 1080, right: 22 / 1920, bottom: 23 / 1080 },
+  /**
+   * A watermark in the footage's bottom-right corner, if it has one (size and margins as fractions of
+   * the frame). The current film (kirni_header) has none, so its size is 0: the crop never shifts to
+   * keep it whole and no copy of it is shown.
+   */
+  mark: { src: `${base}/images/veo-mark.png`, width: 0, height: 0, right: 0, bottom: 0 },
 } as const;

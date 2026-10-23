@@ -108,9 +108,22 @@ export function initScrollHero(d: Disposer, scroller: Scroller) {
   let W = 0;
   let H = 0;
   let dpr = 1;
+  /**
+   * A phone held upright: one screen, the film itself playing as a video across the top of it
+   * (filmH tall, from the very top, behind the bar), fading into the dark under the words.
+   */
+  let band = false;
+  let filmH = 0;
   const measure = () => {
     W = stage.clientWidth;
     H = stage.clientHeight;
+    band = W < 640 && H > W;
+    root.classList.toggle("is-band", band);
+    // the words (name, motto, lines, buttons, figures) sit at the foot of the screen, over the
+    // last ~90px of the film as it fades out
+    const wordsH = root.querySelector<HTMLElement>(".sh-open")?.offsetHeight || 340;
+    filmH = band ? Math.round(clamp((H - wordsH - 50 + 90) / H, 0.48, 0.72) * H) : H;
+    root.style.setProperty("--sh-film-h", `${filmH}px`);
     dpr = Math.min(2, window.devicePixelRatio || 1);
     canvas.width = Math.round(W * dpr);
     canvas.height = Math.round(H * dpr);
@@ -129,9 +142,8 @@ export function initScrollHero(d: Disposer, scroller: Scroller) {
       else t.removeAttribute("aria-current");
     });
     root.dataset.step = String(k);
-    // the nav stays out of the way while the film opens and comes in for its last two steps
-    // (keyboard focus brings it back at any time)
-    nav?.classList.toggle("is-hidden", k < steps.length - 2 && !nav.contains(document.activeElement));
+    // the bar with the logo stays in view from the first screen
+    nav?.classList.remove("is-hidden");
   };
   const nav = document.querySelector<HTMLElement>("[data-nav]");
   if (nav) {
@@ -148,17 +160,33 @@ export function initScrollHero(d: Disposer, scroller: Scroller) {
 
   let last = -1;
   let raf = 0;
+  /** Opened from a link to Home: the last screen, shown as the sharp still. */
+  let arrived = false;
   const draw = () => {
     raf = 0;
-    const total = root.offsetHeight - H;
-    const p = total > 0 ? clamp(-root.getBoundingClientRect().top / total) : 0;
-    let k = 0;
-    while (k + 1 < starts.length && p >= starts[k + 1]) k++;
-    setStep(k);
-    if (bar) bar.style.transform = `scaleX(${p.toFixed(4)})`;
+    let t: number;
+    if (band) {
+      // a phone held upright: one screen; the film plays as a video (below), not from the sheets
+      setStep(0);
+      root.classList.remove("at-end");
+      return;
+    }
+    {
+      const total = root.offsetHeight - H;
+      const p = total > 0 ? clamp(-root.getBoundingClientRect().top / total) : 0;
+      let k = 0;
+      while (k + 1 < starts.length && p >= starts[k + 1]) k++;
+      setStep(k);
+      if (bar) bar.style.transform = `scaleX(${p.toFixed(4)})`;
+      // once the film has ended (the last screen: the promise and the buttons), show its last frame
+      // as the sharp still rather than a frame drawn from the sheets
+      // (arriving from Home keeps the still for the whole last screen, until the visitor scrolls back)
+      if (k < steps.length - 1) arrived = false;
+      root.classList.toggle("at-end", arrived || p >= hold - 0.002);
 
-    // the film: still until heroSeq.lead, playing to heroSeq.hold, then still on its last frame
-    const t = clamp((p - lead) / (hold - lead)) * (n - 1);
+      // the film: still until heroSeq.lead, playing to heroSeq.hold, then still on its last frame
+      t = clamp((p - lead) / (hold - lead)) * (n - 1);
+    }
     const key = Math.round(t * 8); // eighths of a frame are enough to look smooth
     if (key === last) return;
     const a = Math.floor(t);
@@ -166,12 +194,13 @@ export function initScrollHero(d: Disposer, scroller: Scroller) {
     if (fa < 0) return;
     last = key;
 
-    // cover the stage; on a narrow screen keep the film's subject (heroSeq.focus) in view
-    const s = Math.max(W / FW, H / FH);
+    // cover the stage, keeping the film's subject (heroSeq.focus) in view
+    const VH = H;
+    const s = Math.max(W / FW, VH / FH);
     const dw = FW * s;
     const dh = FH * s;
     let dx = clamp(W / 2 - dw * focusAt(t / fps), W - dw, 0);
-    let dy = (H - dh) / 2;
+    let dy = (VH - dh) / 2;
 
     // Flow's mark sits in the footage's bottom-right corner. Never half of it on screen: when the
     // crop would cut it, the picture moves (a few pixels) so the mark is either whole or wholly
@@ -184,8 +213,8 @@ export function initScrollHero(d: Disposer, scroller: Scroller) {
       return over - edge < edge + size - over ? -(over - edge) : edge + size - over;
     };
     dx += fit(dx + dw - W, dw * m.right, dw * m.width);
-    dy += fit(dy + dh - H, dh * m.bottom, dh * m.height);
-    const markOut = dx + dw - W >= dw * (m.right + m.width) - 0.5 || dy + dh - H >= dh * (m.bottom + m.height) - 0.5;
+    dy += fit(dy + dh - VH, dh * m.bottom, dh * m.height);
+    const markOut = dx + dw - W >= dw * (m.right + m.width) - 0.5 || dy + dh - VH >= dh * (m.bottom + m.height) - 0.5;
     ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
     paint(fa, 1, dx, dy, dw, dh);
     const b = a + 1;
@@ -201,14 +230,184 @@ export function initScrollHero(d: Disposer, scroller: Scroller) {
   };
 
   measure();
-  loadMore();
+  // the frame sheets are only for the scrolled film; an upright phone plays the video instead
+  if (!band) loadMore();
   draw();
   d.on(window, "scroll", queue, { passive: true });
   d.on(window, "resize", () => {
     measure();
+    if (!band) loadMore();
     queue();
+    startPlay();
   });
   d.add(() => cancelAnimationFrame(raf));
+
+  // ---- on an upright phone the film itself plays, as a muted looping video, only while the hero
+  // is on screen; its crop follows the film's subject (heroSeq.focus), and the gold line along
+  // the foot of the screen shows how far through it is
+  let video: HTMLVideoElement | null = null;
+  let playing = 0;
+  let inView = true;
+  const ensureVideo = () => {
+    if (video) return video;
+    const v = document.createElement("video");
+    v.className = "sh-video";
+    v.muted = true;
+    v.defaultMuted = true;
+    v.loop = true;
+    v.playsInline = true;
+    v.autoplay = true;
+    v.preload = "auto";
+    v.poster = heroSeq.first;
+    v.disablePictureInPicture = true;
+    v.setAttribute("muted", "");
+    v.setAttribute("playsinline", "");
+    v.setAttribute("aria-hidden", "true");
+    v.src = heroSeq.video;
+    stage.insertBefore(v, canvas);
+    d.on(v, "timeupdate", placeVideo);
+    d.on(v, "loadedmetadata", placeVideo);
+    video = v;
+    return v;
+  };
+  d.add(() => {
+    video?.pause();
+    video?.remove();
+  });
+  function placeVideo() {
+    if (!video || !band) return;
+    const s = Math.max(W / FW, filmH / FH);
+    const dw = FW * s;
+    const dx = clamp(W / 2 - dw * focusAt(video.currentTime || 0), W - dw, 0);
+    video.style.objectPosition = `${dx.toFixed(1)}px 50%`;
+    if (bar && video.duration) bar.style.transform = `scaleX(${(video.currentTime / video.duration).toFixed(4)})`;
+  }
+  const tick = () => {
+    playing = 0;
+    if (!band || !video) return;
+    placeVideo();
+    if (inView && !document.hidden) playing = requestAnimationFrame(tick);
+  };
+  function startPlay() {
+    if (!band) {
+      video?.pause();
+      return;
+    }
+    const v = ensureVideo();
+    if (arrived) {
+      holdEnd(v);
+      return;
+    }
+    placeVideo();
+    if (inView && !document.hidden) {
+      v.play().catch(() => {
+        // autoplay refused (a battery saver, say): the first frame stays as the picture
+      });
+      if (!playing) playing = requestAnimationFrame(tick);
+    } else {
+      v.pause();
+    }
+  }
+  const seen = new IntersectionObserver((entries) => {
+    inView = entries.some((e) => e.isIntersecting);
+    startPlay();
+  });
+  seen.observe(root);
+  d.on(document, "visibilitychange", startPlay);
+  d.add(() => {
+    seen.disconnect();
+    cancelAnimationFrame(playing);
+  });
+  startPlay();
+
+  /** Coming back to Home on a phone: the video stays on its last frame, still (no loop). */
+  function holdEnd(v: HTMLVideoElement) {
+    v.autoplay = false;
+    v.loop = false;
+    v.poster = heroSeq.end;
+    const set = () => {
+      v.pause();
+      if (v.duration && v.currentTime < v.duration - 0.1) v.currentTime = Math.max(0, v.duration - 0.05);
+      placeVideo();
+    };
+    if (v.readyState >= 1) set();
+    else v.addEventListener("loadedmetadata", set, { once: true });
+    v.pause();
+  }
+
+  // arriving at Home from another page (FastNav, or the back button): open on the film's last
+  // frame, not its start. Bigger screens: the last screen of the hero (its promise and buttons)
+  // with the film's last frame; an upright phone: the video held still on its last frame.
+  const toEnd = () => {
+    arrived = true;
+    if (band) {
+      holdEnd(ensureVideo());
+      scroller.scrollTo(0, { immediate: true, offset: 0 });
+      return;
+    }
+    root.classList.add("at-end");
+    measure();
+    const y = root.getBoundingClientRect().top + window.scrollY + root.offsetHeight - window.innerHeight;
+    scroller.scrollTo(y, { immediate: true, offset: 0 });
+    queue();
+  };
+  const w = window as unknown as { __kcHeroEnd?: boolean };
+  if (w.__kcHeroEnd) {
+    w.__kcHeroEnd = false;
+    toEnd();
+    // and again once the router has finished putting the new page at the top
+    requestAnimationFrame(() => requestAnimationFrame(toEnd));
+    window.setTimeout(toEnd, 120);
+    window.setTimeout(toEnd, 450);
+  }
+  d.on(window, "hero:end", toEnd);
+
+  // ---- four screens: on a mouse wheel or trackpad, each scroll inside the hero moves exactly one
+  // step (the name → what we make → aerosols → get started), so the whole film takes three
+  // scrolls; the fourth carries on down the page, and scrolling up steps back the same way.
+  // Touch screens scroll freely.
+  const stepAt = (k: number) => (k <= 0 ? 0 : k >= starts.length - 1 ? 1 : starts[k] + (starts[k + 1] - starts[k]) * 0.6);
+  const heroTop = () => root.getBoundingClientRect().top + window.scrollY;
+  const heroTotal = () => root.offsetHeight - window.innerHeight;
+  let lockedUntil = 0;
+  let lastWheel = 0;
+  const onWheel = (ev: Event) => {
+    const e = ev as WheelEvent;
+    if (e.ctrlKey || Math.abs(e.deltaY) < Math.abs(e.deltaX) || e.deltaY === 0) return;
+    const top = heroTop();
+    const total = heroTotal();
+    const y = window.scrollY;
+    // only while the hero fills the screen
+    if (y < top - 2 || y > top + total + 2) return;
+    const now = performance.now();
+    const p = total > 0 ? clamp((y - top) / total) : 0;
+    let k = 0;
+    while (k + 1 < starts.length && p >= starts[k + 1] - 0.0005) k++;
+    const down = e.deltaY > 0;
+    const next = down ? k + 1 : k - 1;
+    // past the ends: leave the scroll to the page
+    if (next < 0 || next > starts.length - 1) {
+      if (now < lockedUntil || now - lastWheel < 180) {
+        lastWheel = now;
+        e.preventDefault();
+        e.stopImmediatePropagation();
+      }
+      return;
+    }
+    e.preventDefault();
+    e.stopImmediatePropagation();
+    // one step per scroll: the rest of a flick (a trackpad's glide) is swallowed until it stops
+    const quiet = now - lastWheel > 180;
+    lastWheel = now;
+    if (now < lockedUntil || (!quiet && now < lockedUntil + 900)) return;
+    lockedUntil = now + 1100;
+    if (next !== starts.length - 1) arrived = false;
+    scroller.scrollTo(top + total * stepAt(next), { offset: 0 });
+  };
+  if (window.matchMedia("(pointer: fine)").matches) {
+    window.addEventListener("wheel", onWheel, { capture: true, passive: false });
+    d.add(() => window.removeEventListener("wheel", onWheel, { capture: true }));
+  }
 
   // the rail: each mark jumps to its step (the middle of it)
   ticks.forEach((tick, i) => {
@@ -223,6 +422,7 @@ export function initScrollHero(d: Disposer, scroller: Scroller) {
   // they open the line's page)
   root.querySelectorAll<HTMLAnchorElement>("[data-sh-jump]").forEach((pill) => {
     d.on(pill, "click", (e) => {
+      if (band) return; // one screen on a phone: the pill opens its page
       const k = Number(pill.dataset.shJump);
       if (!(k > 0 && k < starts.length)) return;
       e.preventDefault();

@@ -91,7 +91,7 @@ export function EnquiryForm({ id, endpoint = "", wide = false }: { id: string; e
           {e.submit} <Arrow />
         </button>
         <button type="button" className="enq-wa" data-whatsapp-send>
-          <Glyph name="chat" size={16} /> {e.whatsapp}
+          {e.whatsapp}
         </button>
       </div>
       <p className="enq-status" role="status" aria-live="polite" data-form-status />

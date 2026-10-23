@@ -3,15 +3,19 @@
 import { useEffect, useState } from "react";
 import { createPortal } from "react-dom";
 import type { ProductRangeItem } from "../content/catalogue";
+import { MediaSlot } from "./ui";
 import { enquireHref } from "../content/site";
 import { Arrow } from "./ui";
 
 export function ProductDetailsTrigger({
   product,
   type,
+  compact = false,
 }: {
   product: ProductRangeItem;
   type: string;
+  /** On a product card: one small dark button with an arrow in place of the chips. */
+  compact?: boolean;
 }) {
   const [isOpen, setIsOpen] = useState(false);
   const [isImageOpen, setIsImageOpen] = useState(false);
@@ -67,28 +71,26 @@ export function ProductDetailsTrigger({
   const handleEnquireClick = (e: React.MouseEvent) => {
     e.preventDefault();
     setIsOpen(false);
-    const dialog = document.querySelector<HTMLDialogElement>("[data-enquire-dialog]");
-    const form = dialog?.querySelector<HTMLFormElement>("[data-enquiry-form]");
-    if (dialog && typeof dialog.showModal === "function") {
-      if (form) {
-        const typeField = form.querySelector<HTMLInputElement>("[data-enquiry-type]");
-        if (typeField) typeField.value = type;
-        const msg = form.querySelector<HTMLTextAreaElement>("textarea[name=message]");
-        if (msg) {
-          msg.value = `${type}\nProduct: ${product.name}\n`;
-        }
-      }
-      dialog.showModal();
-      document.documentElement.classList.add("has-dialog");
-    } else {
-      window.location.href = enquireHref(type, product.name);
-    }
+    window.location.href = enquireHref(type, product.name);
   };
 
   const slug = product.name.toLowerCase().replace(/[^a-z0-9]+/g, "-");
 
   return (
     <>
+      {compact ? (
+        <button
+          type="button"
+          className="scard-more"
+          onClick={() => setIsOpen(true)}
+          aria-haspopup="dialog"
+          aria-expanded={isOpen}
+          aria-label={`${product.name}: full details`}
+          title="Full details"
+        >
+          <Arrow />
+        </button>
+      ) : (
       <div className="lp-pitem-chips">
         <button
           type="button"
@@ -104,6 +106,7 @@ export function ProductDetailsTrigger({
           <span className="lp-chip lp-chip-subtle">{d.pdsRevision}</span>
         ) : null}
       </div>
+      )}
 
       {isOpen && mounted && createPortal(
         <div
@@ -179,14 +182,7 @@ export function ProductDetailsTrigger({
                     aria-label={`Enlarge image for ${product.name}`}
                     title="Click to view full image"
                   >
-                    <img
-                      src={d.image}
-                      alt={d.imageAlt || product.name}
-                      className="pds-modal-img"
-                      width={130}
-                      height={130}
-                      loading="lazy"
-                    />
+                    <MediaSlot label="Product photo" w={130} h={130} className="pds-modal-img" />
                     <span className="pds-modal-thumb-zoom-badge">
                       <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
                         <circle cx="11" cy="11" r="8"></circle>
@@ -273,6 +269,35 @@ export function ProductDetailsTrigger({
                       </tbody>
                     </table>
                   </div>
+                  {d.sheetUrl ? (
+                    <div className="pds-report-card">
+                      <div className="pds-report-card-icon">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+                          <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
+                          <polyline points="14 2 14 8 20 8" />
+                          <line x1="16" y1="13" x2="8" y2="13" />
+                          <line x1="16" y1="17" x2="8" y2="17" />
+                        </svg>
+                      </div>
+                      <div className="pds-report-card-content">
+                        <span className="pds-report-card-kicker">Technical Data Sheet</span>
+                        <span className="pds-report-card-title">{d.sheetLabel || "Official Product Data Sheet (PDS)"}</span>
+                      </div>
+                      <a
+                        href={d.sheetUrl}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="pds-report-card-btn"
+                      >
+                        View Data Sheet
+                        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+                          <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6" />
+                          <polyline points="15 3 21 3 21 9" />
+                          <line x1="10" y1="14" x2="21" y2="3" />
+                        </svg>
+                      </a>
+                    </div>
+                  ) : null}
                   {d.reportUrl ? (
                     <div className="pds-report-card">
                       <div className="pds-report-card-icon">
@@ -382,6 +407,27 @@ export function ProductDetailsTrigger({
 
             {/* Footer */}
             <footer className="pds-modal-footer">
+              {d.sheetUrl ? (
+                <a
+                  href={d.sheetUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="pds-footer-report-btn"
+                >
+                  <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+                    <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
+                    <polyline points="14 2 14 8 20 8" />
+                    <line x1="16" y1="13" x2="8" y2="13" />
+                    <line x1="16" y1="17" x2="8" y2="17" />
+                  </svg>
+                  View Product Data Sheet
+                  <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+                    <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6" />
+                    <polyline points="15 3 21 3 21 9" />
+                    <line x1="10" y1="14" x2="21" y2="3" />
+                  </svg>
+                </a>
+              ) : null}
               {d.reportUrl ? (
                 <a
                   href={d.reportUrl}
@@ -453,11 +499,7 @@ export function ProductDetailsTrigger({
               </svg>
             </button>
             <div className="pds-lightbox-img-wrap">
-              <img
-                src={d.image}
-                alt={d.imageAlt || product.name}
-                className="pds-lightbox-img"
-              />
+              <MediaSlot label={`${product.name}: product photo`} w={1200} h={1200} className="pds-lightbox-img" />
             </div>
             <div className="pds-lightbox-caption">
               <span className="pds-lightbox-title">{product.name}</span>

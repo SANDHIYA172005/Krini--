@@ -1,5 +1,5 @@
 import { site } from "../content/site";
-import { Arrow, SectionHead, Whole } from "./ui";
+import { Arrow, MediaSlot, SectionHead, Whole } from "./ui";
 import { SwipeUI } from "./Swipe";
 
 /**
@@ -33,10 +33,7 @@ export function Range() {
           {r.families.map((f, i) => (
             <li key={f.id} className="range-card" data-reveal>
               <div className="range-media overflow-hidden">
-                {f.image ? (
-                  // eslint-disable-next-line @next/next/no-img-element
-                  <img src={f.image} alt={f.alt} width={1200} height={800} loading="lazy" decoding="async" />
-                ) : null}
+                <MediaSlot label={`${f.name} photo`} w={1200} h={800} />
               </div>
               <div className="range-body">
                 <p className="range-index label tabular-nums">
@@ -69,7 +66,6 @@ export function Range() {
           ))}
         </ul>
         <SwipeUI count={r.families.length} label="product family" />
-        {r.credit ? <p className="range-credit label">{r.credit}</p> : null}
       </div>
     </section>
   );

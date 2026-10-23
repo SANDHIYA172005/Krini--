@@ -4,7 +4,7 @@
  * from here, the sitemap lists these pages, and the preview build renders them.
  */
 import { routes, site } from "./site";
-import { lines, type Line } from "./catalogue";
+import type { Line } from "./catalogue";
 import { articles, type Article } from "./articles";
 import { processPage } from "./process";
 
@@ -100,7 +100,6 @@ export const allPages = (): PageEntry[] => [
   { key: "about", priority: 0.7, ...seo.about },
   { key: "services", priority: 0.8, ...seo.services },
   { key: "products", priority: 0.9, ...seo.products },
-  ...lines.map((l) => ({ key: `line:${l.slug}`, priority: 0.9, ...lineSeo(l) })),
   { key: "process", priority: 0.7, ...seo.process },
   { key: "blog", priority: 0.6, ...seo.blog },
   ...articles.map((a) => ({ key: `article:${a.slug}`, priority: 0.5, ...articleSeo(a) })),

@@ -1,5 +1,5 @@
 import { places, processMedia, processPage, processSteps, stepNo, type ProcessStep } from "../content/process";
-import { CgNote, Fact, SectionHead } from "./ui";
+import { Fact, MediaSlot, SectionHead } from "./ui";
 
 const placeOf = (s: ProcessStep) => places.find((p) => p.id === s.place)!;
 
@@ -27,26 +27,9 @@ function Shot({ s, on, first }: { s: ProcessStep; on: boolean; first: boolean })
   );
 }
 
-/** A step's looping clip (muted, no controls); `eager`: its poster shows straight away. */
-function Clip({ s, eager, inView }: { s: ProcessStep; eager?: boolean; inView?: boolean }) {
-  const poster = processMedia.poster(s);
-  return (
-    <video
-      className="process-video"
-      muted
-      playsInline
-      loop
-      preload="none"
-      disablePictureInPicture
-      poster={eager ? poster : undefined}
-      data-poster={eager ? undefined : poster}
-      data-src={processMedia.clip(s)}
-      data-src-small={processMedia.clipSmall(s)}
-      data-autoplay-in-view={inView ? "" : undefined}
-      width={processMedia.width}
-      height={processMedia.height}
-    />
-  );
+/** Where a step's original photo or clip goes (the AI clips are gone): a labelled blank frame. */
+function Clip({ s }: { s: ProcessStep; eager?: boolean; inView?: boolean }) {
+  return <MediaSlot label={`${s.title ?? "Step"}: photo or clip`} w={processMedia.width} h={processMedia.height} />;
 }
 
 /**
@@ -70,11 +53,6 @@ export function ProcessFlow({ label, heading }: { label: string; heading: string
         <h2 id="journey-title" className="display mt-10 text-display-sm lg:mt-14" data-split>
           {heading}
         </h2>
-        {processMedia.ready ? (
-          <p className="process-credit">
-            <CgNote>{processMedia.credit}</CgNote>
-          </p>
-        ) : null}
         <div className="process-grid">
           <div className="process-stage">
             <div className="process-frame" aria-hidden="true">
